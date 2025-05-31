@@ -8,3 +8,5 @@
 ### An application to manage Hotel which is located in Da Lat
 ### Slides: 
 ### Demo Video:
+### Note: https://docs.google.com/document/d/1Gv9ijaul5Qw_D5F--v2abgRnmox1_DxNZEDZGTn1Bbs/edit?usp=sharing
+
