@@ -8,7 +8,7 @@ enum view
     nature
 };
 
-class basic_room
+class room_basic
 {
 private:
     int single_beds;

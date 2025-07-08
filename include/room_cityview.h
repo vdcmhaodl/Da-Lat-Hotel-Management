@@ -2,9 +2,9 @@
 
 #include "room_build.h"
 
-class singleCityNormalRoom : public roomBuilder
+class singleNormalRoom_CityView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
@@ -19,9 +19,9 @@ public:
     void buildView() override;
 };
 
-class doubleCityNormalRoom : public roomBuilder
+class doubleNormalRoom_CityView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
@@ -36,9 +36,9 @@ public:
     void buildView() override;
 };
 
-class singleCityLargeRoom : public roomBuilder
+class singleVipRoom_CityView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
@@ -53,9 +53,9 @@ public:
     void buildView() override;
 };
 
-class doubleCityLargeRoom : public roomBuilder
+class doubleVipRoom_CityView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;

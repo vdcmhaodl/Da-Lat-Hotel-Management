@@ -2,9 +2,9 @@
 
 #include "room_build.h"
 
-class singleNatureNormalRoom : public roomBuilder
+class singleNormalRoom_NatureView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
@@ -19,9 +19,9 @@ public:
     void buildView() override;
 };
 
-class doubleNatureNormalRoom : public roomBuilder
+class doubleNormalRoom_NatureView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
@@ -36,9 +36,9 @@ public:
     void buildView() override;
 };
 
-class singleNatureLargeRoom : public roomBuilder
+class singleVipRoom_NatureView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
@@ -53,9 +53,9 @@ public:
     void buildView() override;
 };
 
-class doubleNatureLargeRoom : public roomBuilder
+class doubleVipRoom_NatureView : public roomBuilder
 {
-    basic_room* room;
+    room_basic* room;
 public:
     void buildSingle_beds() override;
     void buildLarge_beds() override;
