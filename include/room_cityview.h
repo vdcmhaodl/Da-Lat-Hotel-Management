@@ -6,6 +6,7 @@ class singleNormalRoom_CityView : public roomBuilder
 {
     room_basic* room;
 public:
+    singleNormalRoom_CityView();
     void buildSingle_beds() override;
     void buildLarge_beds() override;
     void buildBathrooms() override;
@@ -17,12 +18,14 @@ public:
     void buildRooms() override;
     void buildPrice() override;
     void buildView() override;
+    room_basic* getResult() override;
 };
 
 class doubleNormalRoom_CityView : public roomBuilder
 {
     room_basic* room;
 public:
+    doubleNormalRoom_CityView();
     void buildSingle_beds() override;
     void buildLarge_beds() override;
     void buildBathrooms() override;
@@ -34,12 +37,14 @@ public:
     void buildRooms() override;
     void buildPrice() override;
     void buildView() override;
+    room_basic* getResult() override;
 };
 
 class singleVipRoom_CityView : public roomBuilder
 {
     room_basic* room;
 public:
+    singleVipRoom_CityView();
     void buildSingle_beds() override;
     void buildLarge_beds() override;
     void buildBathrooms() override;
@@ -51,12 +56,14 @@ public:
     void buildRooms() override;
     void buildPrice() override;
     void buildView() override;
+    room_basic* getResult() override;
 };
 
 class doubleVipRoom_CityView : public roomBuilder
 {
     room_basic* room;
 public:
+    doubleVipRoom_CityView();
     void buildSingle_beds() override;
     void buildLarge_beds() override;
     void buildBathrooms() override;
@@ -68,4 +75,5 @@ public:
     void buildRooms() override;
     void buildPrice() override;
     void buildView() override;
+    room_basic* getResult() override;
 };

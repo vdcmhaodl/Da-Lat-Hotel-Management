@@ -36,3 +36,17 @@ public:
     void setView(view v);
 };
 
+class room_item
+{
+private:
+    int towel;
+    int sleep_dress;
+    int sandals;
+    int hair_dryer;
+public:
+    void setTowel(int num);
+    void setHair_dryer(int num);
+    void setSleep_dress(int num);
+    void setSandals(int num);
+
+};

@@ -1,30 +1,57 @@
 #pragma once
 
 #include <string>
-#include <room_basic.h>
+#include <vector>
+#include <iostream>
+
+#include "room_basic.h"
+#include "room_director.h"
+#include "room_cityview.h"
+#include "room_natureview.h"
+#include "room_item.h"
+
+enum status
+{
+    in,
+    out
+};
+
+struct service
+{
+    std::string name;
+    double cost;
+};
+
 struct date
 {
-    int date;
+    int day;
     int month;
     int year;
 };
+
+struct date_satus
+{
+    date Date;
+    status Status;
+    std::string guest;
+};
+
 class room
 {
 private:
-    int roomNumber;
-    int roomType;
-    int capacity;
+    std::string roomNumber;
+    room_basic* roomType;
+    std::string typeName;
+    room_item* item;
     double pricePerNight;
     bool isOccupied;
     std::string current_guest;
-    date checkinDate;
-    date checkoutDate;
-
+    std::vector<date_satus> book_history;
+    std::vector<service> Service;
 public:
-    room();
-    room(int roomNumber, int roomType, int capacity, double pricePerNight);
-    void checkIn();
-    void checkOut();
+    room(std::string roomNumber, double pricePerNight);
+    void checkIn(date checkin, std::string cur_guest);
+    void checkOut(date checkout);
     bool isAvailable();
     void addService(std::string name, double cost);
     double calculateStayCost();

@@ -16,5 +16,17 @@ public:
     virtual void buildRooms() = 0;
     virtual void buildPrice() = 0;
     virtual void buildView() = 0;
+    virtual room_basic* getResult() = 0;
     virtual ~roomBuilder() = default;
+};
+
+class room_itemBuilder : public room_item
+{
+public:
+    virtual void buildTowel() = 0;
+    virtual void buildHair_dryer() = 0;
+    virtual void buildSleep_dress() = 0;
+    virtual void buildSandals() = 0;
+    virtual room_item* getResult() = 0;
+    virtual ~room_itemBuilder() = default;
 };

@@ -14,3 +14,21 @@ void room_director::construct(roomBuilder* builder)
     builder->buildPrice();
     builder->buildView();
 }
+
+room_basic* room_director::getResult(roomBuilder* builder)
+{
+    return builder->getResult();
+}
+
+void room_item_director::construct(room_itemBuilder* builder)
+{
+    builder->buildTowel();
+    builder->buildSandals();
+    builder->buildToothbrush();
+    builder->buildSleep_dress();
+}
+
+room_item* room_item_director::getResult(room_itemBuilder* builder) 
+{ 
+    return builder->getResult(); 
+}
