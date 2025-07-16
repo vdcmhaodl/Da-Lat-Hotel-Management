@@ -14,7 +14,6 @@ void singleNormalRoom_CityView::buildLoving_chair() { room->setLoving_chair(0); 
 void singleNormalRoom_CityView::buildFridge() { room->setFridge(1); }
 void singleNormalRoom_CityView::buildRooms() { room->setRooms(1); }
 void singleNormalRoom_CityView::buildView() { room->setView(city); }
-void singleNormalRoom_CityView::buildPrice() { room->setPrice(100000); }
 room_basic* singleNormalRoom_CityView::getResult() { return room; }
 
 //double City normal room
@@ -29,7 +28,6 @@ void doubleNormalRoom_CityView::buildLoving_chair() { room->setLoving_chair(0); 
 void doubleNormalRoom_CityView::buildFridge() { room->setFridge(1); }
 void doubleNormalRoom_CityView::buildRooms() { room->setRooms(2); }
 void doubleNormalRoom_CityView::buildView() { room->setView(city); }
-void doubleNormalRoom_CityView::buildPrice() { room->setPrice(200000); }
 room_basic* doubleNormalRoom_CityView::getResult() { return room; }
 
 //single City large room
@@ -44,7 +42,6 @@ void singleVipRoom_CityView::buildLoving_chair() { room->setLoving_chair(1); }
 void singleVipRoom_CityView::buildFridge() { room->setFridge(1); }
 void singleVipRoom_CityView::buildRooms() { room->setRooms(1); }
 void singleVipRoom_CityView::buildView() { room->setView(city); }
-void singleVipRoom_CityView::buildPrice() { room->setPrice(150000); }
 room_basic* singleVipRoom_CityView::getResult() { return room; }
 
 //double City large room;
@@ -59,5 +56,4 @@ void doubleVipRoom_CityView::buildLoving_chair() { room->setLoving_chair(1); }
 void doubleVipRoom_CityView::buildFridge() { room->setFridge(1); }
 void doubleVipRoom_CityView::buildRooms() { room->setRooms(2); }
 void doubleVipRoom_CityView::buildView() { room->setView(city); }
-void doubleVipRoom_CityView::buildPrice() { room->setPrice(200000); }
 room_basic* doubleVipRoom_CityView::getResult() { return room; }

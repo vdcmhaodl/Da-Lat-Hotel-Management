@@ -26,7 +26,7 @@ void room::checkOut(date checkout)
 
 bool room::isAvailable()
 {
-    return this->isOccupied;
+    return !(this->isOccupied);
 }
 
 void room::addService(std::string name, double cost)
@@ -47,7 +47,22 @@ double room::calculateStayCost()
 
 void room::displayInfo()
 {
-    std::cout << "Room number: " << this->roomNumber << '\n';
+    std::cout << "Room number: " << this->ID << '\n';
     std::cout << "Room type: " << this->typeName << '\n';
     std::cout << "Room status: " << ((this->isAvailable()) ? "Available" : "Not available") << '\n';
+}
+
+void room::updatePrice(double price)
+{
+    this->pricePerNight = price;
+}
+
+std::string room::getID()
+{
+    return this->ID;
+}
+
+double room::checkPrice()
+{
+    return this->pricePerNight;
 }

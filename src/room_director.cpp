@@ -11,7 +11,6 @@ void room_director::construct(roomBuilder* builder)
     builder->buildLoving_chair();
     builder->buildFridge();
     builder->buildRooms();
-    builder->buildPrice();
     builder->buildView();
 }
 
@@ -24,7 +23,7 @@ void room_item_director::construct(room_itemBuilder* builder)
 {
     builder->buildTowel();
     builder->buildSandals();
-    builder->buildToothbrush();
+    builder->buildHair_dryer();
     builder->buildSleep_dress();
 }
 

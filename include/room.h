@@ -39,7 +39,7 @@ struct date_satus
 class room
 {
 private:
-    std::string roomNumber;
+    std::string ID;
     room_basic* roomType;
     std::string typeName;
     room_item* item;
@@ -50,10 +50,16 @@ private:
     std::vector<service> Service;
 public:
     room(std::string roomNumber, double pricePerNight);
+    room(room &a);
+    room& operator=(const room& a);
+    std::string getID();
+    void updatePrice(double price);
     void checkIn(date checkin, std::string cur_guest);
     void checkOut(date checkout);
     bool isAvailable();
+    double checkPrice();
     void addService(std::string name, double cost);
     double calculateStayCost();
     void displayInfo();
+    ~room();
 };

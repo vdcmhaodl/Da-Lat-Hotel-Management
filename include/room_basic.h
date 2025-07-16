@@ -20,7 +20,6 @@ private:
     bool loving_chair;
     bool fridge;
     int rooms;
-    double price;
     view v;
 public:
     void setSingle_beds(int num);
@@ -32,8 +31,17 @@ public:
     void setLoving_chair(bool flag);
     void setFridge(bool flag);
     void setRooms(int num);
-    void setPrice(double price);
     void setView(view v);
+    int room_basic::getSingle_beds();
+    int room_basic::getLarge_beds();
+    int room_basic::getBathrooms();
+    bool room_basic::getBath();
+    int room_basic::getTV();
+    bool room_basic::getBalcol();
+    bool room_basic::getLoving_chair();
+    bool room_basic::getFridge();
+    int room_basic::getRooms();
+    view room_basic::getView();
 };
 
 class room_item
@@ -48,5 +56,8 @@ public:
     void setHair_dryer(int num);
     void setSleep_dress(int num);
     void setSandals(int num);
-
+    int getTowel();
+    int getHair_dryer();
+    int getSleep_dress();
+    int getSandals();
 };

@@ -2,11 +2,11 @@
 
 room::room(std::string roomNumber, double pricePerNight)
 {
-    this->roomNumber = roomNumber;
+    this->ID = roomNumber;
     this->pricePerNight = pricePerNight;
     this->isOccupied = 0;
     this->current_guest = "";
-    int type = this->roomNumber[2] - '0';
+    int type = this->ID[2] - '0';
     
     room_director director;
     room_item_director item_director;
@@ -99,4 +99,71 @@ room::room(std::string roomNumber, double pricePerNight)
     default:
         break;
     }
+}
+
+room::room(room &a)
+{
+    this->ID = a.ID;
+    roomType = new room_basic;
+    roomType->setSingle_beds(a.roomType->getSingle_beds());
+    roomType->setLarge_beds(a.roomType->getLarge_beds());
+    roomType->setBathrooms(a.roomType->getBathrooms());
+    roomType->setBath(a.roomType->getBath());
+    roomType->setTV(a.roomType->getTV());
+    roomType->setBalcol(a.roomType->getBalcol());
+    roomType->setLoving_chair(a.roomType->getLoving_chair());
+    roomType->setFridge(a.roomType->getFridge());
+    roomType->setRooms(a.roomType->getRooms());
+    roomType->setView(a.roomType->getView());
+
+    std::string typeName;
+    item = new room_item;
+    item->setTowel(a.item->getTowel());
+    item->setHair_dryer(a.item->getHair_dryer());
+    item->setSandals(a.item->getSandals());
+    item->setSleep_dress(a.item->getSleep_dress());
+
+    pricePerNight = a.pricePerNight;
+    isOccupied = a.isOccupied;
+    current_guest = a.current_guest;
+    book_history = a.book_history;
+    Service = a.Service;
+}
+
+room& room::operator=(const room& a)
+{
+    if(this == &a) return *this;
+    
+    this->ID = a.ID;
+    roomType = new room_basic;
+    roomType->setSingle_beds(a.roomType->getSingle_beds());
+    roomType->setLarge_beds(a.roomType->getLarge_beds());
+    roomType->setBathrooms(a.roomType->getBathrooms());
+    roomType->setBath(a.roomType->getBath());
+    roomType->setTV(a.roomType->getTV());
+    roomType->setBalcol(a.roomType->getBalcol());
+    roomType->setLoving_chair(a.roomType->getLoving_chair());
+    roomType->setFridge(a.roomType->getFridge());
+    roomType->setRooms(a.roomType->getRooms());
+    roomType->setView(a.roomType->getView());
+
+    std::string typeName;
+    item = new room_item;
+    item->setTowel(a.item->getTowel());
+    item->setHair_dryer(a.item->getHair_dryer());
+    item->setSandals(a.item->getSandals());
+    item->setSleep_dress(a.item->getSleep_dress());
+
+    pricePerNight = a.pricePerNight;
+    isOccupied = a.isOccupied;
+    current_guest = a.current_guest;
+    book_history = a.book_history;
+    Service = a.Service;
+    return *this;
+}
+
+room::~room()
+{
+    delete roomType;
+    delete item;
 }

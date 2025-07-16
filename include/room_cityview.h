@@ -16,7 +16,6 @@ public:
     void buildLoving_chair() override;
     void buildFridge() override;
     void buildRooms() override;
-    void buildPrice() override;
     void buildView() override;
     room_basic* getResult() override;
 };
@@ -35,7 +34,6 @@ public:
     void buildLoving_chair() override;
     void buildFridge() override;
     void buildRooms() override;
-    void buildPrice() override;
     void buildView() override;
     room_basic* getResult() override;
 };
@@ -54,7 +52,6 @@ public:
     void buildLoving_chair() override;
     void buildFridge() override;
     void buildRooms() override;
-    void buildPrice() override;
     void buildView() override;
     room_basic* getResult() override;
 };
@@ -73,7 +70,6 @@ public:
     void buildLoving_chair() override;
     void buildFridge() override;
     void buildRooms() override;
-    void buildPrice() override;
     void buildView() override;
     room_basic* getResult() override;
 };
