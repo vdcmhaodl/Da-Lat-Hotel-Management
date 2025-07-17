@@ -22,7 +22,7 @@ public:
     void updateRoomPrice(int roomType, double price);
     void addRoom(int type);
     bool removeRoom(std::string ID);
-    room findRoomByNumber(std::string ID);
+    room& findRoomByNumber(std::string ID);
     std::vector<room> findAvailableRooms();
     std::vector<room> findRoomsByType(int type);
     std::vector<room> findAllRooms();
@@ -43,10 +43,12 @@ protected:
     void addFloor();
 public:
     hotel(int flr);
-    room findRoomByNumber(std::string ID);
+    room& findRoomByNumber(std::string ID);
     std::vector<floor> findRoomsByType(int type);
+    std::vector<floor> findAvailableRooms();
     void displayAllFloorRooms(int flr);
     void displayAllRooms();
+    void displayAllAvailableRooms();
     std::vector<room> sortFloorRoomByPrice(int flr, bool ascend);
     std::vector<floor> sortRoomsByPrice(bool ascend);
     std::vector<floor> sortAvailableRoomByPrice(bool ascend);

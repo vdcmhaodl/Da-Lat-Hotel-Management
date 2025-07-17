@@ -33,7 +33,7 @@ void hotel::addFloor()
     Floor.push_back(temp);
 }
 
-room hotel::findRoomByNumber(std::string ID)
+room& hotel::findRoomByNumber(std::string ID)
 {
     int flr = (ID[0] - '0') * 10 + (ID[1] - '0');
     return Floor[flr].findRoomByNumber(ID);
@@ -60,7 +60,7 @@ void hotel::displayAllRooms()
 {
     for(int i = 0; i < num_floor; i++)
     {
-        std::cout << "Floor " << i + 1 << ":\n";
+        std::cout << "Floor " << i << ":\n";
         Floor[i].displayAllFloorRooms();
     }
 }
@@ -90,4 +90,25 @@ std::vector<floor> hotel::sortAvailableRoomByPrice(bool ascend)
         ans.push_back(temp);
     }
     return ans;
+}
+
+std::vector<floor> hotel::findAvailableRooms()
+{
+    std::vector<floor> ans;
+    for(int i = 0; i < Floor.size(); i++)
+    {
+        floor temp(i, Floor[i].findAvailableRooms(), 0);
+        ans.push_back(temp);
+    }
+    return ans;
+}
+
+void hotel::displayAllAvailableRooms()
+{
+    std::vector<floor> availableRooms = this->findAvailableRooms();
+    for(int i = 0; i < availableRooms.size(); i++)
+    {
+        std::cout << "Floor " << i << ": \n";
+        availableRooms[i].displayAllFloorRooms();
+    }
 }

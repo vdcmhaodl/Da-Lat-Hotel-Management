@@ -3,6 +3,7 @@
 floor::floor()
 {
     this->flr = 0;
+    price[0] = 0;
     price[1] = priceSingleNormalCity;
     price[2] = priceSingleNormalNature;
     price[3] = priceDoubleNormalCity;
@@ -19,6 +20,7 @@ floor::floor()
 floor::floor(int flr)
 {
     this->flr = flr;
+    price[0] = 0;
     price[1] = priceSingleNormalCity;
     price[2] = priceSingleNormalNature;
     price[3] = priceDoubleNormalCity;
@@ -35,6 +37,7 @@ floor::floor(int flr)
 floor::floor(int flr, std::vector<room> rooms, int type)
 {
     this->flr = flr;
+    price[0] = 0;
     price[1] = priceSingleNormalCity;
     price[2] = priceSingleNormalNature;
     price[3] = priceDoubleNormalCity;
@@ -50,7 +53,6 @@ floor::floor(int flr, std::vector<room> rooms, int type)
         room temp(rooms[i]);
         this->rooms[type].push_back(temp);
     }
-    price[type] = this->rooms[type][0].checkPrice();
     Type[type] = rooms.size();
     num_rooms = Type[type];
 }
@@ -110,7 +112,7 @@ bool floor::removeRoom(std::string ID)
     return 1;
 }
 
-room floor::findRoomByNumber(std::string ID)
+room& floor::findRoomByNumber(std::string ID)
 {
     int type = ID[2] - '0';
     int indx = -1;
@@ -120,9 +122,7 @@ room floor::findRoomByNumber(std::string ID)
             indx = i;
             break;
         }
-    if(indx == -1) return room("0", 0);
-    room temp(rooms[type][indx]);
-    return temp;
+    return rooms[type][indx];
 }
 
 std::vector<room> floor::findAvailableRooms()
@@ -163,7 +163,7 @@ std::vector<room> floor::findAllRooms()
 
 void floor::displayAllFloorRooms()
 {
-    for(int i = 1; i <= 8; i++)
+    for(int i = 0; i <= 8; i++)
         for(int j = 0; j < rooms[i].size(); j++)
         {
             std::cout << "Room: " << rooms[i][j].getID() << ' ';
