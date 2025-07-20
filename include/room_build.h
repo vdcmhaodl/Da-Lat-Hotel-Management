@@ -2,7 +2,7 @@
 
 #include "room_basic.h"
 
-class roomBuilder : public room_basic
+class roomBuilder
 {
 public:
     virtual void buildSingle_beds() = 0;
@@ -19,7 +19,7 @@ public:
     virtual ~roomBuilder() = default;
 };
 
-class room_itemBuilder : public room_item
+class room_itemBuilder
 {
 public:
     virtual void buildTowel() = 0;

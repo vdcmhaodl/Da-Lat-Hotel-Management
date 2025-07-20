@@ -22,6 +22,8 @@ private:
     int rooms;
     view v;
 public:
+    room_basic();
+    room_basic(room_basic& a);
     void setSingle_beds(int num);
     void setLarge_beds(int num);
     void setBathrooms(int num);
@@ -32,16 +34,16 @@ public:
     void setFridge(bool flag);
     void setRooms(int num);
     void setView(view v);
-    int room_basic::getSingle_beds();
-    int room_basic::getLarge_beds();
-    int room_basic::getBathrooms();
-    bool room_basic::getBath();
-    int room_basic::getTV();
-    bool room_basic::getBalcol();
-    bool room_basic::getLoving_chair();
-    bool room_basic::getFridge();
-    int room_basic::getRooms();
-    view room_basic::getView();
+    int getSingle_beds();
+    int getLarge_beds();
+    int getBathrooms();
+    bool getBath();
+    int getTV();
+    bool getBalcol();
+    bool getLoving_chair();
+    bool getFridge();
+    int getRooms();
+    view getView();
 };
 
 class room_item
@@ -52,6 +54,8 @@ private:
     int sandals;
     int hair_dryer;
 public:
+    room_item();
+    room_item(room_item& a);
     void setTowel(int num);
     void setHair_dryer(int num);
     void setSleep_dress(int num);

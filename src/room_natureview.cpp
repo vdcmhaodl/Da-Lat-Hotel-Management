@@ -14,7 +14,7 @@ void singleNormalRoom_NatureView::buildLoving_chair() { room->setLoving_chair(0)
 void singleNormalRoom_NatureView::buildFridge() { room->setFridge(1); }
 void singleNormalRoom_NatureView::buildRooms() { room->setRooms(1); }
 void singleNormalRoom_NatureView::buildView() { room->setView(nature); }
-room_basic* singleNormalRoom_NatureView::getResult() { return room; }
+room_basic* singleNormalRoom_NatureView::getResult() { return new room_basic(*room); }
 
 //double nature normal room
 doubleNormalRoom_NatureView::doubleNormalRoom_NatureView() { room = new room_basic(); }
@@ -28,7 +28,7 @@ void doubleNormalRoom_NatureView::buildLoving_chair() { room->setLoving_chair(0)
 void doubleNormalRoom_NatureView::buildFridge() { room->setFridge(1); }
 void doubleNormalRoom_NatureView::buildRooms() { room->setRooms(2); }
 void doubleNormalRoom_NatureView::buildView() { room->setView(nature); }
-room_basic* doubleNormalRoom_NatureView::getResult() { return room; }
+room_basic* doubleNormalRoom_NatureView::getResult() { return new room_basic(*room); }
 
 //single nature large room
 singleVipRoom_NatureView::singleVipRoom_NatureView() { room = new room_basic(); }
@@ -42,7 +42,7 @@ void singleVipRoom_NatureView::buildLoving_chair() { room->setLoving_chair(1); }
 void singleVipRoom_NatureView::buildFridge() { room->setFridge(1); }
 void singleVipRoom_NatureView::buildRooms() { room->setRooms(1); }
 void singleVipRoom_NatureView::buildView() { room->setView(nature); }
-room_basic* singleVipRoom_NatureView::getResult() { return room; }
+room_basic* singleVipRoom_NatureView::getResult() { return new room_basic(*room); }
 
 //double nature large room;
 doubleVipRoom_NatureView::doubleVipRoom_NatureView() { room = new room_basic(); }
@@ -56,4 +56,4 @@ void doubleVipRoom_NatureView::buildLoving_chair() { room->setLoving_chair(1); }
 void doubleVipRoom_NatureView::buildFridge() { room->setFridge(1); }
 void doubleVipRoom_NatureView::buildRooms() { room->setRooms(2); }
 void doubleVipRoom_NatureView::buildView() { room->setView(nature); }
-room_basic* doubleVipRoom_NatureView::getResult() { return room; }
+room_basic* doubleVipRoom_NatureView::getResult() { return new room_basic(*room); }

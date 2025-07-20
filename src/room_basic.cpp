@@ -2,6 +2,33 @@
 
 #include "room_basic.h"
 
+room_basic::room_basic()
+{
+    single_beds = 0;
+    large_beds = 0;
+    bathrooms = 0;
+    bath = 0;
+    TV = 0;
+    balcol = 0;
+    loving_chair = 0;
+    fridge = 0;
+    rooms = 0;
+    v = city;
+}
+
+room_basic::room_basic(room_basic &a)
+{
+    single_beds = a.single_beds;
+    large_beds = a.large_beds;
+    bathrooms = a.bathrooms;
+    bath = a.bath;
+    TV = a.TV;
+    balcol = a.balcol;
+    loving_chair = a.loving_chair;
+    fridge = a.fridge;
+    rooms = a.rooms;
+    v = a.v;
+}
 
 void room_basic::setSingle_beds(int num) { single_beds = num; }
 void room_basic::setLarge_beds(int num) { large_beds = num; }
@@ -26,6 +53,21 @@ int room_basic::getRooms() { return rooms; }
 view room_basic::getView() { this->v = v; }
 
 
+room_item::room_item()
+{
+    towel = 0;
+    sleep_dress = 0;
+    sandals = 0;
+    hair_dryer = 0;
+}
+
+room_item::room_item(room_item& a)
+{
+    towel = a.towel;
+    sleep_dress = a.sleep_dress;
+    sandals = a.sandals;
+    hair_dryer = a.hair_dryer;
+}
 void room_item::setTowel(int num) { this->towel = num; }
 void room_item::setHair_dryer(int num) { this->hair_dryer = num; }
 void room_item::setSleep_dress(int num) { this->sleep_dress = num; }

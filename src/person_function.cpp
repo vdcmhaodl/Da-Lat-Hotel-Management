@@ -1,7 +1,8 @@
 #include "person.h"
 
-bool person::bookRoom(room &a, date checkin, date checkout)
+bool person::bookRoom(std::string id, hotel& h, date checkin, date checkout)
 {
+    room& a = h.findRoomByNumber(id);
     return a.book(name, checkin, checkout);
 }
 

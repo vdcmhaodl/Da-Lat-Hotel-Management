@@ -40,6 +40,6 @@ public:
     void viewRoomInfo(std::string id, hotel& h);
     void viewAvailableRoom(hotel& h);
     bool editPersonalInfo(std::string name, std::string phone, std::string email);
-    bool bookRoom(room &a, date checkin, date checkout);
+    bool bookRoom(std::string id, hotel& h, date checkin, date checkout);
     bool cancelRoom(room &a);
 };

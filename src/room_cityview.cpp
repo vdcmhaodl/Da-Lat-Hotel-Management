@@ -14,7 +14,7 @@ void singleNormalRoom_CityView::buildLoving_chair() { room->setLoving_chair(0); 
 void singleNormalRoom_CityView::buildFridge() { room->setFridge(1); }
 void singleNormalRoom_CityView::buildRooms() { room->setRooms(1); }
 void singleNormalRoom_CityView::buildView() { room->setView(city); }
-room_basic* singleNormalRoom_CityView::getResult() { return room; }
+room_basic* singleNormalRoom_CityView::getResult() { return new room_basic(*room); }
 
 //double City normal room
 doubleNormalRoom_CityView::doubleNormalRoom_CityView() { room = new room_basic(); }
@@ -28,7 +28,7 @@ void doubleNormalRoom_CityView::buildLoving_chair() { room->setLoving_chair(0); 
 void doubleNormalRoom_CityView::buildFridge() { room->setFridge(1); }
 void doubleNormalRoom_CityView::buildRooms() { room->setRooms(2); }
 void doubleNormalRoom_CityView::buildView() { room->setView(city); }
-room_basic* doubleNormalRoom_CityView::getResult() { return room; }
+room_basic* doubleNormalRoom_CityView::getResult() { return new room_basic(*room); }
 
 //single City large room
 singleVipRoom_CityView::singleVipRoom_CityView() { room = new room_basic(); }
@@ -42,7 +42,7 @@ void singleVipRoom_CityView::buildLoving_chair() { room->setLoving_chair(1); }
 void singleVipRoom_CityView::buildFridge() { room->setFridge(1); }
 void singleVipRoom_CityView::buildRooms() { room->setRooms(1); }
 void singleVipRoom_CityView::buildView() { room->setView(city); }
-room_basic* singleVipRoom_CityView::getResult() { return room; }
+room_basic* singleVipRoom_CityView::getResult() { return new room_basic(*room); }
 
 //double City large room;
 doubleVipRoom_CityView::doubleVipRoom_CityView() { room = new room_basic(); }
@@ -56,4 +56,4 @@ void doubleVipRoom_CityView::buildLoving_chair() { room->setLoving_chair(1); }
 void doubleVipRoom_CityView::buildFridge() { room->setFridge(1); }
 void doubleVipRoom_CityView::buildRooms() { room->setRooms(2); }
 void doubleVipRoom_CityView::buildView() { room->setView(city); }
-room_basic* doubleVipRoom_CityView::getResult() { return room; }
+room_basic* doubleVipRoom_CityView::getResult() { return new room_basic(*room); }
