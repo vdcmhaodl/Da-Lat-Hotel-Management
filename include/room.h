@@ -38,6 +38,7 @@ struct date_satus
 
 class room
 {
+    friend class manager;
 private:
     std::string ID;
     room_basic* roomType;
@@ -54,7 +55,7 @@ public:
     room(std::string roomNumber, double pricePerNight);
     room(room &a);
     room& operator=(const room& a);
-    std::string getID();
+    std::string getID() const;
     bool book(std::string guest_name, date checkin_date, date checkout_date);
     bool cancel(std::string guest_name);
     void updatePrice(double price);
@@ -65,5 +66,7 @@ public:
     void addService(std::string name, double cost);
     double calculateStayCost();
     void displayInfo();
+    void displayBookingHistory();
+    void displayBookingQueue();
     ~room();
 };

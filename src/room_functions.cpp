@@ -104,7 +104,7 @@ void room::addService(std::string name, double cost)
 
 double room::calculateStayCost()
 {
-    int cost = 0;
+    double cost = 0;
     for(int i = 0; i < this->Service.size(); i++)
         cost += this->Service[i].cost;
     return cost;
@@ -120,7 +120,7 @@ void room::displayInfo()
 
 void room::updatePrice(double price) { this->pricePerNight = price; }
 
-std::string room::getID() { return this->ID; }
+std::string room::getID() const { return this->ID; }
 
 double room::checkPrice() { return this->pricePerNight; }
 
