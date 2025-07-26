@@ -11,90 +11,52 @@ room::room(std::string roomNumber, double pricePerNight)
     room_director director;
     room_item_director item_director;
     
-    singleNormalRoom_CityView construct1;
-    singleNormalRoom_NatureView construct2;
-    doubleNormalRoom_CityView construct3;
-    doubleNormalRoom_NatureView construct4;
-    singleVipRoom_CityView construct5;
-    singleVipRoom_NatureView construct6;
-    doubleVipRoom_CityView construct7;
-    doubleVipRoom_NatureView construct8;
+    singleNormalRoom construct1;
+    doubleNormalRoom construct2;
+    singleVipRoom construct3;
+    doubleVipRoom construct4;
 
     singleRoomItem item_construct1;
     doubleRoomItem item_construct2;
 
+    if(type % 2) View = city;
+    else View = nature;
+
     switch (type)
     {
-    case 1:
+    case 1: case 2:
         director.construct(&construct1);
         item_director.construct(&item_construct1);
-
-        this->typeName = "Single normal room with city view";
+        if(type == 1) this->typeName = "Single normal room with city view";
+        else this->typeName = "Single normal room with nature view";
         this->roomType = director.getResult(&construct1);
         this->item = item_director.getResult(&item_construct1);
         break;
-
-    case 2: 
+    case 3: case 4:
         director.construct(&construct2);
-        item_director.construct(&item_construct1);
-
-        this->typeName = "Single normal room with nature view";
+        item_director.construct(&item_construct2);
+        if(type == 3) this->typeName = "Double normal room with city view";
+        else this->typeName = "Double normal room with nature view";
         this->roomType = director.getResult(&construct2);
-        this->item = item_director.getResult(&item_construct1);
+        this->item = item_director.getResult(&item_construct2);
         break;
 
-    case 3:
+    case 5: case 6:
         director.construct(&construct3);
         item_director.construct(&item_construct2);
-
-        this->typeName = "Double normal room with city view";
+        if(type == 5) this->typeName = "Single VIP room with city view";
+        else this->typeName = "Single VIP room with nature view";
         this->roomType = director.getResult(&construct3);
         this->item = item_director.getResult(&item_construct2);
         break;
 
-    case 4:
+    case 7: case 8:
         director.construct(&construct4);
-        item_director.construct(&item_construct2);
-
-        this->typeName = "Double normal room with nature view";
+        item_director.construct(&item_construct1);
+        if(type == 6) this->typeName = "Double VIP room with city view";
+        else this->typeName = "Double VIP room with nature view";
         this->roomType = director.getResult(&construct4);
-        this->item = item_director.getResult(&item_construct2);
-        break;
-
-    case 5:
-        director.construct(&construct5);
-        item_director.construct(&item_construct1);
-
-        this->typeName = "Single vip room with city view";
-        this->roomType = director.getResult(&construct5);
         this->item = item_director.getResult(&item_construct1);
-        break;
-
-    case 6:
-        director.construct(&construct6);
-        item_director.construct(&item_construct1);
-        
-        this->typeName = "Single vip room with nature view";
-        this->roomType = director.getResult(&construct6);
-        this->item = item_director.getResult(&item_construct1);
-        break;
-
-    case 7:
-        director.construct(&construct7);
-        item_director.construct(&item_construct2);
-        
-        this->typeName = "Double vip room with city view";
-        this->roomType = director.getResult(&construct7);
-        this->item = item_director.getResult(&item_construct2);
-        break;
-
-    case 8:
-        director.construct(&construct8);
-        item_director.construct(&item_construct2);
-        
-        this->typeName = "Double vip room with nature view";
-        this->roomType = director.getResult(&construct8);
-        this->item = item_director.getResult(&item_construct2);
         break;
     default:
         break;
@@ -114,15 +76,14 @@ room::room(room &a)
     roomType->setLoving_chair(a.roomType->getLoving_chair());
     roomType->setFridge(a.roomType->getFridge());
     roomType->setRooms(a.roomType->getRooms());
-    roomType->setView(a.roomType->getView());
 
-    std::string typeName;
     item = new room_item;
     item->setTowel(a.item->getTowel());
     item->setHair_dryer(a.item->getHair_dryer());
     item->setSandals(a.item->getSandals());
     item->setSleep_dress(a.item->getSleep_dress());
-
+    
+    typeName = a.typeName;
     pricePerNight = a.pricePerNight;
     isOccupied = a.isOccupied;
     current_guest = a.current_guest;
@@ -135,6 +96,8 @@ room& room::operator=(const room& a)
     if(this == &a) return *this;
     
     this->ID = a.ID;
+
+    delete roomType;
     roomType = new room_basic;
     roomType->setSingle_beds(a.roomType->getSingle_beds());
     roomType->setLarge_beds(a.roomType->getLarge_beds());
@@ -145,15 +108,15 @@ room& room::operator=(const room& a)
     roomType->setLoving_chair(a.roomType->getLoving_chair());
     roomType->setFridge(a.roomType->getFridge());
     roomType->setRooms(a.roomType->getRooms());
-    roomType->setView(a.roomType->getView());
-
-    std::string typeName;
+    
+    delete item;
     item = new room_item;
     item->setTowel(a.item->getTowel());
     item->setHair_dryer(a.item->getHair_dryer());
     item->setSandals(a.item->getSandals());
     item->setSleep_dress(a.item->getSleep_dress());
-
+    
+    typeName = a.typeName;
     pricePerNight = a.pricePerNight;
     isOccupied = a.isOccupied;
     current_guest = a.current_guest;
