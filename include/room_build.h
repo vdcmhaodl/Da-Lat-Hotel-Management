@@ -14,9 +14,7 @@ public:
     virtual void buildLoving_chair() = 0;
     virtual void buildFridge() = 0;
     virtual void buildRooms() = 0;
-    virtual void buildView() = 0;
     virtual room_basic* getResult() = 0;
-    virtual ~roomBuilder() = default;
 };
 
 class room_itemBuilder

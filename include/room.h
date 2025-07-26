@@ -7,8 +7,7 @@
 
 #include "room_basic.h"
 #include "room_director.h"
-#include "room_cityview.h"
-#include "room_natureview.h"
+#include "room_concrete.h"
 #include "room_item.h"
 
 enum status
@@ -43,6 +42,7 @@ private:
     std::string ID;
     room_basic* roomType;
     std::string typeName;
+    view View;
     room_item* item;
     double pricePerNight;
     bool isOccupied;

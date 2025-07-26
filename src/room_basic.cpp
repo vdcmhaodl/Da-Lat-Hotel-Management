@@ -1,5 +1,3 @@
-#pragma once
-
 #include "room_basic.h"
 
 room_basic::room_basic()
@@ -13,7 +11,6 @@ room_basic::room_basic()
     loving_chair = 0;
     fridge = 0;
     rooms = 0;
-    v = city;
 }
 
 room_basic::room_basic(room_basic &a)
@@ -27,7 +24,6 @@ room_basic::room_basic(room_basic &a)
     loving_chair = a.loving_chair;
     fridge = a.fridge;
     rooms = a.rooms;
-    v = a.v;
 }
 
 void room_basic::setSingle_beds(int num) { single_beds = num; }
@@ -39,7 +35,6 @@ void room_basic::setBalcol(bool flag) { balcol = flag; }
 void room_basic::setLoving_chair(bool flag) { loving_chair = flag;}
 void room_basic::setFridge(bool flag) { fridge = flag; }
 void room_basic::setRooms(int num) { rooms = num; }
-void room_basic::setView(view v) { this->v = v; }
 
 int room_basic::getSingle_beds() { return single_beds; }
 int room_basic::getLarge_beds() { return large_beds; }
@@ -50,7 +45,6 @@ bool room_basic::getBalcol() { return balcol; }
 bool room_basic::getLoving_chair() { return loving_chair;}
 bool room_basic::getFridge() { return fridge; }
 int room_basic::getRooms() { return rooms; }
-view room_basic::getView() { this->v = v; }
 
 
 room_item::room_item()

@@ -20,7 +20,6 @@ private:
     bool loving_chair;
     bool fridge;
     int rooms;
-    view v;
 public:
     room_basic();
     room_basic(room_basic& a);
@@ -33,7 +32,6 @@ public:
     void setLoving_chair(bool flag);
     void setFridge(bool flag);
     void setRooms(int num);
-    void setView(view v);
     int getSingle_beds();
     int getLarge_beds();
     int getBathrooms();
@@ -43,7 +41,6 @@ public:
     bool getLoving_chair();
     bool getFridge();
     int getRooms();
-    view getView();
 };
 
 class room_item

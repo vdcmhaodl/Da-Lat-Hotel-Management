@@ -26,6 +26,7 @@ bool room::book(std::string guest_name, date checkin_date, date checkout_date)
         temp.Date = checkout_date;
         temp.Status = out;
         booking_queue.push_back(temp);
+        return 1;
     }
     if(compareDate(checkout_date, booking_queue[0].Date) == -1)
     {
@@ -70,6 +71,7 @@ void room::checkIn(date checkin, std::string cur_guest)
     this->current_guest = cur_guest;
     this->isOccupied = 1;
 
+
     date_satus temp;
     temp.Date = checkin;
     temp.Status = in;
@@ -112,6 +114,7 @@ void room::displayInfo()
 {
     std::cout << "Room number: " << this->ID << '\n';
     std::cout << "Room type: " << this->typeName << '\n';
+    std::cout << "Price: " << this->pricePerNight << '\n';
     std::cout << "Room status: " << ((this->isAvailable()) ? "Available" : "Not available") << '\n';
 }
 
@@ -120,3 +123,12 @@ void room::updatePrice(double price) { this->pricePerNight = price; }
 std::string room::getID() { return this->ID; }
 
 double room::checkPrice() { return this->pricePerNight; }
+
+int main()
+{
+    room temp("02411", 200000);
+    temp.checkIn({26, 7, 2025}, "HaoVo");
+    temp.checkOut({28, 7, 2025});
+    temp.displayInfo();
+    return 0;
+}
