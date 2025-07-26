@@ -102,7 +102,7 @@ void room::addService(std::string name, double cost)
 
 double room::calculateStayCost()
 {
-    int cost = 0;
+    double cost = 0;
     for(int i = 0; i < this->Service.size(); i++)
         cost += this->Service[i].cost;
     return cost;
@@ -117,6 +117,21 @@ void room::displayInfo()
 
 void room::updatePrice(double price) { this->pricePerNight = price; }
 
-std::string room::getID() { return this->ID; }
+std::string room::getID() const { return this->ID; }
 
 double room::checkPrice() { return this->pricePerNight; }
+
+void room::displayBookingHistory() { 
+    for (const auto &status : book_history) {
+        std::cout << "Date: " << status.Date.day << "/" << status.Date.month << "/" << status.Date.year
+                  << ", Status: " << (status.Status == in ? "In" : "Out")
+                  << ", Guest: " << status.guest << std::endl;
+    }
+}
+void room::displayBookingQueue() {
+    for (const auto &status : booking_queue) {
+        std::cout << "Date: " << status.Date.day << "/" << status.Date.month << "/" << status.Date.year
+                  << ", Status: " << (status.Status == in ? "In" : "Out")
+                  << ", Guest: " << status.guest << std::endl;
+    }
+}
