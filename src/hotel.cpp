@@ -5,7 +5,7 @@ hotel::hotel(int flr)
     this->num_floor = flr;
     for(int i = 0; i < flr; i++)
     {
-        floor temp(i);
+        floor_ temp(i);
         this->Floor.push_back(temp);
     }
 }
@@ -29,7 +29,7 @@ void hotel::removeRoom(int flr, std::string ID)
 void hotel::addFloor()
 {
     num_floor++;
-    floor temp(num_floor);
+    floor_ temp(num_floor);
     Floor.push_back(temp);
 }
 
@@ -39,12 +39,12 @@ room& hotel::findRoomByNumber(std::string ID)
     return Floor[flr].findRoomByNumber(ID);
 }
     
-std::vector<floor> hotel::findRoomsByType(int type)
+std::vector<floor_> hotel::findRoomsByType(int type)
 {
-    std::vector<floor> ans;
+    std::vector<floor_> ans;
     for(int i = 0; i < num_floor; i++)
     {
-        floor temp(i, Floor[i].findRoomsByType(type), type);    
+        floor_ temp(i, Floor[i].findRoomsByType(type), type);    
         ans.push_back(temp);
     }
     return ans;
@@ -70,34 +70,34 @@ std::vector<room> hotel::sortFloorRoomByPrice(int flr, bool ascend)
     return Floor[flr].sortRoomsByPrice(ascend);
 }
 
-std::vector<floor> hotel::sortRoomsByPrice(bool ascend)
+std::vector<floor_> hotel::sortRoomsByPrice(bool ascend)
 {
-    std::vector<floor> ans;
+    std::vector<floor_> ans;
     for(int i = 0; i < num_floor; i++)
     {
-        floor temp(i, Floor[i].sortRoomsByPrice(ascend), 0);
+        floor_ temp(i, Floor[i].sortRoomsByPrice(ascend), 0);
         ans.push_back(temp);
     }
     return ans;
 }
 
-std::vector<floor> hotel::sortAvailableRoomByPrice(bool ascend)
+std::vector<floor_> hotel::sortAvailableRoomByPrice(bool ascend)
 {
-    std::vector<floor> ans;
+    std::vector<floor_> ans;
     for(int i = 0; i < num_floor; i++)
     {
-        floor temp(i, Floor[i].sortAvailableRoomsByPrice(ascend), 0);
+        floor_ temp(i, Floor[i].sortAvailableRoomsByPrice(ascend), 0);
         ans.push_back(temp);
     }
     return ans;
 }
 
-std::vector<floor> hotel::findAvailableRooms()
+std::vector<floor_> hotel::findAvailableRooms()
 {
-    std::vector<floor> ans;
+    std::vector<floor_> ans;
     for(int i = 0; i < Floor.size(); i++)
     {
-        floor temp(i, Floor[i].findAvailableRooms(), 0);
+        floor_ temp(i, Floor[i].findAvailableRooms(), 0);
         ans.push_back(temp);
     }
     return ans;
@@ -105,7 +105,7 @@ std::vector<floor> hotel::findAvailableRooms()
 
 void hotel::displayAllAvailableRooms()
 {
-    std::vector<floor> availableRooms = this->findAvailableRooms();
+    std::vector<floor_> availableRooms = this->findAvailableRooms();
     for(int i = 0; i < availableRooms.size(); i++)
     {
         std::cout << "Floor " << i << ": \n";

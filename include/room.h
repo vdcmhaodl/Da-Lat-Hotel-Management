@@ -53,7 +53,7 @@ private:
     std::vector<service> Service;
 public:
     room(std::string roomNumber, double pricePerNight);
-    room(room &a);
+    room(const room &a);
     room& operator=(const room& a);
     std::string getID() const;
     bool book(std::string guest_name, date checkin_date, date checkout_date);
