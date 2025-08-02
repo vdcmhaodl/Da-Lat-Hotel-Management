@@ -4,9 +4,9 @@
 #include <algorithm>
 
 #include "room.h"
-#include "init_price_type.h"
+// #include "init_price_type.h"
 
-class floor
+class floor_
 {
 private:
     std::vector <room> rooms[9];
@@ -15,9 +15,9 @@ private:
     int price[9];
     int num_rooms;
 public:
-    floor();
-    floor(int flr);
-    floor(int flr, std::vector<room> rooms, int type);
+    floor_();
+    floor_(int flr);
+    floor_(int flr, std::vector<room> rooms, int type);
     int getNumRooms();
     void updateRoomPrice(int roomType, double price);
     void addRoom(int type);
@@ -35,7 +35,7 @@ class hotel
 {
 private:
     int num_floor = 0;
-    std::vector<floor> Floor;
+    std::vector<floor_> Floor;
 protected:
     void updatePrice(int roomType, double price);
     void addRoom(int flr, int type);
@@ -44,14 +44,14 @@ protected:
 public:
     hotel(int flr);
     room& findRoomByNumber(std::string ID);
-    std::vector<floor> findRoomsByType(int type);
-    std::vector<floor> findAvailableRooms();
+    std::vector<floor_> findRoomsByType(int type);
+    std::vector<floor_> findAvailableRooms();
     void displayAllFloorRooms(int flr);
     void displayAllRooms();
     void displayAllAvailableRooms();
     std::vector<room> sortFloorRoomByPrice(int flr, bool ascend);
-    std::vector<floor> sortRoomsByPrice(bool ascend);
-    std::vector<floor> sortAvailableRoomByPrice(bool ascend);
+    std::vector<floor_> sortRoomsByPrice(bool ascend);
+    std::vector<floor_> sortAvailableRoomByPrice(bool ascend);
 };
 
 bool cmp(room a, room b);

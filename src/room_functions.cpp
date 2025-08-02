@@ -1,25 +1,29 @@
 #include "room.h"
 
-int compareDate(const date& a, const date& b)
+int compareDate(const date &a, const date &b)
 {
-    if(a.year == b.year)
+    if (a.year == b.year)
     {
-        if(a.month == b.month)
+        if (a.month == b.month)
         {
-            if(a.day == b.day) return 0;
-            if(a.day < b.day) return -1;
+            if (a.day == b.day)
+                return 0;
+            if (a.day < b.day)
+                return -1;
             return 1;
         }
-        if(a.month < b.month) return -1;
+        if (a.month < b.month)
+            return -1;
         return 1;
     }
-    if(a.year < b.year) return -1;
+    if (a.year < b.year)
+        return -1;
     return 1;
 }
 
 bool room::book(std::string guest_name, date checkin_date, date checkout_date)
 {
-    if(booking_queue.empty() || compareDate(booking_queue[booking_queue.size() - 1].Date, checkin_date) == -1)
+    if (booking_queue.empty() || compareDate(booking_queue[booking_queue.size() - 1].Date, checkin_date) == -1)
     {
         date_satus temp{checkin_date, in, guest_name};
         booking_queue.push_back(temp);
@@ -28,7 +32,7 @@ bool room::book(std::string guest_name, date checkin_date, date checkout_date)
         booking_queue.push_back(temp);
         return 1;
     }
-    if(compareDate(checkout_date, booking_queue[0].Date) == -1)
+    if (compareDate(checkout_date, booking_queue[0].Date) == -1)
     {
         date_satus temp{checkout_date, out, guest_name};
         booking_queue.insert(booking_queue.begin() + 1, temp);
@@ -39,10 +43,10 @@ bool room::book(std::string guest_name, date checkin_date, date checkout_date)
     }
     int n = booking_queue.size();
     int indx = 1;
-    for(int i = 1; i < n - 2; i += 2)
+    for (int i = 1; i < n - 2; i += 2)
     {
-        if(compareDate(booking_queue[i].Date, checkin_date) == -1 && (i + 1 == n || compareDate(checkout_date, booking_queue[i + 1].Date) == -1))
-        { 
+        if (compareDate(booking_queue[i].Date, checkin_date) == -1 && (i + 1 == n || compareDate(checkout_date, booking_queue[i + 1].Date) == -1))
+        {
             date_satus temp{checkout_date, out, guest_name};
             booking_queue.insert(booking_queue.begin() + i + 1, temp);
             temp.Date = checkin_date;
@@ -57,20 +61,19 @@ bool room::book(std::string guest_name, date checkin_date, date checkout_date)
 bool room::cancel(std::string guest_name)
 {
     int n = booking_queue.size();
-    for(int i = 0; i < n; i += 2)
-        if(booking_queue[i].guest == guest_name)
+    for (int i = 0; i < n; i += 2)
+        if (booking_queue[i].guest == guest_name)
         {
-            booking_queue.erase(booking_queue.begin() + i, booking_queue.begin() + i + 1);
+            booking_queue.erase(booking_queue.begin() + i, booking_queue.begin() + i + 2);
             return 1;
         }
-    return 1;
+    return 0; // not found
 }
 
 void room::checkIn(date checkin, std::string cur_guest)
 {
     this->current_guest = cur_guest;
     this->isOccupied = 1;
-
 
     date_satus temp;
     temp.Date = checkin;
@@ -105,7 +108,7 @@ void room::addService(std::string name, double cost)
 double room::calculateStayCost()
 {
     double cost = 0;
-    for(int i = 0; i < this->Service.size(); i++)
+    for (int i = 0; i < this->Service.size(); i++)
         cost += this->Service[i].cost;
     return cost;
 }
@@ -124,11 +127,22 @@ std::string room::getID() const { return this->ID; }
 
 double room::checkPrice() { return this->pricePerNight; }
 
-int main()
+void room::displayBookingHistory()
 {
-    room temp("02411", 200000);
-    temp.checkIn({26, 7, 2025}, "HaoVo");
-    temp.checkOut({28, 7, 2025});
-    temp.displayInfo();
-    return 0;
+    std::cout << "Display booking queue: \n";
+    std::cout << "Size of queue: " << booking_queue.size() << std::endl;
+    for (auto it : booking_queue)
+    {
+        std::cout << it.guest << " " << it.Date.day << "/" << it.Date.month << "/" << it.Date.year << std::endl;
+    }
+}
+
+void room ::displayBookingQueue()
+{
+    std::cout << "Display booking queue: \n";
+    for (auto it : booking_queue)
+    {
+
+        std::cout << it.guest << " " << (it.Status == in ? "checkin" : "checkout") << " " << it.Date.day << "/" << it.Date.month << "/" << it.Date.year << std::endl;
+    }
 }

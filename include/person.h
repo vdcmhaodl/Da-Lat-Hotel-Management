@@ -2,33 +2,9 @@
 #include "person_interface.h"
 #include <string>
 #include <string.h>
+#include <room.h>
 
 // FROM information of room.h
-enum status
-{
-    in,
-    out
-};
-
-struct service
-{
-    std::string name;
-    double cost;
-};
-
-struct date
-{
-    int day;
-    int month;
-    int year;
-};
-
-struct date_satus
-{
-    date Date;
-    status Status;
-    std::string guest;
-};
 
 // END HERE
 

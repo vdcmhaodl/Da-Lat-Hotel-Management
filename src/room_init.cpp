@@ -63,7 +63,7 @@ room::room(std::string roomNumber, double pricePerNight)
     }
 }
 
-room::room(room &a)
+room::room(const room &a)
 {
     this->ID = a.ID;
     roomType = new room_basic;

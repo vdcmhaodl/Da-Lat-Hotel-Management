@@ -1,6 +1,6 @@
 #include "customer.h"
 
-/*
+/* (DONT DELETE :>)
 void customer::viewBookingHistory(hotel &h)
 {
     std::cout << "Booking History for " << getName() << ":\n";
