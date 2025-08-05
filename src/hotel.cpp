@@ -1,5 +1,9 @@
 #include "hotel.h"
 
+hotel::hotel() { 
+    this->num_floor = 0;
+}
+
 hotel::hotel(int flr)
 {
     this->num_floor = flr;
@@ -31,6 +35,12 @@ void hotel::addFloor()
     num_floor++;
     floor_ temp(num_floor);
     Floor.push_back(temp);
+}
+
+void hotel::addFloor(floor_ fl)
+{ 
+    num_floor++;
+    Floor.push_back(fl);
 }
 
 room& hotel::findRoomByNumber(std::string ID)

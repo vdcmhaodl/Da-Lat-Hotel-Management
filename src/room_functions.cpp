@@ -146,3 +146,8 @@ void room ::displayBookingQueue()
         std::cout << it.guest << " " << (it.Status == in ? "checkin" : "checkout") << " " << it.Date.day << "/" << it.Date.month << "/" << it.Date.year << std::endl;
     }
 }
+
+std::string room::getTypeName()
+{
+    return typeName;
+}

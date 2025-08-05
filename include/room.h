@@ -41,10 +41,10 @@ class room
     friend class manager;
 private:
     std::string ID;
-    room_basic* roomType;
-    std::string typeName;
+    room_basic* roomType; // biểu thị các đồ vật cơ bản trong phòng ấy (đọc trong room_basic.h)
+    std::string typeName; 
     view View;
-    room_item* item;
+    room_item* item; // biểu thị các item cá nhân cho người ấy (đọc trong room_basic.h)
     double pricePerNight;
     bool isOccupied;
     std::string current_guest;
@@ -68,5 +68,6 @@ public:
     void displayInfo();
     void displayBookingHistory();
     void displayBookingQueue();
+    std::string getTypeName();
     ~room();
 };

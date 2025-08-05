@@ -6,18 +6,21 @@ room::room(std::string roomNumber, double pricePerNight)
     this->pricePerNight = pricePerNight;
     this->isOccupied = 0;
     this->current_guest = "";
-    int type = this->ID[2] - '0';
+    int type = (int) (this->ID[2] - '0');
     
     room_director director;
     room_item_director item_director;
     
     singleNormalRoom construct1;
     doubleNormalRoom construct2;
-    singleVipRoom construct3;
+    singleVipRoom construct3;   
     doubleVipRoom construct4;
 
     singleRoomItem item_construct1;
     doubleRoomItem item_construct2;
+
+    // type nằm trong range [1,8] thì code ở dưới mới chạy đc
+    type = type % 8 + 1;
 
     if(type % 2) View = city;
     else View = nature;

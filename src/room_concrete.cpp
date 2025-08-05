@@ -38,7 +38,7 @@ void singleVipRoom::buildTV() { room->setTV(1); }
 void singleVipRoom::buildBalcol() { room->setBalcol(1); }
 void singleVipRoom::buildLoving_chair() { room->setLoving_chair(1); }
 void singleVipRoom::buildFridge() { room->setFridge(1); }
-void singleVipRoom::buildRooms() { room->setRooms(1); }
+void singleVipRoom::buildRooms() { room->setRooms(1); } 
 room_basic* singleVipRoom::getResult() { return new room_basic(*room); }
 singleVipRoom::~singleVipRoom() { delete room; }
 

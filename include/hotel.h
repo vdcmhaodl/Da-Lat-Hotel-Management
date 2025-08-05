@@ -36,16 +36,18 @@ class hotel
 private:
     int num_floor = 0;
     std::vector<floor_> Floor;
-protected:
-    void updatePrice(int roomType, double price);
-    void addRoom(int flr, int type);
-    void removeRoom(int flr, std::string ID);
-    void addFloor();
 public:
+    hotel();
     hotel(int flr);
     room& findRoomByNumber(std::string ID);
     std::vector<floor_> findRoomsByType(int type);
     std::vector<floor_> findAvailableRooms();
+
+    void updatePrice(int roomType, double price);
+    void addRoom(int flr, int type);
+    void removeRoom(int flr, std::string ID);
+    void addFloor();
+    void addFloor(floor_ fl);
     void displayAllFloorRooms(int flr);
     void displayAllRooms();
     void displayAllAvailableRooms();
