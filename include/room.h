@@ -10,64 +10,61 @@
 #include "room_concrete.h"
 #include "room_item.h"
 
-enum status
-{
-    in,
-    out
+enum status { in, out };
+
+struct service {
+  std::string name;
+  double cost;
 };
 
-struct service
-{
-    std::string name;
-    double cost;
+struct date {
+  int day;
+  int month;
+  int year;
 };
 
-struct date
-{
-    int day;
-    int month;
-    int year;
+struct date_satus {
+  date Date;
+  status Status;
+  std::string guest;
 };
 
-struct date_satus
-{
-    date Date;
-    status Status;
-    std::string guest;
-};
+class room {
+  friend class manager;
 
-class room
-{
-    friend class manager;
-private:
-    std::string ID;
-    room_basic* roomType; // biểu thị các đồ vật cơ bản trong phòng ấy (đọc trong room_basic.h)
-    std::string typeName; 
-    view View;
-    room_item* item; // biểu thị các item cá nhân cho người ấy (đọc trong room_basic.h)
-    double pricePerNight;
-    bool isOccupied;
-    std::string current_guest;
-    std::vector<date_satus> book_history;
-    std::vector<date_satus> booking_queue;
-    std::vector<service> Service;
-public:
-    room(std::string roomNumber, double pricePerNight);
-    room(const room &a);
-    room& operator=(const room& a);
-    std::string getID() const;
-    bool book(std::string guest_name, date checkin_date, date checkout_date);
-    bool cancel(std::string guest_name);
-    void updatePrice(double price);
-    void checkIn(date checkin, std::string cur_guest);
-    void checkOut(date checkout);
-    bool isAvailable();
-    double checkPrice();
-    void addService(std::string name, double cost);
-    double calculateStayCost();
-    void displayInfo();
-    void displayBookingHistory();
-    void displayBookingQueue();
-    std::string getTypeName();
-    ~room();
+ private:
+  std::string ID;
+  room_basic* roomType;
+  std::string typeName;
+  view View;
+  room_item* item;
+  double pricePerNight;
+  bool isOccupied;
+  std::string current_guest;
+  std::vector<date_satus> book_history;
+  std::vector<date_satus> booking_queue;
+  std::vector<service> Service;
+  bool locked = false;
+
+ public:
+  room(std::string roomNumber, double pricePerNight);
+  room(const room& a);
+  room& operator=(const room& a);
+  std::string getID() const;
+  bool book(std::string guest_name, date checkin_date, date checkout_date);
+  bool cancel(std::string guest_name);
+  void updatePrice(double price);
+  void checkIn(date checkin, std::string cur_guest);
+  void checkOut(date checkout);
+  bool isAvailable();
+  double checkPrice();
+  void addService(std::string name, double cost);
+  double calculateStayCost();
+  void displayInfo();
+  void displayBookingHistory();
+  void displayBookingQueue();
+  void lockRoom();    
+  void unlockRoom();  
+  bool isLocked() const;
+  ~room();
 };
