@@ -8,7 +8,7 @@ int person::getID() const { return this->id; }
 // for setters
 void person::setName(std::string name) { this->name = name; }
 void person::setID(int ID) { this->id = ID; }
-void person::setRole(Role role) { this->role = role; }
+
 bool person::setPhone(std::string phone)
 {
     this->phone = phone;
@@ -22,8 +22,4 @@ bool person::setEmail(std::string email)
 
 std::string person::getName() { 
     return name;
-}
-
-std::string person::getPosition() { 
-    return "None";
 }

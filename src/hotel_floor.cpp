@@ -100,11 +100,13 @@ void floor_::updateRoomPrice(int roomType, double price)
         rooms[roomType][i].updatePrice(price);
 }
 
-void floor_::addRoom(int roomType) // Lấy số từ 1->8 nhé
+void floor_::addRoom(int roomType) // Lấy số từ 1->7 nhé
 {
     std::string type_num = "01234567";
     std::string ID = std::to_string(this->flr);
-    // 012
+    
+    // Cái này để đảm bảo không vướt quá 7 (có 7 loại thui :>)
+    roomType = ((roomType - 1) % 7) + 1;
     if (flr < 10)
         ID = '0' + ID;
     ID += type_num[roomType];
@@ -117,6 +119,30 @@ void floor_::addRoom(int roomType) // Lấy số từ 1->8 nhé
     Type[roomType]++;
     room temp(ID, this->price[roomType]);
     rooms[roomType].push_back(temp);
+}
+
+void floor_::addRoom(room& r) {
+    // Determine type index
+    int typeIndex = -1;
+
+    std::string typeName = r.getTypeName(); // Example: "Single Vip Room with City View"
+
+    // Use the global nameType array from init_price_type.h
+    for (int i = 0; i < 8; ++i) {
+        if (typeName == nameType[i]) {
+            typeIndex = i;
+            break;
+        }
+    }
+
+    if (typeIndex == -1) {
+        std::cerr << "[ERROR] Unknown room type: " << typeName << std::endl;
+        return;
+    }
+
+    rooms[typeIndex].push_back(r);
+    ++Type[typeIndex];
+    ++num_rooms;
 }
 
 bool floor_::removeRoom(std::string ID)

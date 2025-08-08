@@ -21,6 +21,8 @@ public:
     int getNumRooms();
     void updateRoomPrice(int roomType, double price);
     void addRoom(int type);
+    //void addRoomDirectly(const room& r);
+    void addRoom(room& r);
     bool removeRoom(std::string ID);
     room& findRoomByNumber(std::string ID);
     std::vector<room> findAvailableRooms();
@@ -42,9 +44,10 @@ public:
     room& findRoomByNumber(std::string ID);
     std::vector<floor_> findRoomsByType(int type);
     std::vector<floor_> findAvailableRooms();
-
+    std::vector<floor_> getFloors() const;
     void updatePrice(int roomType, double price);
     void addRoom(int flr, int type);
+    void addRoomToFloor(int flr, room& r);
     void removeRoom(int flr, std::string ID);
     void addFloor();
     void addFloor(floor_ fl);

@@ -4,7 +4,7 @@ room::room(std::string roomNumber, double pricePerNight)
 {
     this->ID = roomNumber;
     this->pricePerNight = pricePerNight;
-    this->isOccupied = 0;
+    this->locked = 0;
     this->current_guest = "";
     int type = (int) (this->ID[2] - '0');
     
@@ -88,7 +88,7 @@ room::room(const room &a)
     
     typeName = a.typeName;
     pricePerNight = a.pricePerNight;
-    isOccupied = a.isOccupied;
+    locked = a.locked;
     current_guest = a.current_guest;
     book_history = a.book_history;
     Service = a.Service;
@@ -121,7 +121,7 @@ room& room::operator=(const room& a)
     
     typeName = a.typeName;
     pricePerNight = a.pricePerNight;
-    isOccupied = a.isOccupied;
+    locked = a.locked;
     current_guest = a.current_guest;
     book_history = a.book_history;
     Service = a.Service;

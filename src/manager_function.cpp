@@ -99,12 +99,19 @@ std::string manager::getName()
 {
     return name;
 }
-std::string manager::getPosition()
-{
-    return position;
-}
 
 int manager::getID() const
 {
     return id;
+}
+
+bool manager::hasEmployee(int id) {
+    for (auto p : ListOfEmployees) {
+        if (p->getID() == id) return true;
+    }
+    return false;
+}
+
+std::vector<IPerson*> manager::getEmployeeList() { 
+    return ListOfEmployees;
 }

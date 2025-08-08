@@ -10,46 +10,52 @@
 #include "room_concrete.h"
 #include "room_item.h"
 
-enum status { in, out };
+enum status
+{
+  in,
+  out
+};
 
-struct service {
+struct service
+{
   std::string name;
   double cost;
 };
 
-struct date {
+struct date
+{
   int day;
   int month;
   int year;
 };
 
-struct date_satus {
+struct date_satus
+{
   date Date;
   status Status;
   std::string guest;
 };
 
-class room {
+class room
+{
   friend class manager;
 
- private:
+private:
   std::string ID;
-  room_basic* roomType;
+  room_basic *roomType;
   std::string typeName;
   view View;
-  room_item* item;
+  room_item *item;
   double pricePerNight;
-  bool isOccupied;
   std::string current_guest;
   std::vector<date_satus> book_history;
-  std::vector<date_satus> booking_queue;
   std::vector<service> Service;
   bool locked = false;
 
- public:
+public:
   room(std::string roomNumber, double pricePerNight);
-  room(const room& a);
-  room& operator=(const room& a);
+  room(const room &a);
+  room &operator=(const room &a);
   std::string getID() const;
   bool book(std::string guest_name, date checkin_date, date checkout_date);
   bool cancel(std::string guest_name);
@@ -62,9 +68,10 @@ class room {
   double calculateStayCost();
   void displayInfo();
   void displayBookingHistory();
-  void displayBookingQueue();
-  void lockRoom();    
-  void unlockRoom();  
+  
+  void lockRoom();
+  void unlockRoom();
   bool isLocked() const;
+  std::string getTypeName();
   ~room();
 };

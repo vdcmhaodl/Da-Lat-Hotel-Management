@@ -122,3 +122,11 @@ void hotel::displayAllAvailableRooms()
         availableRooms[i].displayAllFloorRooms();
     }
 }
+
+void hotel::addRoomToFloor(int flr, room& r) { 
+    Floor[flr].addRoom(r);
+}
+
+std::vector<floor_> hotel::getFloors() const { 
+    return Floor;
+}

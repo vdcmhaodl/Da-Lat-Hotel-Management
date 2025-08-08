@@ -4,32 +4,32 @@
 #include "customer.h"
 #include "room.h"
 
-class employee : public person {
+class employee : public person
+{
   friend class manager;
 
- protected:
+private:
   std::string position;
+
+protected:
   double salary;
-  void updatePosition(
-      const std::string&
-          newPosition);  // Only Manager can update position (the derived class)
- public:
+  void updatePosition(const std::string &newPosition); // Only Manager can update position (the derived class)
+public:
   employee();
   employee(const std::string name, const std::string phone,
-           const std::string email, const int id, double salary,
-           const std::string position);
+           const std::string email, const int id, double salary);
   virtual ~employee() = default;
 
   void showInfo() override;
   std::string getName() override;
-  std::string getPosition() override;
+  // std::string getPosition() override;
   int getID() const override;
 
-  void giveDiscount(customer& c, int percent);
-  void lockRoom(room& r);
-  void unlockRoom(room& r);
-  // Wait for class Room to complete
-  // void generateInvoice(room &a);
-  // void viewRoomBookingHistory(room &a);
-  // void viewRoomBookingQueue(room &a);
+  void giveDiscount(customer &c, int percent);
+  void lockRoom(hotel &h, std::string id);
+  void unlockRoom(hotel &h, std::string id);
+
+  // employee.h
+  void saveToFile(std::ofstream &out);
+  void loadFromFile(std::ifstream &in);
 };
