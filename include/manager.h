@@ -11,7 +11,7 @@ public:
     // mananager_init
     manager();
     manager(const std::string name, const std::string phone,
-            const std::string email, const int id, double salary, const std::string position);
+            const std::string email, const int id, double salary);
     virtual ~manager() = default; 
 
     // manager_fucntion
@@ -22,6 +22,8 @@ public:
     void generateReport();
     void showInfo() override; 
     std::string getName() override;
-    std::string getPosition() override;
+    //std::string getPosition() override;
     int getID() const override;
+    bool hasEmployee(int id);
+    std::vector<IPerson*> getEmployeeList();
 };

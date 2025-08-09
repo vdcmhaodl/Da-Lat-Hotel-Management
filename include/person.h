@@ -24,13 +24,13 @@ protected:
     std::string phone;
     std::string email;  
     int id;
-    Role role;
+   // Role role;
 public:
 
     // basic constructors 
     person(); 
     virtual ~person() = default;
-    person(std::string name, std::string phone, std::string email, int id, Role role);
+    person(std::string name, std::string phone, std::string email, int id);
     person& operator=(const person &other);
 
     // getters
@@ -43,10 +43,9 @@ public:
     bool setPhone(std::string phone);
     bool setEmail(std::string email);
     void setID(int ID);
-    void setRole(Role role);
 
     void showInfo() override;
-    std::string getPosition() override;
+    //std::string getPosition() override;
     std::string getName() override;
 
     // Wait for class Room to complete

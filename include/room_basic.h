@@ -18,7 +18,7 @@ private:
     int TV;
     bool balcol;
     bool loving_chair;
-    bool fridge;
+    bool fridge;   
     int rooms;
 public:
     room_basic();

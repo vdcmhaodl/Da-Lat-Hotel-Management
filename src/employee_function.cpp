@@ -1,37 +1,71 @@
 #include "employee.h"
+#include "hotel.h"
+#include "fstream"
 
-/*
- void employee::viewRoomBookingHistory(room &a) {
-    // This function displays the booking history of the room
-    std::cout << "Booking history for room: " << a.getID() << std::endl;
-    a.displayBookingHistory();
- }
- */
 void employee::updatePosition(const std::string &newPosition)
 {
-   position = newPosition;
+  position = newPosition;
 }
 
 void employee::showInfo()
 {
-   std::cout << "Employee "<< id << "\n";
-   std::cout << "Name: " << name << "\n"; 
-   std::cout << "Phone: " << phone << "\n";
-   std::cout << "Email: " << email << "\n";
-   std::cout << "Salary: " << salary << "\n";
-   std::cout << "Position: " << position << "\n"; 
+  std::cout << "Employee " << id << "\n";
+  std::cout << "Name: " << name << "\n";
+  std::cout << "Phone: " << phone << "\n";
+  std::cout << "Email: " << email << "\n";
+  std::cout << "Salary: " << salary << "\n";
+  std::cout << "Position: " << position << "\n";
 }
 
-std::string employee::getName()
+std::string employee::getName() { return name; }
+
+//std::string employee::getPosition() { return position; }
+
+int employee::getID() const { return id; }
+
+void employee::giveDiscount(customer& c, int percent)
 {
-   return name;
+  
+  if (percent < 0 || percent > 100)
+  {
+    std::cout << "Discount must be between 0 and 100.\n";
+    return;
+  }
+  c.setDiscount(percent);
+  std::cout << "Employee " << getName() << " gave " << percent
+            << "% discount to Customer " << c.getName() << ".\n";
 }
 
-std::string employee::getPosition()
+void employee::lockRoom(hotel& h, std::string id)
 {
-   return position;
+  room* r = h.findRoomByNumber(id);
+  r->lockRoom();
+  std::cout << "Employee " << getName() << " locked room " << r->getID()
+            << ".\n";
 }
 
-int employee::getID() const { 
-    return id; 
+void employee::unlockRoom(hotel& h, std::string id)
+{
+  room* r = h.findRoomByNumber(id);
+  r->unlockRoom();
+  std::cout << "Employee " << getName() << " unlocked room " << r->getID()
+            << ".\n";
+}
+
+// employee.cpp
+void employee::saveToFile(std::ofstream& out) {
+    out << name << "," << phone << "," << email << "," << id << "," << salary << "\n";
+}
+
+void employee::loadFromFile(std::ifstream& in) {
+    std::string idStr, salaryStr;
+
+    std::getline(in, name, ',');
+    std::getline(in, phone, ',');
+    std::getline(in, email, ',');
+    std::getline(in, idStr, ',');
+    std::getline(in, salaryStr);
+
+    id = std::stoi(idStr);
+    salary = std::stod(salaryStr);
 }

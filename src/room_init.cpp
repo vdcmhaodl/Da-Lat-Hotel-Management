@@ -4,20 +4,23 @@ room::room(std::string roomNumber, double pricePerNight)
 {
     this->ID = roomNumber;
     this->pricePerNight = pricePerNight;
-    this->isOccupied = 0;
+    this->locked = 0;
     this->current_guest = "";
-    int type = this->ID[2] - '0';
+    int type = (int) (this->ID[2] - '0');
     
     room_director director;
     room_item_director item_director;
     
     singleNormalRoom construct1;
     doubleNormalRoom construct2;
-    singleVipRoom construct3;
+    singleVipRoom construct3;   
     doubleVipRoom construct4;
 
     singleRoomItem item_construct1;
     doubleRoomItem item_construct2;
+
+    // type nằm trong range [1,8] thì code ở dưới mới chạy đc
+    type = (type - 1) % 8 + 1;
 
     if(type % 2) View = city;
     else View = nature;
@@ -66,6 +69,9 @@ room::room(std::string roomNumber, double pricePerNight)
 room::room(const room &a)
 {
     this->ID = a.ID;
+    this->typeNum = a.typeNum;
+    this-> currentGuestId = a.currentGuestId;
+
     roomType = new room_basic;
     roomType->setSingle_beds(a.roomType->getSingle_beds());
     roomType->setLarge_beds(a.roomType->getLarge_beds());
@@ -85,7 +91,7 @@ room::room(const room &a)
     
     typeName = a.typeName;
     pricePerNight = a.pricePerNight;
-    isOccupied = a.isOccupied;
+    locked = a.locked;
     current_guest = a.current_guest;
     book_history = a.book_history;
     Service = a.Service;
@@ -118,7 +124,7 @@ room& room::operator=(const room& a)
     
     typeName = a.typeName;
     pricePerNight = a.pricePerNight;
-    isOccupied = a.isOccupied;
+    locked = a.locked;
     current_guest = a.current_guest;
     book_history = a.book_history;
     Service = a.Service;
@@ -129,4 +135,60 @@ room::~room()
 {
     delete roomType;
     delete item;
+}
+
+void room::construct()
+{
+    room_director director;
+    room_item_director item_director;
+    
+    singleNormalRoom construct1;
+    doubleNormalRoom construct2;
+    singleVipRoom construct3;   
+    doubleVipRoom construct4;
+
+    singleRoomItem item_construct1;
+    doubleRoomItem item_construct2;
+
+    int type = typeNum;
+    
+    switch (type)
+    {
+    case 1: case 2:
+        director.construct(&construct1);
+        item_director.construct(&item_construct1);
+        if(type == 1) this->typeName = "Single normal room with city view";
+        else this->typeName = "Single normal room with nature view";
+        this->roomType = director.getResult(&construct1);
+        this->item = item_director.getResult(&item_construct1);
+        break;
+    case 3: case 4:
+        director.construct(&construct2);
+        item_director.construct(&item_construct2);
+        if(type == 3) this->typeName = "Double normal room with city view";
+        else this->typeName = "Double normal room with nature view";
+        this->roomType = director.getResult(&construct2);
+        this->item = item_director.getResult(&item_construct2);
+        break;
+
+    case 5: case 6:
+        director.construct(&construct3);
+        item_director.construct(&item_construct2);
+        if(type == 5) this->typeName = "Single VIP room with city view";
+        else this->typeName = "Single VIP room with nature view";
+        this->roomType = director.getResult(&construct3);
+        this->item = item_director.getResult(&item_construct2);
+        break;
+
+    case 7: case 8:
+        director.construct(&construct4);
+        item_director.construct(&item_construct1);
+        if(type == 6) this->typeName = "Double VIP room with city view";
+        else this->typeName = "Double VIP room with nature view";
+        this->roomType = director.getResult(&construct4);
+        this->item = item_director.getResult(&item_construct1);
+        break;
+    default:
+        break;
+    }   
 }

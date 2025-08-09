@@ -35,10 +35,11 @@ floor_::floor_(int flr)
         Type[i] = 0;
 }
 
+// Truyền 1 cái vector gồm nhiêu đó room cùng 1 kiểu type
 floor_::floor_(int flr, std::vector<room> rooms, int type)
 {
     this->flr = flr;
-    price[0] = 0;
+    price[0] = 0; // nothing
     price[1] = priceSingleNormalCity;
     price[2] = priceSingleNormalNature;
     price[3] = priceDoubleNormalCity;
@@ -54,6 +55,8 @@ floor_::floor_(int flr, std::vector<room> rooms, int type)
         room temp(rooms[i]);
         this->rooms[type].push_back(temp);
     }
+    // Code này là để mục đích để có thể filter cái loại phòng đó có bao nhiêu phòng trong 1 tầng
+    // Ví dụ "type" SingleNormalCity thì có room.size() là 2 
     Type[type] = rooms.size();
     num_rooms = Type[type];
 }
@@ -97,15 +100,18 @@ void floor_::updateRoomPrice(int roomType, double price)
         rooms[roomType][i].updatePrice(price);
 }
 
-void floor_::addRoom(int roomType)
+void floor_::addRoom(int roomType) // Lấy số từ 1->7 nhé
 {
     std::string type_num = "01234567";
     std::string ID = std::to_string(this->flr);
+    
+    // Cái này để đảm bảo không vướt quá 7 (có 7 loại thui :>)
+    roomType = ((roomType - 1) % 7) + 1;
     if (flr < 10)
         ID = '0' + ID;
     ID += type_num[roomType];
     std::string suffix_ID = std::to_string(this->Type[roomType]);
-    if (this->Type[roomType < 10])
+    if (this->Type[roomType] < 10)
         suffix_ID = '0' + suffix_ID;
     ID += suffix_ID;
 
@@ -113,6 +119,17 @@ void floor_::addRoom(int roomType)
     Type[roomType]++;
     room temp(ID, this->price[roomType]);
     rooms[roomType].push_back(temp);
+}
+
+void floor_::addRoom(room& r) {
+    // Determine type index
+    int typeNum = r.getRoomTypeNumber();
+
+    std::string typeName = r.getTypeName(); // Example: "Single Vip Room with City View"
+
+    rooms[typeNum].push_back(r);
+    ++Type[typeNum];
+    ++num_rooms;
 }
 
 bool floor_::removeRoom(std::string ID)
@@ -132,7 +149,7 @@ bool floor_::removeRoom(std::string ID)
     return 1;
 }
 
-room &floor_::findRoomByNumber(std::string ID)
+room* floor_::findRoomByNumber(std::string ID)
 {
     int type = ID[2] - '0';
     int indx = -1;
@@ -142,7 +159,8 @@ room &floor_::findRoomByNumber(std::string ID)
             indx = i;
             break;
         }
-    return rooms[type][indx];
+    if (indx == -1) return nullptr;
+    return &rooms[type][indx];
 }
 
 std::vector<room> floor_::findAvailableRooms()
@@ -172,23 +190,22 @@ std::vector<room> floor_::findRoomsByType(int type)
 std::vector<room> floor_::findAllRooms()
 {
     std::vector<room> ans;
-    for (int i = 1; i <= 8; i++)
+    for (int i = 1; i <= 8;i++)
         for (int j = 0; j < rooms[i].size(); j++)
         {
-            room temp(rooms[i][j]);
-            ans.push_back(temp);
+            ans.push_back(rooms[i][j]);
         }
     return ans;
 }
 
 void floor_::displayAllFloorRooms()
 {
-    for (int i = 0; i <= 8; i++)
+    for (int i = 0; i <= 7; i++)
         for (int j = 0; j < rooms[i].size(); j++)
         {
-            std::cout << "Room: " << rooms[i][j].getID() << ' ';
-            std::cout << "State: " << ((rooms[i][j].isAvailable() == 1) ? "Available" : "Not available") << ' ';
-            std::cout << "Type: " << nameType[i] << '\n';
+            std::cout << "Room: " << rooms[i][j].getID() << ", ";
+            std::cout << "State: " << ((rooms[i][j].isAvailable() == 1) ? "Available" : "Not available") << ", ";
+            std::cout << "Type: " << rooms[i][j].getTypeName() << '\n';
         }
 }
 
