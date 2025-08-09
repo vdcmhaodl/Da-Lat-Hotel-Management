@@ -24,7 +24,7 @@ public:
     //void addRoomDirectly(const room& r);
     void addRoom(room& r);
     bool removeRoom(std::string ID);
-    room& findRoomByNumber(std::string ID);
+    room* findRoomByNumber(std::string ID);
     std::vector<room> findAvailableRooms();
     std::vector<room> findRoomsByType(int type);
     std::vector<room> findAllRooms();
@@ -41,7 +41,7 @@ private:
 public:
     hotel();
     hotel(int flr);
-    room& findRoomByNumber(std::string ID);
+    room* findRoomByNumber(std::string ID);
     std::vector<floor_> findRoomsByType(int type);
     std::vector<floor_> findAvailableRooms();
     std::vector<floor_> getFloors() const;

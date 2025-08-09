@@ -10,7 +10,7 @@ private:
     hotel h;
     manager m;
     std::vector<customer *> listOfCustormer;
-    int nextCustomerId = 1; // Counter for assigning unique customer IDs
+    int nextCustomerId = 24127000; // Counter for assigning unique customer IDs
 
 public:
     HotelManagementSystem(int floor, const std::string name, const std::string phone,
@@ -24,13 +24,14 @@ public:
     void viewEmployees();
     customer *addCustomer();
     customer *findCustomer(int id);
+    void updateBaseCustomerId(int n);
 
     // Manage Room
     void addRoom(int flr, int type);
     // Function to remove a customer by their ID
     void removeCustomer(int id);
     void showCustomer();
-    void bookRoom();
+    void bookRoom(customer* cus);
     void showRoom();
     void removeRoom();
 

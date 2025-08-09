@@ -38,7 +38,7 @@ void employee::giveDiscount(customer& c, int percent)
 
 void employee::lockRoom(hotel& h, std::string id)
 {
-  room* r = &h.findRoomByNumber(id);
+  room* r = h.findRoomByNumber(id);
   r->lockRoom();
   std::cout << "Employee " << getName() << " locked room " << r->getID()
             << ".\n";
@@ -46,7 +46,7 @@ void employee::lockRoom(hotel& h, std::string id)
 
 void employee::unlockRoom(hotel& h, std::string id)
 {
-  room* r = &h.findRoomByNumber(id);
+  room* r = h.findRoomByNumber(id);
   r->unlockRoom();
   std::cout << "Employee " << getName() << " unlocked room " << r->getID()
             << ".\n";
@@ -54,9 +54,18 @@ void employee::unlockRoom(hotel& h, std::string id)
 
 // employee.cpp
 void employee::saveToFile(std::ofstream& out) {
-    out << name << " " << phone << " " << email << " " << id << " " << salary << "\n";
+    out << name << "," << phone << "," << email << "," << id << "," << salary << "\n";
 }
 
 void employee::loadFromFile(std::ifstream& in) {
-    in >> name >> phone >> email >> id >> salary;
+    std::string idStr, salaryStr;
+
+    std::getline(in, name, ',');
+    std::getline(in, phone, ',');
+    std::getline(in, email, ',');
+    std::getline(in, idStr, ',');
+    std::getline(in, salaryStr);
+
+    id = std::stoi(idStr);
+    salary = std::stod(salaryStr);
 }

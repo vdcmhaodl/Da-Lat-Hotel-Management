@@ -1,9 +1,3 @@
-8
-Charlie 2223334444 charlie@hotel.com 10 35000
-Dana 1112223333 dana@hotel.com 11 40000
-Alice 2221111 alice@hotel.com 10 40000
-Do Duc Thinh 98282882 0
-Khoa 23 thaa 20202 20202
-Hoang 09293 thauah 232323 22323
-Khoa 029292 thaiah 2412213 9000
-Phat 2323 2323 24124124 900
+2
+Tran Minh Tien, 098284401, tien@gmail.com,24125555,2000
+Phan Tan Nhat Minh,09828232,tonton@gmail.com,24125666,1000

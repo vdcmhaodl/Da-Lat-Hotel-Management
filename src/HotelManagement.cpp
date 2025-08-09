@@ -1,5 +1,5 @@
 #include "HotelManagement.h"
-#include <fstream> 
+#include <fstream>
 
 HotelManagementSystem::~HotelManagementSystem()
 {
@@ -40,7 +40,7 @@ customer *HotelManagementSystem::addCustomer()
     std::cin >> email;
 
     // Create a new customer object with a unique ID
-    customer *newCustomer = new customer(name, phone, email, nextCustomerId++);
+    customer *newCustomer = new customer(name, phone, email, ++nextCustomerId);
     listOfCustormer.push_back(newCustomer);
 
     std::cout << "Customer " << newCustomer->getName() << " added with ID " << newCustomer->getID() << "." << std::endl;
@@ -69,9 +69,8 @@ void HotelManagementSystem::showCustomer()
     }
 }
 
-void HotelManagementSystem::bookRoom()
+void HotelManagementSystem::bookRoom(customer *cus)
 {
-    customer *cus = addCustomer();
     std::string id;
     std::cout << "=== BOOKING ROOM FOR ";
     std::cout << cus->getName();
@@ -88,7 +87,7 @@ void HotelManagementSystem::bookRoom()
 
 void HotelManagementSystem::showRoom()
 {
-    h.displayAllAvailableRooms();
+    h.displayAllRooms();
 }
 
 void HotelManagementSystem::removeRoom()
@@ -100,98 +99,176 @@ void HotelManagementSystem::removeRoom()
     std::cout << "Enter id room in that floor: \n";
     std::cin >> id;
     h.removeRoom(fl, id);
-    std::cout << "Remove room with" << id << "successfully\n"; 
+    std::cout << "Remove room with" << id << "successfully\n";
 }
 
-manager& HotelManagementSystem::getManager() {
+manager &HotelManagementSystem::getManager()
+{
     return m;
 }
 
-hotel& HotelManagementSystem::getHotel() {
+hotel &HotelManagementSystem::getHotel()
+{
     return h;
 }
 
-bool HotelManagementSystem::isEmployee(int id) {
+bool HotelManagementSystem::isEmployee(int id)
+{
     // Let manager check his employee list
     return m.hasEmployee(id); // You need to implement this in `manager`
 }
 
-customer* HotelManagementSystem::getCustomerById(int id) {
-    for (auto* c : listOfCustormer) {
-        if (c->getID() == id) return c;
+customer *HotelManagementSystem::getCustomerById(int id)
+{
+    for (auto *c : listOfCustormer)
+    {
+        if (c->getID() == id)
+            return c;
     }
     return nullptr;
 }
 
-void HotelManagementSystem::giveDiscountToCustomer(int custId, int percent) {
-    customer* c = getCustomerById(custId);
-    if (c != nullptr) {
+void HotelManagementSystem::giveDiscountToCustomer(int custId, int percent)
+{
+    customer *c = getCustomerById(custId);
+    if (c != nullptr)
+    {
         c->setDiscount(percent);
         std::cout << "Discount applied.\n";
-    } else {
+    }
+    else
+    {
         std::cout << "Customer not found.\n";
     }
 }
 
-customer* HotelManagementSystem::findCustomer(int id) { 
-    for (auto it: listOfCustormer)
-        if (id == it->getID()) { 
+customer *HotelManagementSystem::findCustomer(int id)
+{
+    for (auto it : listOfCustormer)
+        if (id == it->getID())
+        {
             return it;
         }
     return nullptr;
 }
 
-void HotelManagementSystem::saveSystemState() {
+void HotelManagementSystem::saveSystemState()
+{
     // Save customers
-    std::ofstream out("customers.txt");
+    std::ofstream outCus("customers.txt");
 
-    if (!out) return;
+    if (!outCus)
+        return;
 
-    out << listOfCustormer.size() << "\n";
+    outCus << listOfCustormer.size() << "\n";
 
-    std::cout << listOfCustormer.size() << std::endl; 
-    for (auto* c : listOfCustormer)
-        c->saveToFile(out);
-    out.close();
+    for (auto *c : listOfCustormer)
+        c->saveToFile(outCus);
+    outCus.close();
 
     // Save employees
     std::ofstream empOut("employees.txt");
-    if (!empOut) return;
+    if (!empOut)
+        return;
 
-    std::vector<IPerson*> employeeList = m.getEmployeeList();
+    std::vector<IPerson *> employeeList = m.getEmployeeList();
 
-    std::cout << employeeList.size() << std::endl; 
     empOut << employeeList.size() << "\n";
-    for (auto* p : employeeList) {
-        employee* e = dynamic_cast<employee*>(p);
-        if (e) {
+    for (auto *p : employeeList)
+    {
+        employee *e = dynamic_cast<employee *>(p);
+        if (e)
+        {
             e->saveToFile(empOut);
         }
     }
     empOut.close();
+
+    // save room
+    std::ofstream hotelOut("rooms.txt");
+    if (!hotelOut)
+        return;
+
+    std::vector<floor_> floors = h.getFloors();
+    int totalRooms = 0;
+    for (auto &f : floors)
+    {
+        // auto rooms = f.findAllRooms();
+        totalRooms += f.getNumRooms();
+    }
+
+    hotelOut << totalRooms << '\n';
+
+    for (floor_ &f : floors)
+    {
+        std::vector<room> getRoomList = f.findAllRooms();
+
+        for (room &r : getRoomList)
+        {
+            r.saveToFile(hotelOut);
+        }
+    }
+
+    hotelOut.close();
 }
 
+void HotelManagementSystem::updateBaseCustomerId(int n) { 
+    nextCustomerId += n - 1;
+}
 
-void HotelManagementSystem::loadSystemState() {
-    std::ifstream in("customers.txt");
-    if (in) {       
+void HotelManagementSystem::loadSystemState()
+{
+    std::ifstream cusIn("customers.txt");
+
+    if (cusIn)
+    {
         int n;
-        in >> n;
-        for (int i = 0; i < n; ++i) {
-            customer* c = new customer();
-            c->loadFromFile(in, h);
+        cusIn >> n;
+        updateBaseCustomerId(n);
+        cusIn.ignore();
+
+        for (int i = 0; i < n; ++i)
+        {
+            customer *c = new customer();
+            c->loadFromFile(cusIn, h);
             listOfCustormer.push_back(c);
         }
     }
 
+    cusIn.close();
+
     std::ifstream empIn("employees.txt");
-    if (empIn) {
+    if (empIn)
+    {
         int n;
         empIn >> n;
-        for (int i = 0; i < n; ++i) {
-            employee* e = new employee();
+        empIn.ignore();
+
+        for (int i = 0; i < n; ++i)
+        {
+            employee *e = new employee();
             e->loadFromFile(empIn);
             m.add(dynamic_cast<IPerson *>(e));
         }
     }
+    empIn.close();
+
+    std::ifstream roomIn("rooms.txt");
+    if (!roomIn)
+        return;
+
+    int count;
+    roomIn >> count;    
+    roomIn.ignore();
+
+    for (int i = 0; i < count; ++i)
+    {
+        room *r = new room("temp",0); // temp constructor, will be overwritten
+        r->loadFromFile(roomIn);
+        r->construct();
+        int flr = int ((r->getID())[0] - '0') * 10 + int (r->getID()[1] - '0'); // implement logic to extract floor from ID
+        h.addRoomToFloor(flr, *r);
+    }
+
+    roomIn.close();
 }

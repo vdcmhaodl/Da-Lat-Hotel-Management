@@ -1,7 +1,7 @@
 #include "customer.h"
 #include <iostream>
 #include <iomanip>
-#include <fstream> 
+#include <fstream>
 
 // Default constructor
 customer::customer() : person()
@@ -81,7 +81,6 @@ int customer::calculateNightStays()
     return 0;
 
   return checkoutDays - checkinDays;
-  return 0;
 }
 
 // Override showInfo from person class
@@ -125,15 +124,23 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
   try
   {
     // Find the room in hotel
-    room &selectedRoom = h.findRoomByNumber(roomID);
+    room *selectedRoom = h.findRoomByNumber(roomID);
 
+    if (selectedRoom == nullptr)
+    {
+      std::cout << "Room " << roomID << " is invalid."
+                << std::endl;
+      return false;
+    }
     // Check if room is available
-    if (!selectedRoom.isAvailable())
+    if (!selectedRoom->isAvailable())
     {
       std::cout << "Room " << roomID << " is not available for booking."
                 << std::endl;
       return false;
     }
+    std::cout << "Room " << roomID << " is available for booking."
+              << std::endl;
 
     // Set booking dates
     setCheckinDate(checkin_date);
@@ -194,8 +201,9 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
               << checkout_date.month << "/" << checkout_date.year << std::endl;
     std::cout << "Total bill: $" << bill << " for " << nights << " nights"
               << std::endl;
-    roomStay = &selectedRoom;
-    selectedRoom.lockRoom();
+    roomStay = selectedRoom;
+    roomStay->setGuest(std::to_string(id));
+    selectedRoom->lockRoom();
     return true;
   }
   catch (const std::exception &e)
@@ -348,28 +356,68 @@ void customer::setBill(int amount)
 }
 
 // customer.cpp
-void customer::saveToFile(std::ofstream& out) {
-    out << name << " " << phone << " " << email << " " << id << " "
-        << discount << " " << bill << " "
-        << checkin.day << " " << checkin.month << " " << checkin.year << " "
-        << checkout.day << " " << checkout.month << " " << checkout.year << " "
-        << "None" << "\n";
-    // include later, it is the room information
-   // out << (roomStay ? roomStay->getID() : "None") << "\n";
+void customer::saveToFile(std::ofstream &out)
+{
+  out << name << ","
+      << phone << ","
+      << email << ","
+      << id << ","
+      << discount << ","
+      << bill << ","
+      << checkin.day << ","
+      << checkin.month << ","
+      << checkin.year << ","
+      << checkout.day << ","
+      << checkout.month << ","
+      << checkout.year << ","
+      << (roomStay ? roomStay->getID() : "None")
+      << "\n";
 }
 
-void customer::loadFromFile(std::ifstream& in, hotel& h) {
-    std::string roomID;
-    in >> name >> phone >> email >> id >> discount >> bill;
-    in >> checkin.day >> checkin.month >> checkin.year;
-    in >> checkout.day >> checkout.month >> checkout.year;
-    in >> roomID;
+void customer::loadFromFile(std::ifstream &in, hotel &h)
+{
+  std::string idStr, discountStr, billStr;
+  std::string checkinDay, checkinMonth, checkinYear;
+  std::string checkoutDay, checkoutMonth, checkoutYear;
+  std::string roomID;
 
-    if (roomID != "None") {
-        try {
-            roomStay = &h.findRoomByNumber(roomID);
-        } catch (...) {
-            roomStay = nullptr;
-        }
+  std::getline(in, name, ',');
+  std::getline(in, phone, ',');
+  std::getline(in, email, ',');
+  std::getline(in, idStr, ',');
+  std::getline(in, discountStr, ',');
+  std::getline(in, billStr, ',');
+  std::getline(in, checkinDay, ',');
+  std::getline(in, checkinMonth, ',');
+  std::getline(in, checkinYear, ',');
+  std::getline(in, checkoutDay, ',');
+  std::getline(in, checkoutMonth, ',');
+  std::getline(in, checkoutYear, ',');
+  std::getline(in, roomID);
+
+  id = std::stoi(idStr);
+  discount = std::stoi(discountStr);
+  bill = std::stoi(billStr);
+  checkin.day = std::stoi(checkinDay);
+  checkin.month = std::stoi(checkinMonth);
+  checkin.year = std::stoi(checkinYear);
+  checkout.day = std::stoi(checkoutDay);
+  checkout.month = std::stoi(checkoutMonth);
+  checkout.year = std::stoi(checkoutYear);
+
+  if (roomID != "None")
+  {
+    try
+    {
+      roomStay = h.findRoomByNumber(roomID);
     }
+    catch (...)
+    {
+      roomStay = nullptr;
+    }
+  }
+  else
+  {
+    roomStay = nullptr;
+  }
 }

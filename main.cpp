@@ -8,15 +8,15 @@
 #include "HotelManagement.h"
 #include "menu.h"
 
+
 int main()
 {
-    HotelManagementSystem system(5, "ManagerJohn", "555-1234", "manager@hotel.com", 1, 60000, "Manager");
+    HotelManagementSystem* system = new HotelManagementSystem (3, "ManagerJohn", "5551234", "manager@hotel.com", 1, 60000, "Manager");
     std::cout << "Create system successfully\n";
-    system.loadSystemState();
 
-    // Add some initial data
-    // system.addRoom(1, 1);
-    // system.addRoom(2, 2);
+    system->loadSystemState();
+
+    std::cout << "Load past data successfully\n";
 
     int choice;
     do {
@@ -30,14 +30,14 @@ int main()
         
         switch (choice) {
             case 1:
-                managerMenu(system);
+                managerMenu(*system);
                 break;
             case 2: {
                 int id;
                 std::cout << "Enter your employee ID: ";
                 std::cin >> id;
-                if (system.isEmployee(id))
-                    employeeMenu(system, id);
+                if (system->isEmployee(id))
+                    employeeMenu(*system, id);
                 else
                     std::cout << "Employee not found.\n";
                 break;
@@ -46,9 +46,9 @@ int main()
                 int id;
                 std::cout << "Enter your customer ID: ";
                 std::cin >> id;
-                customer* cust = system.getCustomerById(id);
+                customer* cust = system->getCustomerById(id);
                 if (cust != nullptr)
-                    customerMenu(system, cust);
+                    customerMenu(*system, cust);
                 else
                     std::cout << "Customer not found.\n";
                 break;
@@ -57,7 +57,8 @@ int main()
 
     } while (choice != 0);
     
-    system.saveSystemState();
+    system->saveSystemState();
+    delete system;
     return 0;
 }
 

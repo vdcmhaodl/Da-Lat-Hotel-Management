@@ -1,4 +1,6 @@
 #include "room.h"
+#include "fstream"
+#include "init_price_type.h"
 
 int compareDate(const date &a, const date &b)
 {
@@ -169,10 +171,50 @@ bool room::isLocked() const { return locked; }
 
 bool room::isAvailable()
 {
-   return !locked;
+  return !locked;
 }
 
 std::string room::getTypeName()
 {
   return typeName;
+}
+
+void room::loadFromFile(std::istream &in)
+{
+    std::string typeNumStr, priceStr, viewStr, lockStr, guest;
+
+    std::getline(in, ID, ',');
+    std::getline(in, typeNumStr, ',');
+    std::getline(in, priceStr, ',');
+    std::getline(in, viewStr, ',');
+    std::getline(in, lockStr, ',');
+    std::getline(in, guest);
+
+    int typeNum   = std::stoi(typeNumStr);
+    pricePerNight = std::stod(priceStr);
+    View          = static_cast<view>(std::stoi(viewStr));
+    locked        = (std::stoi(lockStr) == 1);
+    currentGuestId = guest;
+    this->typeNum = typeNum;
+}
+
+int room::getRoomTypeNumber()
+{
+  return typeNum;
+}
+
+void room::setGuest(std::string id)
+{
+    currentGuestId = id;
+}
+
+void room::saveToFile(std::ofstream &out)
+{
+    out << ID << ","
+        << typeNum << ","
+        << pricePerNight << ","
+        << static_cast<int>(View) << ","
+        << locked << ","
+        << currentGuestId
+        << "\n";
 }

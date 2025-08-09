@@ -123,25 +123,12 @@ void floor_::addRoom(int roomType) // Lấy số từ 1->7 nhé
 
 void floor_::addRoom(room& r) {
     // Determine type index
-    int typeIndex = -1;
+    int typeNum = r.getRoomTypeNumber();
 
     std::string typeName = r.getTypeName(); // Example: "Single Vip Room with City View"
 
-    // Use the global nameType array from init_price_type.h
-    for (int i = 0; i < 8; ++i) {
-        if (typeName == nameType[i]) {
-            typeIndex = i;
-            break;
-        }
-    }
-
-    if (typeIndex == -1) {
-        std::cerr << "[ERROR] Unknown room type: " << typeName << std::endl;
-        return;
-    }
-
-    rooms[typeIndex].push_back(r);
-    ++Type[typeIndex];
+    rooms[typeNum].push_back(r);
+    ++Type[typeNum];
     ++num_rooms;
 }
 
@@ -162,7 +149,7 @@ bool floor_::removeRoom(std::string ID)
     return 1;
 }
 
-room &floor_::findRoomByNumber(std::string ID)
+room* floor_::findRoomByNumber(std::string ID)
 {
     int type = ID[2] - '0';
     int indx = -1;
@@ -172,7 +159,8 @@ room &floor_::findRoomByNumber(std::string ID)
             indx = i;
             break;
         }
-    return rooms[type][indx];
+    if (indx == -1) return nullptr;
+    return &rooms[type][indx];
 }
 
 std::vector<room> floor_::findAvailableRooms()
@@ -202,18 +190,17 @@ std::vector<room> floor_::findRoomsByType(int type)
 std::vector<room> floor_::findAllRooms()
 {
     std::vector<room> ans;
-    for (int i = 1; i <= 8; i++)
+    for (int i = 1; i <= 8;i++)
         for (int j = 0; j < rooms[i].size(); j++)
         {
-            room temp(rooms[i][j]);
-            ans.push_back(temp);
+            ans.push_back(rooms[i][j]);
         }
     return ans;
 }
 
 void floor_::displayAllFloorRooms()
 {
-    for (int i = 0; i <= 8; i++)
+    for (int i = 0; i <= 7; i++)
         for (int j = 0; j < rooms[i].size(); j++)
         {
             std::cout << "Room: " << rooms[i][j].getID() << ", ";
