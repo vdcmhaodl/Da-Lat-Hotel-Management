@@ -4,8 +4,7 @@
 #include <fstream>
 
 // Default constructor
-customer::customer() : person()
-{
+customer::customer() : person() {
   discount = 0;
   bill = 0;
   // Initialize dates to default values (assuming date has day, month, year)
@@ -16,8 +15,7 @@ customer::customer() : person()
 // Parameterized constructor
 customer::customer(std::string name, std::string phone, std::string email,
                    int id)
-    : person(name, phone, email, id)
-{
+    : person(name, phone, email, id) {
   discount = 0;
   bill = 0;
   // Initialize dates to default values
@@ -26,10 +24,8 @@ customer::customer(std::string name, std::string phone, std::string email,
 }
 
 // Assignment operator
-customer &customer::operator=(const customer &other)
-{
-  if (this != &other)
-  {
+customer &customer::operator=(const customer &other) {
+  if (this != &other) {
     person::operator=(other);
     discount = other.discount;
     bill = other.bill;
@@ -45,47 +41,38 @@ void customer::setCheckinDate(date checkin_date) { checkin = checkin_date; }
 // Set check-out date
 void customer::setCheckoutDate(date checkout_date) { checkout = checkout_date; }
 
-bool isLeap(int year)
-{
+bool isLeap(int year) {
   return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-int daysInMonth(int month, int year)
-{
+int daysInMonth(int month, int year) {
   static const int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-  if (month == 2 && isLeap(year))
-    return 29;
+  if (month == 2 && isLeap(year)) return 29;
   return days[month - 1];
 }
 
 // Helper function to count total days since 01/01/0000
-int countDays(const date &d)
-{
+int countDays(const date &d) {
   int days = d.day;
 
-  for (int m = 1; m < d.month; ++m)
-    days += daysInMonth(m, d.year);
+  for (int m = 1; m < d.month; ++m) days += daysInMonth(m, d.year);
 
-  for (int y = 0; y < d.year; ++y)
-    days += isLeap(y) ? 366 : 365;
+  for (int y = 0; y < d.year; ++y) days += isLeap(y) ? 366 : 365;
 
   return days;
 }
 
-int customer::calculateNightStays()
-{
+int customer::calculateNightStays() {
   int checkinDays = countDays(checkin);
   int checkoutDays = countDays(checkout);
 
-  if (checkoutDays <= checkinDays)
-    return 0;
+  if (checkoutDays <= checkinDays) return 0;
 
   return checkoutDays - checkinDays;
 }
 
 // Override showInfo from person class
-void customer::showInfo()
-{
+void customer::showInfo() {
   std::cout << "=== Customer Information ===" << std::endl;
   std::cout << "ID: " << id << std::endl;
   std::cout << "Name: " << name << std::endl;
@@ -95,13 +82,11 @@ void customer::showInfo()
   std::cout << "Discount: " << discount << "%" << std::endl;
   std::cout << "Current Bill: $" << bill << std::endl;
 
-  if (checkin.day != 0)
-  {
+  if (checkin.day != 0) {
     std::cout << "Check-in Date: " << checkin.day << "/" << checkin.month << "/"
               << checkin.year << std::endl;
   }
-  if (checkout.day != 0)
-  {
+  if (checkout.day != 0) {
     std::cout << "Check-out Date: " << checkout.day << "/" << checkout.month
               << "/" << checkout.year << std::endl;
   }
@@ -117,113 +102,111 @@ std::string customer::getName() { return name; }
 // Override getID from person class
 int customer::getID() const { return id; }
 
-// Book a room
-bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
-                        date checkout_date)
-{
-  try
-  {
-    // Find the room in hotel
-    room *selectedRoom = h.findRoomByNumber(roomID);
+void customer::addBookingRecord(const booking_record &record) {
+  bookingHistory.push_back(record);
+}
 
-    if (selectedRoom == nullptr)
-    {
-      std::cout << "Room " << roomID << " is invalid."
-                << std::endl;
-      return false;
-    }
-    // Check if room is available
-    if (!selectedRoom->isAvailable())
-    {
-      std::cout << "Room " << roomID << " is not available for booking."
-                << std::endl;
-      return false;
-    }
-    std::cout << "Room " << roomID << " is available for booking."
-              << std::endl;
+void customer::viewMyBookingHistory() {
+  std::cout << "\n=== BOOKING HISTORY FOR " << name << " (ID: " << id
+            << ") ===\n";
+  std::cout << std::string(80, '=') << std::endl;
 
-    // Set booking dates
-    setCheckinDate(checkin_date);
-    setCheckoutDate(checkout_date);
-
-    // Calculate nights and bill
-    int nights = calculateNightStays();
-    if (nights <= 0)
-    {
-      std::cout << "Invalid booking dates." << std::endl;
-      return false;
-    }
-
-    // Calculate bill based on estimated room price and nights
-    // Since we can't access room price directly, use estimated pricing
-    double roomPrice = 100.0; // Default base price per night
-
-    // Simple pricing logic - you can adjust based on room naming convention
-    if (roomID.find("VIP") != std::string::npos ||
-        roomID.find("vip") != std::string::npos)
-    {
-      if (roomID.find("Double") != std::string::npos ||
-          roomID.find("double") != std::string::npos)
-      {
-        roomPrice = 200.0; // Double VIP
-      }
-      else
-      {
-        roomPrice = 150.0; // Single VIP
-      }
-    }
-    else
-    {
-      if (roomID.find("Double") != std::string::npos ||
-          roomID.find("double") != std::string::npos)
-      {
-        roomPrice = 120.0; // Double Normal
-      }
-      else
-      {
-        roomPrice = 80.0; // Single Normal
-      }
-    }
-
-    bill = static_cast<int>(roomPrice * nights);
-
-    // Apply discount if any
-    if (discount > 0)
-    {
-      bill = bill - (bill * discount / 100);
-    }
-
-    std::cout << "Room " << roomID << " booked successfully for " << name
-              << std::endl;
-    std::cout << "Check-in: " << checkin_date.day << "/" << checkin_date.month
-              << "/" << checkin_date.year << std::endl;
-    std::cout << "Check-out: " << checkout_date.day << "/"
-              << checkout_date.month << "/" << checkout_date.year << std::endl;
-    std::cout << "Total bill: $" << bill << " for " << nights << " nights"
-              << std::endl;
-    roomStay = selectedRoom;
-    roomStay->setGuest(std::to_string(id));
-    selectedRoom->lockRoom();
-    return true;
+  if (bookingHistory.empty()) {
+    std::cout << "No booking history found.\n";
+    return;
   }
-  catch (const std::exception &e)
-  {
-    std::cout << "Error booking room: " << e.what() << std::endl;
-    return false;
+
+  std::cout << std::left << std::setw(10) << "Room ID" << std::setw(15)
+            << "Room Type" << std::setw(12) << "Check-in" << std::setw(12)
+            << "Check-out" << std::setw(10) << "Cost" << std::setw(8) << "Paid"
+            << std::setw(12) << "Status" << std::endl;
+  std::cout << std::string(80, '-') << std::endl;
+
+  for (const auto &record : bookingHistory) {
+    std::cout << std::left << std::setw(10) << record.roomID << std::setw(15)
+              << record.roomTypeName << std::setw(12)
+              << (std::to_string(record.checkin.day) + "/" +
+                  std::to_string(record.checkin.month) + "/" +
+                  std::to_string(record.checkin.year))
+              << std::setw(12)
+              << (std::to_string(record.checkout.day) + "/" +
+                  std::to_string(record.checkout.month) + "/" +
+                  std::to_string(record.checkout.year))
+              << std::setw(10) << ("$" + std::to_string(record.totalCost))
+              << std::setw(8) << (record.isPaid ? "Yes" : "No") << std::setw(12)
+              << record.status << std::endl;
+  }
+  std::cout << std::string(80, '=') << std::endl;
+}
+
+void customer::updateBookingStatus(std::string roomID, date checkin,
+                                   std::string newStatus) {
+  for (auto &record : bookingHistory) {
+    if (record.roomID == roomID && record.checkin.day == checkin.day &&
+        record.checkin.month == checkin.month &&
+        record.checkin.year == checkin.year) {
+      record.status = newStatus;
+      break;
+    }
   }
 }
 
+std::vector<booking_record> customer::getBookingHistory() const {
+  return bookingHistory;
+}
+
+// Book a room
+bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
+                        date checkout_date) {
+  room *foundRoom = h.findRoomByNumber(roomID);
+  if (!foundRoom) {
+    std::cout << "Room not found!\n";
+    return false;
+  }
+
+  if (!foundRoom->isAvailable()) {
+    std::cout << "Room is not available!\n";
+    return false;
+  }
+
+  // Book the room
+  if (foundRoom->book(name, checkin_date, checkout_date)) {
+    roomStay = foundRoom;
+    setCheckinDate(checkin_date);
+    setCheckoutDate(checkout_date);
+
+    // Tạo booking record mới
+    booking_record record;
+    record.roomID = roomID;
+    record.roomTypeName = foundRoom->getTypeName();
+    record.checkin = checkin_date;
+    record.checkout = checkout_date;
+
+    // Tính toán chi phí (giả sử có method tính số đêm)
+    int nights = calculateNightStays();
+    record.totalCost = nights * foundRoom->checkPrice();
+    record.isPaid = false;
+    record.status = "Current";
+
+    // Lấy ngày hiện tại (đơn giản hóa)
+    record.bookingDate = {1, 1, 2024};  // Bạn có thể implement getCurrentDate()
+
+    // Thêm vào lịch sử
+    addBookingRecord(record);
+
+    std::cout << "Room booked successfully!\n";
+    return true;
+  }
+
+  return false;
+}
 // View available rooms in the hotel
-void customer::viewAvailableRooms(hotel &h)
-{
+void customer::viewAvailableRooms(hotel &h) {
   std::cout << "=== Available Rooms ===" << std::endl;
 
-  try
-  {
+  try {
     h.displayAllAvailableRooms();
-  }
-  catch (const std::exception &e)
-  {
+  } catch (const std::exception &e) {
     std::cout << "Error displaying available rooms: " << e.what() << std::endl;
   }
 
@@ -231,38 +214,30 @@ void customer::viewAvailableRooms(hotel &h)
 }
 
 // Cancel room booking
-bool customer::cancelRoom()
-{
-  try
-  {
-    // Find the room
-
-    std::cout << "Cancelling room " << roomStay->getID() << " booking for " << name
-              << std::endl;
-
-    checkin = {0, 0, 0};
-    checkout = {0, 0, 0};
-    bill = 0;
-
-    std::cout << "Room " << roomStay->getID() << " booking cancelled successfully for "
-              << name << std::endl;
-    roomStay = nullptr;
-    return true;
-  }
-  catch (const std::exception &e)
-  {
-    std::cout << "Error cancelling room: " << e.what() << std::endl;
+bool customer::cancelRoom() {
+  if (!roomStay) {
+    std::cout << "No room to cancel!\n";
     return false;
   }
+
+  // Cập nhật trạng thái trong lịch sử
+  updateBookingStatus(roomStay->getID(), checkin, "Cancelled");
+
+  // Cancel room
+  if (roomStay->cancel(name)) {
+    roomStay = nullptr;
+    std::cout << "Room cancelled successfully!\n";
+    return true;
+  }
+
+  return false;
 }
 
-void customer::showBill()
-{
+void customer::showBill() {
   std::cout << "=== Bill for " << name << " ===" << std::endl;
   std::cout << "Customer ID: " << id << std::endl;
 
-  if (checkin.day != 0 && checkout.day != 0)
-  {
+  if (checkin.day != 0 && checkout.day != 0) {
     std::cout << "Stay Period: " << checkin.day << "/" << checkin.month << "/"
               << checkin.year;
     std::cout << " to " << checkout.day << "/" << checkout.month << "/"
@@ -270,11 +245,9 @@ void customer::showBill()
     std::cout << "Number of nights: " << calculateNightStays() << std::endl;
   }
 
-  if (discount > 0)
-  {
+  if (discount > 0) {
     int originalBill = bill;
-    if (discount < 100)
-      originalBill = bill * 100 / (100 - discount);
+    if (discount < 100) originalBill = bill * 100 / (100 - discount);
     std::cout << "Original Amount: $" << originalBill << std::endl;
     std::cout << "Discount applied: " << discount << "%" << std::endl;
     std::cout << "Discount amount: $" << (originalBill - bill) << std::endl;
@@ -284,10 +257,8 @@ void customer::showBill()
   std::cout << "=========================" << std::endl;
 }
 
-bool customer::payBill()
-{
-  if (bill <= 0)
-  {
+bool customer::payBill() {
+  if (bill <= 0) {
     std::cout << "No outstanding bill to pay." << std::endl;
     return false;
   }
@@ -299,8 +270,7 @@ bool customer::payBill()
   std::cout << "Confirm payment? (y/n): ";
   std::cin >> confirm;
 
-  if (confirm == 'y' || confirm == 'Y')
-  {
+  if (confirm == 'y' || confirm == 'Y') {
     std::cout << "Payment successful!" << std::endl;
     std::cout << "Receipt generated for $" << bill << std::endl;
 
@@ -316,9 +286,7 @@ bool customer::payBill()
     roomStay->unlockRoom();
     roomStay = nullptr;
     return true;
-  }
-  else
-  {
+  } else {
     std::cout << "Payment cancelled." << std::endl;
     return false;
   }
@@ -326,16 +294,12 @@ bool customer::payBill()
 
 int customer::getDiscount() const { return discount; }
 
-void customer::setDiscount(int new_discount)
-{
-  if (new_discount >= 0 && new_discount <= 100)
-  {
+void customer::setDiscount(int new_discount) {
+  if (new_discount >= 0 && new_discount <= 100) {
     discount = new_discount;
     std::cout << "Discount set to " << discount << "% for customer " << name
               << std::endl;
-  }
-  else
-  {
+  } else {
     std::cout << "Invalid discount percentage. Must be between 0-100."
               << std::endl;
   }
@@ -343,39 +307,24 @@ void customer::setDiscount(int new_discount)
 
 int customer::getBill() const { return bill; }
 
-void customer::setBill(int amount)
-{
-  if (amount >= 0)
-  {
+void customer::setBill(int amount) {
+  if (amount >= 0) {
     bill = amount;
-  }
-  else
-  {
+  } else {
     std::cout << "Invalid bill amount." << std::endl;
   }
 }
 
 // customer.cpp
-void customer::saveToFile(std::ofstream &out)
-{
-  out << name << ","
-      << phone << ","
-      << email << ","
-      << id << ","
-      << discount << ","
-      << bill << ","
-      << checkin.day << ","
-      << checkin.month << ","
-      << checkin.year << ","
-      << checkout.day << ","
-      << checkout.month << ","
-      << checkout.year << ","
-      << (roomStay ? roomStay->getID() : "None")
+void customer::saveToFile(std::ofstream &out) {
+  out << name << "," << phone << "," << email << "," << id << "," << discount
+      << "," << bill << "," << checkin.day << "," << checkin.month << ","
+      << checkin.year << "," << checkout.day << "," << checkout.month << ","
+      << checkout.year << "," << (roomStay ? roomStay->getID() : "None")
       << "\n";
 }
 
-void customer::loadFromFile(std::ifstream &in, hotel &h)
-{
+void customer::loadFromFile(std::ifstream &in, hotel &h) {
   std::string idStr, discountStr, billStr;
   std::string checkinDay, checkinMonth, checkinYear;
   std::string checkoutDay, checkoutMonth, checkoutYear;
@@ -405,19 +354,13 @@ void customer::loadFromFile(std::ifstream &in, hotel &h)
   checkout.month = std::stoi(checkoutMonth);
   checkout.year = std::stoi(checkoutYear);
 
-  if (roomID != "None")
-  {
-    try
-    {
+  if (roomID != "None") {
+    try {
       roomStay = h.findRoomByNumber(roomID);
-    }
-    catch (...)
-    {
+    } catch (...) {
       roomStay = nullptr;
     }
-  }
-  else
-  {
+  } else {
     roomStay = nullptr;
   }
 }

@@ -3,18 +3,24 @@
 #include "person.h"
 #include "customer.h"
 #include "room.h"
+#include <vector>
+#include <iomanip>
 
-class employee : public person
-{
+// Forward declaration
+class HotelManagementSystem;
+
+class employee : public person {
   friend class manager;
 
-private:
+ private:
   std::string position;
 
-protected:
+ protected:
   double salary;
-  void updatePosition(const std::string &newPosition); // Only Manager can update position (the derived class)
-public:
+  void updatePosition(
+      const std::string &
+          newPosition);  // Only Manager can update position (the derived class)
+ public:
   employee();
   employee(const std::string name, const std::string phone,
            const std::string email, const int id, double salary);
@@ -22,12 +28,16 @@ public:
 
   void showInfo() override;
   std::string getName() override;
-  // std::string getPosition() override;
   int getID() const override;
 
   void giveDiscount(customer &c, int percent);
   void lockRoom(hotel &h, std::string id);
   void unlockRoom(hotel &h, std::string id);
+
+  // Booking history methods for employee
+  void viewHotelBookingHistory(const std::vector<customer *> &customers);
+  void viewCustomerBookingHistory(customer *cust);
+  void viewRoomBookingHistory(hotel &h, std::string roomID);
 
   // employee.h
   void saveToFile(std::ofstream &out);
