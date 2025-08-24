@@ -13,7 +13,7 @@ int main() {
                                 "manager@hotel.com", 1, 60000, "Manager");
   std::cout << "Create system successfully\n";
 
-  // system->loadSystemState();
+  system->loadSystemState();
 
   int choice;
   do {

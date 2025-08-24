@@ -252,18 +252,24 @@ void HotelManagementSystem::updateBaseCustomerId(int n) {
 void HotelManagementSystem::loadSystemState() {
   std::ifstream inFile("hotel_system.dat");
   if (!inFile.is_open()) {
-    std::cout << "Error: Could not open file for loading!\n";
+    std::cout << "No existing data file found. Starting with fresh system.\n";
+    // Initialize with default values if needed
     return;
   }
 
   try {
+    std::cout << "Loading system state...\n";
+
     // Load manager info
+    std::cout << "Loading manager info...\n";
     m.loadFromFile(inFile);
 
     // Load hotel info
+    std::cout << "Loading hotel info...\n";
     h.loadFromFile(inFile);
 
     // Load employees through manager
+    std::cout << "Loading employees...\n";
     m.loadEmployeesFromFile(inFile);
 
     // Clear existing customers
@@ -276,6 +282,8 @@ void HotelManagementSystem::loadSystemState() {
     size_t customerCount;
     inFile >> customerCount;
     inFile.ignore();
+
+    std::cout << "Loading " << customerCount << " customers...\n";
 
     // Load each customer
     for (size_t i = 0; i < customerCount; ++i) {
@@ -290,6 +298,10 @@ void HotelManagementSystem::loadSystemState() {
 
     inFile.close();
     std::cout << "System state loaded successfully!\n";
+    std::cout << "Loaded: " << customerCount << " customers\n";
+    std::cout << "Next Customer ID: " << nextCustomerId << "\n";
+    std::cout << "Next Employee ID: " << nextEmployeeId << "\n";
+
   } catch (const std::exception &e) {
     std::cout << "Error loading system state: " << e.what() << std::endl;
 
@@ -298,5 +310,12 @@ void HotelManagementSystem::loadSystemState() {
       delete customer;
     }
     listOfCustormer.clear();
+
+    // Reset to default values
+    nextCustomerId = 24127000;
+    nextEmployeeId = 0;
+
+    inFile.close();
+    std::cout << "Continuing with fresh system...\n";
   }
 }
