@@ -1,0 +1,11 @@
+# Ignore object files
+*.o
+
+# Ignore backup / temp files
+*~
+*.swp
+
+# Ignore build directories
+/bin/
+
+.dat
