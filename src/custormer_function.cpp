@@ -185,6 +185,9 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
     // Tính toán chi phí (giả sử có method tính số đêm)
     int nights = calculateNightStays();
     record.totalCost = nights * foundRoom->checkPrice();
+
+    // luu bill
+    bill = record.totalCost;
     record.isPaid = false;
     record.status = "Current";
 
@@ -258,7 +261,7 @@ void customer::showBill() {
 }
 
 bool customer::payBill() {
-  if (bill <= 0) {
+  if (bill < 0) {
     std::cout << "No outstanding bill to pay." << std::endl;
     return false;
   }

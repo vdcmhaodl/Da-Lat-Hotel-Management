@@ -10,6 +10,7 @@ class HotelManagementSystem {
   manager m;
   std::vector<customer *> listOfCustormer;
   int nextCustomerId = 24127000;  // Counter for assigning unique customer IDs
+  int nextEmployeeId = 0; 
 
  public:
   HotelManagementSystem(int floor, const std::string name,
@@ -19,7 +20,7 @@ class HotelManagementSystem {
   ~HotelManagementSystem();
 
   // Manage people
-  void hireEmployee(IPerson *person);
+  void hireEmployee();
   void fireEmployee(int id);
   void viewEmployees();
   customer *addCustomer();
