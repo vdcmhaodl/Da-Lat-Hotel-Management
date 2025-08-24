@@ -129,22 +129,3 @@ void employee::viewRoomBookingHistory(hotel& h, std::string roomID) {
   // Hiển thị booking history của room
   foundRoom->displayBookingHistory();
 }
-
-// employee.cpp
-void employee::saveToFile(std::ofstream& out) {
-  out << name << "," << phone << "," << email << "," << id << "," << salary
-      << "\n";
-}
-
-void employee::loadFromFile(std::ifstream& in) {
-  std::string idStr, salaryStr;
-
-  std::getline(in, name, ',');
-  std::getline(in, phone, ',');
-  std::getline(in, email, ',');
-  std::getline(in, idStr, ',');
-  std::getline(in, salaryStr);
-
-  id = std::stoi(idStr);
-  salary = std::stod(salaryStr);
-}

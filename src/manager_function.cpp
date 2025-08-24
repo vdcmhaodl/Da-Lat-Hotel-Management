@@ -298,3 +298,84 @@ void manager::viewRevenueReport(const std::vector<customer*>& customers) {
 
   std::cout << std::string(80, '=') << std::endl;
 }
+
+void manager::saveToFile(std::ofstream& out) {
+  // Save manager's personal info
+  out << name << "," << phone << "," << email << "," << id << "," << salary
+      << "," << position << "\n";
+}
+
+void manager::loadFromFile(std::ifstream& in) {
+  std::string line;
+  std::getline(in, line);
+
+  std::stringstream ss(line);
+  std::string token;
+  std::vector<std::string> tokens;
+
+  while (std::getline(ss, token, ',')) {
+    tokens.push_back(token);
+  }
+
+  if (tokens.size() >= 6) {
+    name = tokens[0];
+    phone = tokens[1];
+    email = tokens[2];
+    id = std::stoi(tokens[3]);
+    salary = std::stod(tokens[4]);
+    position = tokens[5];
+  }
+}
+
+void manager::saveEmployeesToFile(std::ofstream& out) {
+  // Save number of employees
+  out << ListOfEmployees.size() << "\n";
+
+  // Save each employee
+  for (const auto& emp : ListOfEmployees) {
+    employee* empPtr = dynamic_cast<employee*>(emp);
+    if (empPtr) {
+      // Save employee data: name,phone,email,id,salary,position
+      out << empPtr->getName() << "," << empPtr->getPhone() << ","
+          << empPtr->getEmail() << "," << empPtr->getID() << ","
+          << empPtr->salary << "," << empPtr->position << "\n";
+    }
+  }
+}
+
+void manager::loadEmployeesFromFile(std::ifstream& in) {
+  // Clear existing employees
+  for (auto& emp : ListOfEmployees) {
+    delete emp;
+  }
+  ListOfEmployees.clear();
+
+  size_t employeeCount;
+  in >> employeeCount;
+  in.ignore();  // ignore newline
+
+  for (size_t i = 0; i < employeeCount; ++i) {
+    std::string line;
+    std::getline(in, line);
+
+    std::stringstream ss(line);
+    std::string token;
+    std::vector<std::string> tokens;
+
+    while (std::getline(ss, token, ',')) {
+      tokens.push_back(token);
+    }
+
+    if (tokens.size() >= 6) {
+      employee* newEmployee = new employee(tokens[0],             // name
+                                           tokens[1],             // phone
+                                           tokens[2],             // email
+                                           std::stoi(tokens[3]),  // id
+                                           std::stod(tokens[4])   // salary
+      );
+      newEmployee->updatePosition(tokens[5]);  // position
+
+      ListOfEmployees.push_back(newEmployee);
+    }
+  }
+}

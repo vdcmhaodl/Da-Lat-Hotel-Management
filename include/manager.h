@@ -3,6 +3,7 @@
 #include "employee.h"
 #include <vector>
 #include <iomanip>
+#include <fstream>
 
 // Forward declaration
 class HotelManagementSystem;
@@ -18,7 +19,7 @@ class manager : public employee {
           const std::string email, const int id, double salary);
   virtual ~manager() = default;
 
-  // manager_fucntion
+  // manager_fucntio
   void add(IPerson* person);  // hireEmployee
   void remove(int id);        // fireEmployee
   void viewEmployeeList();
@@ -35,4 +36,10 @@ class manager : public employee {
   void generateBookingReport(const std::vector<customer*>& customers);
   void viewBookingStatistics(const std::vector<customer*>& customers);
   void viewRevenueReport(const std::vector<customer*>& customers);
+
+  void saveToFile(std::ofstream& out);
+  void loadFromFile(std::ifstream& in);
+
+  void saveEmployeesToFile(std::ofstream& out);
+  void loadEmployeesFromFile(std::ifstream& in);
 };

@@ -144,21 +144,24 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
 
   // Book the room
   if (foundRoom->book(name, checkin_date, checkout_date)) {
-    // Tạo current booking
+    // LOCK THE ROOM when booking
+    foundRoom->lockRoom();
+
+    // Create current booking
     current_booking currentBooking;
     currentBooking.roomID = roomID;
     currentBooking.roomPtr = foundRoom;
     currentBooking.checkin = checkin_date;
     currentBooking.checkout = checkout_date;
 
-    // Tính toán chi phí
+    // Calculate cost
     int nights = calculateNightStays(checkin_date, checkout_date);
     currentBooking.bill = nights * foundRoom->checkPrice();
 
-    // Thêm vào danh sách current bookings
+    // Add to current bookings list
     currentBookings.push_back(currentBooking);
 
-    // Tạo booking record mới
+    // Create booking record
     booking_record record;
     record.roomID = roomID;
     record.roomTypeName = foundRoom->getTypeName();
@@ -168,13 +171,13 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
     record.isPaid = false;
     record.status = "Current";
 
-    // Lấy ngày hiện tại (đơn giản hóa)
+    // Set booking date (simplified)
     record.bookingDate = {1, 1, 2024};
 
-    // Thêm vào lịch sử
+    // Add to history
     addBookingRecord(record);
 
-    std::cout << "Room booked successfully!\n";
+    std::cout << "Room booked and locked successfully!\n";
     return true;
   }
 

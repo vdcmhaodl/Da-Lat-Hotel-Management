@@ -38,8 +38,4 @@ class employee : public person {
   void viewHotelBookingHistory(const std::vector<customer *> &customers);
   void viewCustomerBookingHistory(customer *cust);
   void viewRoomBookingHistory(hotel &h, std::string roomID);
-
-  // employee.h
-  void saveToFile(std::ofstream &out);
-  void loadFromFile(std::ifstream &in);
 };

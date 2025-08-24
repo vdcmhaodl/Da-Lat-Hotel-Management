@@ -8,12 +8,12 @@
 #include "menu.h"
 
 int main() {
-  HotelManagementSystem* system = new HotelManagementSystem(
-      5, "Huynh Thai Hoang", "0983824401", "manager@hotel.com", 1, 60000, "Manager");
+  HotelManagementSystem* system =
+      new HotelManagementSystem(5, "Huynh Thai Hoang", "0983824401",
+                                "manager@hotel.com", 1, 60000, "Manager");
   std::cout << "Create system successfully\n";
 
-  system->loadSystemState();
-
+  // system->loadSystemState();
 
   int choice;
   do {
