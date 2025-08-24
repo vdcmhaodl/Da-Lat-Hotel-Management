@@ -4,17 +4,24 @@
 #include <fstream>
 
 // Default constructor
+<<<<<<< Updated upstream
 customer::customer() : person() {
   discount = 0;
   bookedRooms.clear();
 }
+=======
+customer::customer() : person() { discount = 0; }
+>>>>>>> Stashed changes
 
 // Parameterized constructor
 customer::customer(std::string name, std::string phone, std::string email,
                    int id)
     : person(name, phone, email, id) {
   discount = 0;
+<<<<<<< Updated upstream
   bookedRooms.clear();
+=======
+>>>>>>> Stashed changes
 }
 
 // Assignment operator
@@ -22,7 +29,12 @@ customer &customer::operator=(const customer &other) {
   if (this != &other) {
     person::operator=(other);
     discount = other.discount;
+<<<<<<< Updated upstream
     bookedRooms = other.bookedRooms;
+=======
+    currentBookings = other.currentBookings;
+    bookingHistory = other.bookingHistory;
+>>>>>>> Stashed changes
   }
   return *this;
 }
@@ -66,8 +78,14 @@ void customer::showInfo() {
   std::cout << "Email: " << email << std::endl;
   std::cout << "Role: Customer" << std::endl;
   std::cout << "Discount: " << discount << "%" << std::endl;
+<<<<<<< Updated upstream
   std::cout << "Total Bill: $" << getTotalBill() << std::endl;
   std::cout << "Number of Booked Rooms: " << bookedRooms.size() << std::endl;
+=======
+  std::cout << "Total Outstanding Bill: $" << getTotalBill() << std::endl;
+  std::cout << "Current Active Bookings: " << currentBookings.size()
+            << std::endl;
+>>>>>>> Stashed changes
   std::cout << "==============================" << std::endl;
 }
 
@@ -89,6 +107,7 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
       return false;
     }
 
+<<<<<<< Updated upstream
     // Check if customer already booked this room
     if (findBookedRoom(roomID) != nullptr) {
       std::cout << "You have already booked room " << roomID << std::endl;
@@ -129,6 +148,36 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
         roomPrice = 80.0;  // Single Normal
       }
     }
+=======
+  // Book the room
+  if (foundRoom->book(name, checkin_date, checkout_date)) {
+    // Tạo current booking
+    current_booking currentBooking;
+    currentBooking.roomID = roomID;
+    currentBooking.roomPtr = foundRoom;
+    currentBooking.checkin = checkin_date;
+    currentBooking.checkout = checkout_date;
+
+    // Tính toán chi phí
+    int nights = calculateNightStays(checkin_date, checkout_date);
+    currentBooking.bill = nights * foundRoom->checkPrice();
+
+    // Thêm vào danh sách current bookings
+    currentBookings.push_back(currentBooking);
+
+    // Tạo booking record mới
+    booking_record record;
+    record.roomID = roomID;
+    record.roomTypeName = foundRoom->getTypeName();
+    record.checkin = checkin_date;
+    record.checkout = checkout_date;
+    record.totalCost = currentBooking.bill;
+    record.isPaid = false;
+    record.status = "Current";
+
+    // Lấy ngày hiện tại (đơn giản hóa)
+    record.bookingDate = {1, 1, 2024};
+>>>>>>> Stashed changes
 
     int bill = static_cast<int>(roomPrice * nights);
 
@@ -180,6 +229,7 @@ void customer::viewAvailableRooms(hotel &h) {
   std::cout << "======================" << std::endl;
 }
 
+<<<<<<< Updated upstream
 // Cancel room booking - now requires room ID
 bool customer::cancelRoom(std::string roomID) {
   try {
@@ -210,12 +260,65 @@ bool customer::cancelRoom(std::string roomID) {
     std::cout << "Error cancelling room: " << e.what() << std::endl;
     return false;
   }
+=======
+// Cancel room booking by roomID
+bool customer::cancelRoom(std::string roomID) {
+  for (auto it = currentBookings.begin(); it != currentBookings.end(); ++it) {
+    if (it->roomID == roomID) {
+      // Cập nhật trạng thái trong lịch sử
+      updateBookingStatus(roomID, it->checkin, "Cancelled");
+
+      // Cancel room
+      if (it->roomPtr->cancel(name)) {
+        // Remove from current bookings
+        currentBookings.erase(it);
+        std::cout << "Room " << roomID << " cancelled successfully!\n";
+        return true;
+      }
+      break;
+    }
+  }
+
+  std::cout << "Room " << roomID << " not found in current bookings!\n";
+  return false;
+>>>>>>> Stashed changes
+}
+
+void customer::showCurrentBookings() {
+  std::cout << "\n=== CURRENT BOOKINGS FOR " << name << " ===\n";
+  std::cout << std::string(70, '=') << std::endl;
+
+  if (currentBookings.empty()) {
+    std::cout << "No current bookings found.\n";
+    return;
+  }
+
+  std::cout << std::left << std::setw(10) << "Room ID" << std::setw(12)
+            << "Check-in" << std::setw(12) << "Check-out" << std::setw(10)
+            << "Bill" << std::endl;
+  std::cout << std::string(70, '-') << std::endl;
+
+  for (const auto &booking : currentBookings) {
+    std::cout << std::left << std::setw(10) << booking.roomID << std::setw(12)
+              << (std::to_string(booking.checkin.day) + "/" +
+                  std::to_string(booking.checkin.month) + "/" +
+                  std::to_string(booking.checkin.year))
+              << std::setw(12)
+              << (std::to_string(booking.checkout.day) + "/" +
+                  std::to_string(booking.checkout.month) + "/" +
+                  std::to_string(booking.checkout.year))
+              << std::setw(10) << ("$" + std::to_string(booking.bill))
+              << std::endl;
+  }
+  std::cout << std::string(70, '=') << std::endl;
+  std::cout << "Total Bill: $" << getTotalBill() << std::endl;
 }
 
 void customer::showBill() {
   std::cout << "=== Bills for " << name << " ===" << std::endl;
   std::cout << "Customer ID: " << id << std::endl;
 
+<<<<<<< Updated upstream
   if (bookedRooms.empty()) {
     std::cout << "No rooms booked." << std::endl;
   } else {
@@ -294,6 +397,93 @@ bool customer::payBill(std::string roomID) {
     std::cout << "Payment cancelled." << std::endl;
     return false;
   }
+=======
+  if (currentBookings.empty()) {
+    std::cout << "No current bookings found.\n";
+    std::cout << "Total Amount: $0" << std::endl;
+    std::cout << "=========================" << std::endl;
+    return;
+  }
+
+  std::cout << "\nCurrent Bookings:\n";
+  for (const auto &booking : currentBookings) {
+    std::cout << "Room " << booking.roomID << ": ";
+    std::cout << booking.checkin.day << "/" << booking.checkin.month << "/"
+              << booking.checkin.year;
+    std::cout << " to " << booking.checkout.day << "/" << booking.checkout.month
+              << "/" << booking.checkout.year;
+    std::cout << " - $" << booking.bill << std::endl;
+  }
+
+  int totalBill = getTotalBill();
+  if (discount > 0) {
+    int originalBill = totalBill * 100 / (100 - discount);
+    std::cout << "\nOriginal Amount: $" << originalBill << std::endl;
+    std::cout << "Discount applied: " << discount << "%" << std::endl;
+    std::cout << "Discount amount: $" << (originalBill - totalBill)
+              << std::endl;
+  }
+
+  std::cout << "\nTotal Amount: $" << totalBill << std::endl;
+  std::cout << "=========================" << std::endl;
+}
+
+bool customer::payBill(std::string roomID) {
+  // Find the specific booking
+  for (auto it = currentBookings.begin(); it != currentBookings.end(); ++it) {
+    if (it->roomID == roomID) {
+      int billAmount = it->bill;
+
+      // Apply discount if any
+      if (discount > 0) {
+        billAmount = billAmount * (100 - discount) / 100;
+      }
+
+      std::cout << "Processing payment of $" << billAmount << " for room "
+                << roomID << std::endl;
+
+      char confirm;
+      std::cout << "Confirm payment? (y/n): ";
+      std::cin >> confirm;
+
+      if (confirm == 'y' || confirm == 'Y') {
+        std::cout << "Payment successful!" << std::endl;
+        std::cout << "Receipt generated for $" << billAmount << std::endl;
+
+        std::cout << "\n=== PAYMENT RECEIPT ===" << std::endl;
+        std::cout << "Customer: " << name << std::endl;
+        std::cout << "Customer ID: " << id << std::endl;
+        std::cout << "Room ID: " << roomID << std::endl;
+        std::cout << "Amount Paid: $" << billAmount << std::endl;
+        std::cout << "Payment Date: " << __DATE__ << std::endl;
+        std::cout << "Status: PAID" << std::endl;
+        std::cout << "======================" << std::endl;
+
+        // Update booking history to paid
+        for (auto &record : bookingHistory) {
+          if (record.roomID == roomID && record.status == "Current") {
+            record.isPaid = true;
+            record.status = "Completed";
+            break;
+          }
+        }
+
+        // Unlock room and remove from current bookings
+        it->roomPtr->unlockRoom();
+        currentBookings.erase(it);
+
+        return true;
+      } else {
+        std::cout << "Payment cancelled." << std::endl;
+        return false;
+      }
+    }
+  }
+
+  std::cout << "Room " << roomID << " not found in current bookings!"
+            << std::endl;
+  return false;
+>>>>>>> Stashed changes
 }
 
 void customer::viewBookedRooms() {
@@ -333,10 +523,27 @@ void customer::setDiscount(int new_discount) {
 
 int customer::getTotalBill() const {
   int total = 0;
+<<<<<<< Updated upstream
   for (const auto &booking : bookedRooms) {
     total += booking.bill;
   }
   return total;
+=======
+  for (const auto &booking : currentBookings) {
+    total += booking.bill;
+  }
+
+  // Apply discount if any
+  if (discount > 0) {
+    total = total * (100 - discount) / 100;
+  }
+
+  return total;
+}
+
+std::vector<current_booking> customer::getCurrentBookings() const {
+  return currentBookings;
+>>>>>>> Stashed changes
 }
 
 BookedRoom *customer::findBookedRoom(std::string roomID) {
@@ -351,6 +558,7 @@ BookedRoom *customer::findBookedRoom(std::string roomID) {
 // Updated save/load functions
 void customer::saveToFile(std::ofstream &out) {
   out << name << "," << phone << "," << email << "," << id << "," << discount
+<<<<<<< Updated upstream
       << "," << bookedRooms.size() << ",";
 
   // Save each booked room
@@ -361,17 +569,37 @@ void customer::saveToFile(std::ofstream &out) {
         << booking.checkout.year << "," << booking.bill << ","
         << booking.nightStays << ",";
   }
+=======
+      << ",";
+
+  // Save number of current bookings
+  out << currentBookings.size() << ",";
+
+  // Save each current booking
+  for (const auto &booking : currentBookings) {
+    out << booking.roomID << "," << booking.checkin.day << ","
+        << booking.checkin.month << "," << booking.checkin.year << ","
+        << booking.checkout.day << "," << booking.checkout.month << ","
+        << booking.checkout.year << "," << booking.bill << ",";
+  }
+
+>>>>>>> Stashed changes
   out << "\n";
 }
 
 void customer::loadFromFile(std::ifstream &in, hotel &h) {
+<<<<<<< Updated upstream
   std::string idStr, discountStr, numRoomsStr;
+=======
+  std::string idStr, discountStr, bookingsCountStr;
+>>>>>>> Stashed changes
 
   std::getline(in, name, ',');
   std::getline(in, phone, ',');
   std::getline(in, email, ',');
   std::getline(in, idStr, ',');
   std::getline(in, discountStr, ',');
+<<<<<<< Updated upstream
   std::getline(in, numRoomsStr, ',');
 
   id = std::stoi(idStr);
@@ -411,6 +639,49 @@ void customer::loadFromFile(std::ifstream &in, hotel &h) {
       }
     } catch (...) {
       // Skip this booking if room not found
+=======
+  std::getline(in, bookingsCountStr, ',');
+
+  id = std::stoi(idStr);
+  discount = std::stoi(discountStr);
+  int bookingsCount = std::stoi(bookingsCountStr);
+
+  // Load current bookings
+  currentBookings.clear();
+  for (int i = 0; i < bookingsCount; ++i) {
+    std::string roomID, checkinDay, checkinMonth, checkinYear;
+    std::string checkoutDay, checkoutMonth, checkoutYear, billStr;
+
+    std::getline(in, roomID, ',');
+    std::getline(in, checkinDay, ',');
+    std::getline(in, checkinMonth, ',');
+    std::getline(in, checkinYear, ',');
+    std::getline(in, checkoutDay, ',');
+    std::getline(in, checkoutMonth, ',');
+    std::getline(in, checkoutYear, ',');
+
+    if (i == bookingsCount - 1) {
+      std::getline(in, billStr);  // Last one doesn't have comma
+    } else {
+      std::getline(in, billStr, ',');
+    }
+
+    current_booking booking;
+    booking.roomID = roomID;
+    booking.checkin = {std::stoi(checkinDay), std::stoi(checkinMonth),
+                       std::stoi(checkinYear)};
+    booking.checkout = {std::stoi(checkoutDay), std::stoi(checkoutMonth),
+                        std::stoi(checkoutYear)};
+    booking.bill = std::stoi(billStr);
+
+    try {
+      booking.roomPtr = h.findRoomByNumber(roomID);
+      if (booking.roomPtr) {
+        currentBookings.push_back(booking);
+      }
+    } catch (...) {
+      // Skip if room not found
+>>>>>>> Stashed changes
     }
   }
 }
