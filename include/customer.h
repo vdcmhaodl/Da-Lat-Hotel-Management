@@ -3,6 +3,7 @@
 #include "person.h"
 #include "hotel.h"
 #include <vector>
+#include <sstream>
 
 // Struct để lưu thông tin booking history
 struct booking_record {
@@ -16,22 +17,28 @@ struct booking_record {
   std::string status;  // "Completed", "Cancelled", "Current"
 };
 
+// Struct để lưu thông tin phòng hiện tại đang book
+struct current_booking {
+  std::string roomID;
+  room *roomPtr;
+  date checkin;
+  date checkout;
+  int bill;
+};
+
 class customer : public person {
   friend class manager;
 
  private:
   int discount = 0;
-  int bill = 0;
 
-  // date for booking
-  date checkin;
-  date checkout;
-  room *roomStay = nullptr;
+  // Vector lưu các phòng đang được book
+  std::vector<current_booking> currentBookings;
 
   // Lịch sử booking của customer
   std::vector<booking_record> bookingHistory;
 
-  int calculateNightStays();
+  int calculateNightStays(date checkin, date checkout);
 
  public:
   customer();
@@ -39,8 +46,6 @@ class customer : public person {
   customer(std::string name, std::string phone, std::string email, int id);
   customer &operator=(const customer &other);
 
-  void setCheckinDate(date checkin_date);
-  void setCheckoutDate(date checkout_date);
   void showInfo() override;
   std::string getName() override;
   int getID() const override;
@@ -49,9 +54,10 @@ class customer : public person {
   bool bookRoom(hotel &h, std::string roomID, date checkin_date,
                 date checkout_date);
   void viewAvailableRooms(hotel &h);
-  bool cancelRoom();
+  bool cancelRoom(std::string roomID);
   void showBill();
-  bool payBill();
+  bool payBill(std::string roomID);
+  void showCurrentBookings();
 
   // Booking history methods
   void addBookingRecord(const booking_record &record);
@@ -63,8 +69,8 @@ class customer : public person {
   // Additional utility methods
   int getDiscount() const;
   void setDiscount(int new_discount);
-  int getBill() const;
-  void setBill(int amount);
+  int getTotalBill() const;
+  std::vector<current_booking> getCurrentBookings() const;
 
   void saveToFile(std::ofstream &out);
   void loadFromFile(std::ifstream &in, hotel &h);
