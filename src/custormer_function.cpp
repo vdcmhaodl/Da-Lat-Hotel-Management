@@ -14,8 +14,8 @@ customer::customer() : person() {
 
 // Parameterized constructor
 customer::customer(std::string name, std::string phone, std::string email,
-                   int id)
-    : person(name, phone, email, id) {
+                   int id, bool gender)
+    : person(name, phone, email, id, gender) {
   discount = 0;
   bill = 0;
   // Initialize dates to default values
@@ -204,11 +204,11 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
   return false;
 }
 // View available rooms in the hotel
-void customer::viewAvailableRooms(hotel &h) {
-  std::cout << "=== Available Rooms ===" << std::endl;
+void customer::viewAllRooms(hotel &h) {
+  std::cout << "=== All Rooms ===" << std::endl;
 
   try {
-    h.displayAllAvailableRooms();
+    h.displayAllRooms();
   } catch (const std::exception &e) {
     std::cout << "Error displaying available rooms: " << e.what() << std::endl;
   }
@@ -248,15 +248,13 @@ void customer::showBill() {
     std::cout << "Number of nights: " << calculateNightStays() << std::endl;
   }
 
-  if (discount > 0) {
     int originalBill = bill;
-    if (discount < 100) originalBill = bill * 100 / (100 - discount);
     std::cout << "Original Amount: $" << originalBill << std::endl;
+    originalBill = bill * (100 - discount) / 100;
     std::cout << "Discount applied: " << discount << "%" << std::endl;
-    std::cout << "Discount amount: $" << (originalBill - bill) << std::endl;
-  }
+    std::cout << "Discount amount: $" << (bill - originalBill) << std::endl;
 
-  std::cout << "Total Amount: $" << bill << std::endl;
+  std::cout << "Total Amount: $" << originalBill << std::endl;
   std::cout << "=========================" << std::endl;
 }
 
@@ -320,7 +318,7 @@ void customer::setBill(int amount) {
 
 // customer.cpp
 void customer::saveToFile(std::ofstream &out) {
-  out << name << "," << phone << "," << email << "," << id << "," << discount
+  out << name << "," << phone << "," << email << "," << gender << "," << password << "," << id << "," << discount
       << "," << bill << "," << checkin.day << "," << checkin.month << ","
       << checkin.year << "," << checkout.day << "," << checkout.month << ","
       << checkout.year << "," << (roomStay ? roomStay->getID() : "None")
@@ -328,7 +326,7 @@ void customer::saveToFile(std::ofstream &out) {
 }
 
 void customer::loadFromFile(std::ifstream &in, hotel &h) {
-  std::string idStr, discountStr, billStr;
+  std::string idStr, gen, discountStr, billStr;
   std::string checkinDay, checkinMonth, checkinYear;
   std::string checkoutDay, checkoutMonth, checkoutYear;
   std::string roomID;
@@ -336,6 +334,8 @@ void customer::loadFromFile(std::ifstream &in, hotel &h) {
   std::getline(in, name, ',');
   std::getline(in, phone, ',');
   std::getline(in, email, ',');
+  std::getline(in, gen, ',');
+  std::getline(in, password, ',');
   std::getline(in, idStr, ',');
   std::getline(in, discountStr, ',');
   std::getline(in, billStr, ',');
@@ -347,6 +347,7 @@ void customer::loadFromFile(std::ifstream &in, hotel &h) {
   std::getline(in, checkoutYear, ',');
   std::getline(in, roomID);
 
+  gender = (gen == "1" || gen == "true");
   id = std::stoi(idStr);
   discount = std::stoi(discountStr);
   bill = std::stoi(billStr);

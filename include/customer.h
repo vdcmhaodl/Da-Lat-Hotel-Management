@@ -36,7 +36,7 @@ class customer : public person {
  public:
   customer();
   virtual ~customer() = default;
-  customer(std::string name, std::string phone, std::string email, int id);
+  customer(std::string name, std::string phone, std::string email, int id, bool gender);
   customer &operator=(const customer &other);
 
   void setCheckinDate(date checkin_date);
@@ -48,7 +48,7 @@ class customer : public person {
   // New methods for hotel booking functionality
   bool bookRoom(hotel &h, std::string roomID, date checkin_date,
                 date checkout_date);
-  void viewAvailableRooms(hotel &h);
+  void viewAllRooms(hotel &h);
   bool cancelRoom();
   void showBill();
   bool payBill();

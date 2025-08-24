@@ -22,7 +22,11 @@ void HotelManagementSystem::hireEmployee()
 
   std::cout << "Enter employee's email: ";
   std::cin >> email;
-  m.add(new employee(name, phone, email, 1, ++nextEmployeeId));
+
+  std::cout << "Enter employee's gender: ";
+  std::string genderInput;
+  std::cin >> genderInput;
+  m.add(new employee(name, phone, email, ++nextEmployeeId, (genderInput == "Male") ? 1 : 0, 0.0));
   std::cout << "Hire employee successfully\n";
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }
@@ -43,8 +47,12 @@ customer *HotelManagementSystem::addCustomer()
   std::cout << "Enter customer's email: ";
   std::cin >> email;
 
+  std::cout << "Enter customer's gender: ";
+  std::string genderInput;
+  std::cin >> genderInput;
+
   // Create a new customer object with a unique ID
-  customer *newCustomer = new customer(name, phone, email, ++nextCustomerId);
+  customer *newCustomer = new customer(name, phone, email, ++nextCustomerId, (genderInput == "Male") ? 1 : 0);
   listOfCustormer.push_back(newCustomer);
 
   std::cout << "Customer " << newCustomer->getName() << " added with ID "
@@ -128,6 +136,15 @@ void HotelManagementSystem::bookRoom(customer *cus)
 }
 
 void HotelManagementSystem::showRoom() { h.displayAllRooms(); }
+
+void HotelManagementSystem::showRoomByID(std::string ID)
+{
+  room* temp = h.findRoomByNumber(ID);
+  if(temp == nullptr) return;
+  std::cout << "Room Type: " << temp->getTypeName() << '\n';
+  temp->displayFurniture();
+  temp->displayItem();
+}
 
 void HotelManagementSystem::removeRoom()
 {

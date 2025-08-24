@@ -57,6 +57,8 @@ public:
     std::vector<room> sortFloorRoomByPrice(int flr, bool ascend);
     std::vector<floor_> sortRoomsByPrice(bool ascend);
     std::vector<floor_> sortAvailableRoomByPrice(bool ascend);
+    void saveToFile(std::ofstream &out);
+    void loadFromFile(std::istream &in);
 };
 
 bool cmp(room a, room b);

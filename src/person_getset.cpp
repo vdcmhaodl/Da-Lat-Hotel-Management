@@ -23,3 +23,13 @@ bool person::setEmail(std::string email)
 std::string person::getName() { 
     return name;
 }
+
+void person::setGender(bool gender)
+{
+    this->gender = gender;
+}
+    
+void person::setPassword(std::string password)
+{
+    this->password = password;
+}

@@ -78,6 +78,9 @@ public:
   void displayBookingHistory();
   void displayBookingQueue();
   int getRoomTypeNumber();
+
+  void displayFurniture();
+  void displayItem();
   
   void lockRoom();
   void unlockRoom();

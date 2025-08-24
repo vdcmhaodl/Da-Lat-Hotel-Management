@@ -23,7 +23,7 @@ class employee : public person {
  public:
   employee();
   employee(const std::string name, const std::string phone,
-           const std::string email, const int id, double salary);
+           const std::string email, const int id, const bool gender, double salary);
   virtual ~employee() = default;
 
   void showInfo() override;

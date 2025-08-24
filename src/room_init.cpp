@@ -56,7 +56,7 @@ room::room(std::string roomNumber, double pricePerNight)
     case 7: case 8:
         director.construct(&construct4);
         item_director.construct(&item_construct1);
-        if(type == 6) this->typeName = "Double VIP room with city view";
+        if(type == 7) this->typeName = "Double VIP room with city view";
         else this->typeName = "Double VIP room with nature view";
         this->roomType = director.getResult(&construct4);
         this->item = item_director.getResult(&item_construct1);

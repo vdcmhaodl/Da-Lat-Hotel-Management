@@ -127,6 +127,34 @@ void room::displayInfo()
             << ((this->isAvailable()) ? "Available" : "Not available") << '\n';
 }
 
+void room::displayFurniture()
+{
+    std::cout << "----Room " << this->ID << "'s furnitures----\n";
+    room_basic* temp = this->roomType;
+    if(this->roomType->getSingle_beds() != 0) std::cout << "Single beds: " << temp->getSingle_beds() << '\n';
+    else std::cout << "Large beds: " << temp->getLarge_beds() << '\n';
+    std::cout << "Bathrooms: " << temp->getBathrooms() << '\n';
+    if(temp->getBath()) std::cout << "Room has bath\n";
+    else std::cout << "Room does not have bath\n";
+    std::cout << "TV: " << temp->getTV();
+    if(temp->getBalcol()) std::cout << "Room has balcony\n";
+    else std::cout << "Room does not have balcony\n";
+    if(temp->getLoving_chair()) std::cout << "Room have loving chair\n";
+    else std::cout << "Room does not have loving chair\n";
+    std::cout << "Room have fridge\n";
+    std::cout << "Rooms: " << temp->getRooms() << '\n';
+}
+
+void room::displayItem()
+{
+    room_item *temp = this->item;
+    std::cout << "----Room " << this->ID << "'s items---- \n";
+    std::cout << "Towels: " << temp->getTowel() << '\n';
+    std::cout << "Sleep dresses: " << temp->getSleep_dress() << '\n';
+    std::cout << "Sandals: " << temp->getSandals() << '\n';
+    std::cout << "Hair dryers: " << temp->getHair_dryer() << '\n';
+}
+
 void room::updatePrice(double price) { this->pricePerNight = price; }
 
 std::string room::getID() const { return this->ID; }
