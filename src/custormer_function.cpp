@@ -208,6 +208,7 @@ bool customer::cancelRoom(std::string roomID) {
       if (it->roomPtr->cancel(name)) {
         // Remove from current bookings
         currentBookings.erase(it);
+        it->roomPtr->unlockRoom();  // Unlock the room
         std::cout << "Room " << roomID << " cancelled successfully!\n";
         return true;
       }
@@ -326,7 +327,7 @@ bool customer::payBill(std::string roomID) {
         // Unlock room and remove from current bookings
         it->roomPtr->unlockRoom();
         currentBookings.erase(it);
-
+        discount = 0;  // Reset discount after payment
         return true;
       } else {
         std::cout << "Payment cancelled." << std::endl;

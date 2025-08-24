@@ -95,4 +95,5 @@ class room {
   // loading and saving
   void loadFromFile(std::istream &in);
   void saveToFile(std::ofstream &out);
+  void reinitializeRoomType();
 };
