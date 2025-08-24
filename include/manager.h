@@ -1,27 +1,21 @@
 #pragma once
-
 #include "employee.h"
 #include <vector>
 #include <iomanip>
 #include <fstream>
-
-// Forward declaration
-class HotelManagementSystem;
 
 class manager : public employee {
  private:
   std::vector<IPerson*> ListOfEmployees;
 
  public:
-  // mananager_init
   manager();
   manager(const std::string name, const std::string phone,
           const std::string email, const int id, double salary);
   virtual ~manager() = default;
 
-  // manager_fucntio
-  void add(IPerson* person);  // hireEmployee
-  void remove(int id);        // fireEmployee
+  void add(IPerson* person);
+  void remove(int id);
   void viewEmployeeList();
   void updateEmployeePosition(int id, const std::string& newPosition);
   void generateReport();
@@ -39,7 +33,6 @@ class manager : public employee {
 
   void saveToFile(std::ofstream& out);
   void loadFromFile(std::ifstream& in);
-
   void saveEmployeesToFile(std::ofstream& out);
   void loadEmployeesFromFile(std::ifstream& in);
 };

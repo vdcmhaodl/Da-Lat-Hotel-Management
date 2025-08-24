@@ -1,25 +1,20 @@
 #pragma once
-
 #include "person.h"
 #include "customer.h"
 #include "room.h"
 #include <vector>
 #include <iomanip>
 
-// Forward declaration
-class HotelManagementSystem;
-
 class employee : public person {
   friend class manager;
 
  private:
-  std::string position;
-
+  std::string position = "Employee";  // Default position
  protected:
-  double salary;
-  void updatePosition(
-      const std::string &
-          newPosition);  // Only Manager can update position (the derived class)
+  double salary = 0.0;  // Initialize to prevent garbage values
+
+  void updatePosition(const std::string &newPosition);
+
  public:
   employee();
   employee(const std::string name, const std::string phone,
@@ -29,6 +24,9 @@ class employee : public person {
   void showInfo() override;
   std::string getName() override;
   int getID() const override;
+
+  // Setter with validation
+  void setSalary(double sal);
 
   void giveDiscount(customer &c, int percent);
   void lockRoom(hotel &h, std::string id);

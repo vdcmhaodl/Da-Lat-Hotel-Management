@@ -9,14 +9,19 @@ class HotelManagementSystem {
   hotel h;
   manager m;
   std::vector<customer *> listOfCustormer;
-  int nextCustomerId = 24127000;  // Counter for assigning unique customer IDs
-  int nextEmployeeId = 0; 
+  int nextCustomerId = 24127000;  // Safe default value
+  int nextEmployeeId = 1;         // Start from 1, not 0
 
  public:
   HotelManagementSystem(int floor, const std::string name,
                         const std::string phone, const std::string email,
                         const int id, double salary, const std::string position)
-      : h(floor), m(name, phone, email, id, salary) {};
+      : h(floor), m(name, phone, email, id, salary) {
+    // Validate constructor parameters
+    if (floor < 1) h = hotel(1);  // At least 1 floor
+    nextCustomerId = (nextCustomerId < 24127000) ? 24127000 : nextCustomerId;
+    nextEmployeeId = (nextEmployeeId < 1) ? 1 : nextEmployeeId;
+  };
   ~HotelManagementSystem();
 
   // Manage people
@@ -29,14 +34,12 @@ class HotelManagementSystem {
 
   // Manage Room
   void addRoom(int flr, int type);
-  // Function to remove a customer by their ID
   void removeCustomer(int id);
   void showCustomer();
   void bookRoom(customer *cus);
   void showRoom();
   void removeRoom();
 
-  // HotelManagementSystem.h
   manager &getManager();
   hotel &getHotel();
   bool isEmployee(int id);
@@ -44,16 +47,19 @@ class HotelManagementSystem {
   void giveDiscountToCustomer(int custId, int percent);
 
   // Booking history methods
-  void viewAllBookingHistory();                     // For manager/employee
-  void viewCustomerBookingHistory(int customerId);  // For specific customer
-  std::vector<customer *> getAllCustomers() const;  // Helper method
+  void viewAllBookingHistory();
+  void viewCustomerBookingHistory(int customerId);
+  std::vector<customer *> getAllCustomers() const;
 
   // Helper methods for booking operations
   void addBookingRecord(customer *cust, const booking_record &record);
   void updateCustomerBookingStatus(int customerId, std::string roomID,
                                    date checkin, std::string status);
 
-  // load save system
+  // Save/load with validation
   void saveSystemState();
   void loadSystemState();
+
+ private:
+  void loadOldFormat(std::ifstream &inFile);  // For backward compatibility
 };

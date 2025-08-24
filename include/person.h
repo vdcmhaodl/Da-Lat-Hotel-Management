@@ -1,57 +1,39 @@
 #pragma once
 #include "person_interface.h"
+#include "room.h"
 #include <string>
-#include <string.h>
-#include <room.h>
 
-// FROM information of room.h
-
-// END HERE
-
-enum class Role
-{
-    None,
-    Customer,
-    Employee,
-    Manager
+// Fixed enum with explicit positive values
+enum class Role {
+  None = 0,      // Explicitly set to 0
+  Customer = 1,  // Explicitly set to 1
+  Employee = 2,  // Explicitly set to 2
+  Manager = 3    // Explicitly set to 3
 };
 
-class person: public IPerson
-{
-protected:
-    // basic information
-    std::string name;
-    std::string phone;
-    std::string email;  
-    int id;
-   // Role role;
-public:
+class person : public IPerson {
+ protected:
+  std::string name = "";
+  std::string phone = "";
+  std::string email = "";
+  int id = 0;  // Initialize to prevent garbage values
+ public:
+  person();
+  virtual ~person() = default;
+  person(std::string name, std::string phone, std::string email, int id);
+  person& operator=(const person& other);
 
-    // basic constructors 
-    person(); 
-    virtual ~person() = default;
-    person(std::string name, std::string phone, std::string email, int id);
-    person& operator=(const person &other);
+  // Getters
+  std::string getPhone();
+  std::string getEmail();
+  int getID() const override;
 
-    // getters
-    std::string getPhone();
-    std::string getEmail(); 
-    int getID() const override;
+  // Setters with validation
+  void setName(std::string name);
+  bool setPhone(std::string phone);
+  bool setEmail(std::string email);
+  void setID(int ID);  // Prevent negative IDs
 
-    // setters
-    void setName(std::string name);
-    bool setPhone(std::string phone);
-    bool setEmail(std::string email);
-    void setID(int ID);
-
-    void showInfo() override;
-    //std::string getPosition() override;
-    std::string getName() override;
-
-    // Wait for class Room to complete
-    // void viewRoomInfo(std::string id, hotel& h);
-    // void viewAvailableRoom(hotel& h);
-    // bool editPersonalInfo(std::string name, std::string phone, std::string email);
-    // bool bookRoom(std::string id, hotel& h, date checkin, date checkout);
-    // bool cancelRoom(room &a);
+  void showInfo() override;
+  std::string getName() override;
 };

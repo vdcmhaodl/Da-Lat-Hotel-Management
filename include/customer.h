@@ -1,41 +1,45 @@
 #pragma once
-
 #include "person.h"
 #include "hotel.h"
 #include <vector>
 #include <sstream>
 
-// Struct để lưu thông tin booking history
 struct booking_record {
-  std::string roomID;
-  std::string roomTypeName;
+  std::string roomID = "";
+  std::string roomTypeName = "";
   date checkin;
   date checkout;
-  int totalCost;
-  bool isPaid;
-  date bookingDate;    // Ngày đặt phòng
-  std::string status;  // "Completed", "Cancelled", "Current"
+  int totalCost = 0;  // Initialize to prevent garbage values
+  bool isPaid = false;
+  date bookingDate;
+  std::string status = "Current";
+
+  // Constructor with validation
+  booking_record()
+      : checkin(1, 1, 2024), checkout(1, 1, 2024), bookingDate(1, 1, 2024) {
+    totalCost = (totalCost < 0) ? 0 : totalCost;
+  }
 };
 
-// Struct để lưu thông tin phòng hiện tại đang book
 struct current_booking {
-  std::string roomID;
-  room *roomPtr;
+  std::string roomID = "";
+  room *roomPtr = nullptr;
   date checkin;
   date checkout;
-  int bill;
+  int bill = 0;  // Initialize to prevent garbage values
+
+  // Constructor with validation
+  current_booking() : checkin(1, 1, 2024), checkout(1, 1, 2024) {
+    bill = (bill < 0) ? 0 : bill;
+  }
 };
 
 class customer : public person {
   friend class manager;
 
  private:
-  int discount = 0;
-
-  // Vector lưu các phòng đang được book
+  int discount = 0;  // Initialize to prevent garbage values
   std::vector<current_booking> currentBookings;
-
-  // Lịch sử booking của customer
   std::vector<booking_record> bookingHistory;
 
   int calculateNightStays(date checkin, date checkout);
@@ -50,7 +54,7 @@ class customer : public person {
   std::string getName() override;
   int getID() const override;
 
-  // New methods for hotel booking functionality
+  // Booking methods
   bool bookRoom(hotel &h, std::string roomID, date checkin_date,
                 date checkout_date);
   void viewAvailableRooms(hotel &h);
@@ -61,12 +65,12 @@ class customer : public person {
 
   // Booking history methods
   void addBookingRecord(const booking_record &record);
-  void viewMyBookingHistory();  // Customer xem lịch sử của chính mình
+  void viewMyBookingHistory();
   std::vector<booking_record> getBookingHistory() const;
   void updateBookingStatus(std::string roomID, date checkin,
                            std::string newStatus);
 
-  // Additional utility methods
+  // Utility methods with validation
   int getDiscount() const;
   void setDiscount(int new_discount);
   int getTotalBill() const;

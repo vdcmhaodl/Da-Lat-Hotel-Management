@@ -10,25 +10,40 @@
 #include "room_concrete.h"
 #include "room_item.h"
 
-enum status { in, out };
+enum status {
+  in = 0,  // Explicitly set to 0
+  out = 1  // Explicitly set to 1
+};
 
 struct service {
   std::string name;
-  double cost;
+  double cost = 0.0;  // Initialize to prevent garbage values
 };
 
 struct date {
-  int day;
-  int month;
-  int year;
+  int day = 1;      // Default to valid date
+  int month = 1;    // Default to valid month
+  int year = 2024;  // Default to current year
+
+  date() = default;
+  // Constructor with validation
+  date(int d, int m, int y) {
+    day = (d < 1 || d > 31) ? 1 : d;
+    month = (m < 1 || m > 12) ? 1 : m;
+    year = (y < 1900 || y > 2100) ? 2024 : y;
+  }
 };
 
 struct date_satus {
   date Date;
-  status Status;
-  std::string guest;
-};
+  status Status = out;  // Default status
+  std::string guest = "";
 
+  date_satus() = default;  // Constructor mặc định
+
+  date_satus(date d, status s, std::string g)
+      : Date(d), Status(s), guest(std::move(g)) {}
+};
 class room {
   friend class manager;
 

@@ -147,68 +147,77 @@ room::~room() {
 }
 
 void room::construct() {
-  room_director director;
-  room_item_director item_director;
+  std::cout << "DEBUG: room::construct() called for room " << ID << "\n";
+  std::cout << "DEBUG: Room type number: " << typeNum << "\n";
 
-  singleNormalRoom construct1;
-  doubleNormalRoom construct2;
-  singleVipRoom construct3;
-  doubleVipRoom construct4;
+  try {
+    room_director director;
+    room_item_director item_director;
 
-  singleRoomItem item_construct1;
-  doubleRoomItem item_construct2;
+    singleNormalRoom construct1;
+    doubleNormalRoom construct2;
+    singleVipRoom construct3;
+    doubleVipRoom construct4;
 
-  int type = typeNum;
+    singleRoomItem item_construct1;
+    doubleRoomItem item_construct2;
 
-  switch (type) {
-    case 1:
-    case 2:
-      director.construct(&construct1);
-      item_director.construct(&item_construct1);
-      if (type == 1)
-        this->typeName = "Single normal room with city view";
-      else
-        this->typeName = "Single normal room with nature view";
-      this->roomType = director.getResult(&construct1);
-      this->item = item_director.getResult(&item_construct1);
-      break;
-    case 3:
-    case 4:
-      director.construct(&construct2);
-      item_director.construct(&item_construct2);
-      if (type == 3)
-        this->typeName = "Double normal room with city view";
-      else
-        this->typeName = "Double normal room with nature view";
-      this->roomType = director.getResult(&construct2);
-      this->item = item_director.getResult(&item_construct2);
-      break;
+    int type = typeNum;
 
-    case 5:
-    case 6:
-      director.construct(&construct3);
-      item_director.construct(&item_construct2);
-      if (type == 5)
-        this->typeName = "Single VIP room with city view";
-      else
-        this->typeName = "Single VIP room with nature view";
-      this->roomType = director.getResult(&construct3);
-      this->item = item_director.getResult(&item_construct2);
-      break;
+    switch (type) {
+      case 1:
+      case 2:
+        director.construct(&construct1);
+        item_director.construct(&item_construct1);
+        if (type == 1)
+          this->typeName = "Single normal room with city view";
+        else
+          this->typeName = "Single normal room with nature view";
+        this->roomType = director.getResult(&construct1);
+        this->item = item_director.getResult(&item_construct1);
+        break;
+      case 3:
+      case 4:
+        director.construct(&construct2);
+        item_director.construct(&item_construct2);
+        if (type == 3)
+          this->typeName = "Double normal room with city view";
+        else
+          this->typeName = "Double normal room with nature view";
+        this->roomType = director.getResult(&construct2);
+        this->item = item_director.getResult(&item_construct2);
+        break;
 
-    case 7:
-    case 8:
-      director.construct(&construct4);
-      item_director.construct(&item_construct1);
-      if (type == 6)
-        this->typeName = "Double VIP room with city view";
-      else
-        this->typeName = "Double VIP room with nature view";
-      this->roomType = director.getResult(&construct4);
-      this->item = item_director.getResult(&item_construct1);
-      break;
-    default:
-      break;
+      case 5:
+      case 6:
+        director.construct(&construct3);
+        item_director.construct(&item_construct2);
+        if (type == 5)
+          this->typeName = "Single VIP room with city view";
+        else
+          this->typeName = "Single VIP room with nature view";
+        this->roomType = director.getResult(&construct3);
+        this->item = item_director.getResult(&item_construct2);
+        break;
+
+      case 7:
+      case 8:
+        director.construct(&construct4);
+        item_director.construct(&item_construct1);
+        if (type == 6)
+          this->typeName = "Double VIP room with city view";
+        else
+          this->typeName = "Double VIP room with nature view";
+        this->roomType = director.getResult(&construct4);
+        this->item = item_director.getResult(&item_construct1);
+        break;
+      default:
+        break;
+    }
+    std::cout << "DEBUG: room::construct() completed successfully\n";
+  } catch (const std::exception& e) {
+    std::cout << "DEBUG: Error in room::construct(): " << e.what() << "\n";
+    throw;
   }
 }
 

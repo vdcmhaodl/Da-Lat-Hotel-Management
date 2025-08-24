@@ -108,40 +108,93 @@ void hotel::addRoomToFloor(int flr, room& r) {
 std::vector<floor_> hotel::getFloors() const { return Floor; }
 
 void hotel::saveToFile(std::ofstream& out) {
+  std::cout << "DEBUG: Saving hotel with " << num_floor << " floors\n";
   out << num_floor << "\n";
 
   for (int i = 0; i < num_floor; i++) {
-    // Save floor info
-    out << Floor[i].getNumRooms() << "\n";
+    std::cout << "DEBUG: Saving floor " << i << "\n";
 
-    // Save all rooms in this floor
+    // Get all rooms from this floor
     std::vector<room> allRooms = Floor[i].findAllRooms();
+    std::cout << "DEBUG: Floor " << i << " has " << allRooms.size()
+              << " rooms\n";
+
+    // Save number of rooms in this floor
+    out << allRooms.size() << "\n";
+
+    // Save each room
     for (const auto& currentRoom : allRooms) {
+      std::cout << "DEBUG: Saving room " << currentRoom.getID() << "\n";
       const_cast<room&>(currentRoom).saveToFile(out);
     }
   }
+  std::cout << "DEBUG: Hotel save completed\n";
 }
 
 void hotel::loadFromFile(std::ifstream& in) {
+  std::cout << "DEBUG: Starting hotel load\n";
+
+  // Clear existing floors
   Floor.clear();
 
-  in >> num_floor;
+  // Read number of floors
+  if (!(in >> num_floor)) {
+    std::cout << "DEBUG: Failed to read num_floor\n";
+    throw std::runtime_error("Failed to read number of floors");
+  }
   in.ignore();  // ignore newline
 
+  std::cout << "DEBUG: Loading hotel with " << num_floor << " floors\n";
+
+  // Initialize floors
   for (int i = 0; i < num_floor; i++) {
-    floor_ newFloor(i);
+    Floor.push_back(floor_(i));
+  }
+
+  // Load each floor
+  for (int i = 0; i < num_floor; i++) {
+    std::cout << "DEBUG: Loading floor " << i << "\n";
 
     int numRooms;
-    in >> numRooms;
+    if (!(in >> numRooms)) {
+      std::cout << "DEBUG: Failed to read numRooms for floor " << i << "\n";
+      throw std::runtime_error("Failed to read number of rooms for floor " +
+                               std::to_string(i));
+    }
     in.ignore();  // ignore newline
 
+    std::cout << "DEBUG: Floor " << i << " should have " << numRooms
+              << " rooms\n";
+
+    // Load each room in this floor
     for (int j = 0; j < numRooms; j++) {
-      room newRoom;
-      newRoom.loadFromFile(in);
-      newRoom.construct();  // Build room features based on type
-      newFloor.addRoom(newRoom);
+      std::cout << "DEBUG: Loading room " << j << " in floor " << i << "\n";
+
+      try {
+        room newRoom;
+        newRoom.loadFromFile(in);
+
+        std::cout << "DEBUG: Room loaded, ID: " << newRoom.getID() << "\n";
+
+        // Construct room features based on type
+        newRoom.construct();
+
+        // Add room to floor - check if addRoom(room&) method exists
+        Floor[i].addRoom(newRoom);
+
+        std::cout << "DEBUG: Room " << newRoom.getID() << " added to floor "
+                  << i << "\n";
+
+      } catch (const std::exception& e) {
+        std::cout << "DEBUG: Error loading room " << j << " in floor " << i
+                  << ": " << e.what() << "\n";
+        throw;
+      }
     }
 
-    Floor.push_back(newFloor);
+    std::cout << "DEBUG: Floor " << i << " loaded with "
+              << Floor[i].getNumRooms() << " rooms\n";
   }
+
+  std::cout << "DEBUG: Hotel load completed\n";
 }
