@@ -337,7 +337,7 @@ void manager::saveEmployeesToFile(std::ofstream& out) {
     if (empPtr) {
       // Save employee data: name,phone,email,id,salary,position
       out << empPtr->getName() << "," << empPtr->getPhone() << ","
-          << empPtr->getEmail() << "," << empPtr->getID() << ","
+          << empPtr->getEmail() << "," << empPtr->getID() << "," << empPtr->getGender() << ","
           << empPtr->salary << "," << empPtr->position << "\n";
     }
   }
@@ -352,6 +352,7 @@ void manager::loadEmployeesFromFile(std::ifstream& in) {
 
   size_t employeeCount;
   in >> employeeCount;
+
   in.ignore();  // ignore newline
 
   for (size_t i = 0; i < employeeCount; ++i) {
@@ -366,16 +367,18 @@ void manager::loadEmployeesFromFile(std::ifstream& in) {
       tokens.push_back(token);
     }
 
-    if (tokens.size() >= 6) {
+    if (tokens.size() >= 7) {
       employee* newEmployee = new employee(tokens[0],             // name
                                            tokens[1],             // phone
                                            tokens[2],             // email
-                                           std::stoi(tokens[3]),  // id
-                                           std::stod(tokens[4])   // salary
+                                           std::stoi(tokens[3]), // id
+                                           std::stoi(tokens[4]),  // gender
+                                           std::stod(tokens[5])   // salary
       );
-      newEmployee->updatePosition(tokens[5]);  // position
+      newEmployee->updatePosition(tokens[6]);  // position
 
       ListOfEmployees.push_back(newEmployee);
     }
   }
+  std::cout << "Loaded " << ListOfEmployees.size() << " employees from file.\n";
 }

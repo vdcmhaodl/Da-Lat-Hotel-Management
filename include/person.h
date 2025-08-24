@@ -17,7 +17,9 @@ protected:
     // basic information
     std::string name = "";
     std::string phone= "";
-    std::string email = "";  
+    std::string email = ""; 
+    std::string password;
+    bool gender; // 1-male, 0-female
     int id = 0;
 
 public:
@@ -25,13 +27,13 @@ public:
     // basic constructors 
     person(); 
     virtual ~person() = default;
-    person(std::string name, std::string phone, std::string email, int id);
+    person(std::string name, std::string phone, std::string email, int id, bool gender);
     person& operator=(const person &other);
 
   // Getters
   std::string getPhone();
   std::string getEmail();
-    std::string getGender();
+    bool getGender();
     std::string getPassword();
   int getID() const override;
 

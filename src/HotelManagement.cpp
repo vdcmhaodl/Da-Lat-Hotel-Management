@@ -19,7 +19,12 @@ void HotelManagementSystem::hireEmployee() {
 
   std::cout << "Enter employee's email: ";
   std::cin >> email;
-  m.add(new employee(name, phone, email, 1, ++nextEmployeeId));
+
+  bool gender;
+  std::cout << "Enter employee's gender (1 for male, 0 for female): ";
+  std::cin >> gender;
+
+  m.add(new employee(name, phone, email, ++nextEmployeeId, gender, 0));
   std::cout << "Hire employee successfully\n";
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }
@@ -27,6 +32,7 @@ void HotelManagementSystem::viewEmployees() { m.viewEmployeeList(); }
 void HotelManagementSystem::addRoom(int flr, int type) { h.addRoom(flr, type); }
 customer *HotelManagementSystem::addCustomer() {
   std::string name, phone, email;
+  bool gender;
 
   std::cin.ignore();
 
@@ -36,11 +42,14 @@ customer *HotelManagementSystem::addCustomer() {
   std::cout << "Enter customer's phone: ";
   std::cin >> phone;
 
+  std::cout << "Enter customer's gender (1 for male, 0 for female): ";
+  std::cin >> gender;
+
   std::cout << "Enter customer's email: ";
   std::cin >> email;
 
   // Create a new customer object with a unique ID
-  customer *newCustomer = new customer(name, phone, email, ++nextCustomerId);
+  customer *newCustomer = new customer(name, phone, email, ++nextCustomerId, gender);
   listOfCustormer.push_back(newCustomer);
 
   std::cout << "Customer " << newCustomer->getName() << " added with ID "
@@ -169,7 +178,7 @@ customer *HotelManagementSystem::findCustomer(int id) {
 }
 
 void HotelManagementSystem::saveSystemState() {
-  std::ofstream outFile("hotel_system.dat");
+  std::ofstream outFile("./data/hotel_system.dat");
   if (!outFile.is_open()) {
     std::cout << "Error: Could not open file for saving!\n";
     return;
@@ -195,7 +204,7 @@ void HotelManagementSystem::saveSystemState() {
 
     // Save next customer ID and employee ID
     outFile << nextCustomerId << "\n";
-    outFile << nextEmployeeId << "\n";
+    outFile << m.getEmployeeList().size() << "\n";
 
     outFile.close();
     std::cout << "System state saved successfully!\n";
@@ -260,7 +269,7 @@ void HotelManagementSystem::updateBaseCustomerId(int n) {
 }
 
 void HotelManagementSystem::loadSystemState() {
-  std::ifstream inFile("hotel_system.dat");
+  std::ifstream inFile("./data/hotel_system.dat");
   if (!inFile.is_open()) {
     std::cout << "No existing data file found. Starting with fresh system.\n";
     // Initialize with default values if needed

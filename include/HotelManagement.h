@@ -4,21 +4,24 @@
 #include "manager.h"
 #include <vector>
 
-class HotelManagementSystem {
- private:
+class HotelManagementSystem
+{
+private:
   hotel h;
   manager m;
   std::vector<customer *> listOfCustormer;
-  int nextCustomerId = 24127000;  // Safe default value
-  int nextEmployeeId = 1;         // Start from 1, not 0
+  int nextCustomerId = 24127000; // Safe default value
+  int nextEmployeeId = 0;        // Start from 0, not 1
 
- public:
+public:
   HotelManagementSystem(int floor, const std::string name,
                         const std::string phone, const std::string email,
                         const int id, double salary, bool gender, const std::string position)
-      : h(floor), m(name, phone, email, id, gender, salary) {
+      : h(floor), m(name, phone, email, id, gender, salary)
+  {
     // Validate constructor parameters
-    if (floor < 1) h = hotel(1);  // At least 1 floor
+    if (floor < 1)
+      h = hotel(1); // At least 1 floor
     nextCustomerId = (nextCustomerId < 24127000) ? 24127000 : nextCustomerId;
     nextEmployeeId = (nextEmployeeId < 1) ? 1 : nextEmployeeId;
   };
@@ -61,6 +64,6 @@ class HotelManagementSystem {
   void saveSystemState();
   void loadSystemState();
 
- private:
-  void loadOldFormat(std::ifstream &inFile);  // For backward compatibility
+private:
+  void loadOldFormat(std::ifstream &inFile); // For backward compatibility
 };

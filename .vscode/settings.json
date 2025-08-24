@@ -76,11 +76,11 @@
     "codecvt": "cpp",
     "forward_list": "cpp",
     "list": "cpp",
-    "map": "cpp",
     "set": "cpp",
     "unordered_set": "cpp",
     "ratio": "cpp",
     "ranges": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "xtree": "cpp"
   }
 }

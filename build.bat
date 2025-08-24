@@ -20,7 +20,7 @@ where g++ || (
 
 echo.
 echo Compiling main.cpp...
-g++ -std=c++11 -Iinclude -c main.cpp -o main.o
+g++ -std=c++11 -Iinclude -c main.cpp -o bin\main.o
 if errorlevel 1 goto :error
 
 if not exist bin mkdir bin
@@ -33,7 +33,7 @@ for %%f in (src\*.cpp) do (
 )
 
 echo Linking...
-g++ -std=c++11 main.o bin\*.o -o hotel_management.exe
+g++ -std=c++11 bin\*.o -o hotel_management.exe
 if errorlevel 1 goto :error
 
 echo.

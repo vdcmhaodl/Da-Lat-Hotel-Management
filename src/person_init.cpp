@@ -5,6 +5,7 @@ person::person()
     name = "";
     phone = "";
     email = "";
+    gender = false; 
     id = 0;
 }
 
@@ -13,8 +14,8 @@ person::person(std::string name, std::string phone, std::string email, int id, b
     this->name = name;
     this->phone = phone;
     this->email = email;
+    this->gender = gender;
     this->id = id;
-    this->password = "";
 }
 
 person& person::operator=(const person &other)
@@ -26,4 +27,8 @@ person& person::operator=(const person &other)
     this->gender = other.gender;
     this->password = other.password;
     return *this;
+}
+
+bool person::getGender() {
+    return gender;
 }

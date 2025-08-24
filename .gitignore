@@ -1,1 +1,9 @@
 
+# Ignore object files
+*.o
+
+# Ignore executables
+*.exe
+
+# Ignore build folders 
+bin/
