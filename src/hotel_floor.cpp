@@ -90,11 +90,11 @@ void floor_::updateRoomPrice(int roomType, double price) {
 
 void floor_::addRoom(int roomType)  // Lấy số từ 1->7 nhé
 {
-  std::string type_num = "01234567";
+  std::string type_num = "012345678";
   std::string ID = std::to_string(this->flr);
 
-  // Cái này để đảm bảo không vướt quá 7 (có 7 loại thui :>)
-  roomType = ((roomType - 1) % 7) + 1;
+  // Cái này để đảm bảo không vướt quá 8 (có 8 loại thui :>)
+  roomType = ((roomType - 1) % 8) + 1;
   if (flr < 10) ID = '0' + ID;
   ID += type_num[roomType];
   std::string suffix_ID = std::to_string(this->Type[roomType]);
@@ -188,7 +188,7 @@ std::vector<room> floor_::findAllRooms() {
 }
 
 void floor_::displayAllFloorRooms() {
-  for (int i = 0; i <= 7; i++)
+  for (int i = 1; i <= 8; i++)
     for (int j = 0; j < rooms[i].size(); j++) {
       std::cout << "Room: " << rooms[i][j].getID() << ", ";
       std::cout << "State: "

@@ -47,7 +47,7 @@ class customer : public person {
  public:
   customer();
   virtual ~customer() = default;
-  customer(std::string name, std::string phone, std::string email, int id);
+  customer(std::string name, std::string phone, std::string email, int id, bool gender);
   customer &operator=(const customer &other);
 
   void showInfo() override;
@@ -58,6 +58,7 @@ class customer : public person {
   bool bookRoom(hotel &h, std::string roomID, date checkin_date,
                 date checkout_date);
   void viewAvailableRooms(hotel &h);
+  void viewAllRooms(hotel &h);
   bool cancelRoom(std::string roomID);
   void showBill();
   bool payBill(std::string roomID);

@@ -15,8 +15,8 @@ class HotelManagementSystem {
  public:
   HotelManagementSystem(int floor, const std::string name,
                         const std::string phone, const std::string email,
-                        const int id, double salary, const std::string position)
-      : h(floor), m(name, phone, email, id, salary) {
+                        const int id, double salary, bool gender, const std::string position)
+      : h(floor), m(name, phone, email, id, gender, salary) {
     // Validate constructor parameters
     if (floor < 1) h = hotel(1);  // At least 1 floor
     nextCustomerId = (nextCustomerId < 24127000) ? 24127000 : nextCustomerId;
@@ -38,6 +38,7 @@ class HotelManagementSystem {
   void showCustomer();
   void bookRoom(customer *cus);
   void showRoom();
+  void showRoomByID(std::string ID);
   void removeRoom();
 
   manager &getManager();

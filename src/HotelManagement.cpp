@@ -113,7 +113,17 @@ void HotelManagementSystem::bookRoom(customer *cus) {
 
 void HotelManagementSystem::showRoom() { h.displayAllRooms(); }
 
-void HotelManagementSystem::removeRoom() {
+void HotelManagementSystem::showRoomByID(std::string ID)
+{
+  room* temp = h.findRoomByNumber(ID);
+  if(temp == nullptr) return;
+  std::cout << "Room Type: " << temp->getTypeName() << '\n';
+  temp->displayFurniture();
+  temp->displayItem();
+}
+
+void HotelManagementSystem::removeRoom()
+{
   int fl;
   std::string id;
   std::cout << "Enter floor: \n";

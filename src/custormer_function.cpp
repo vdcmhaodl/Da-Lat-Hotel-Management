@@ -8,8 +8,8 @@ customer::customer() : person() { discount = 0; }
 
 // Parameterized constructor
 customer::customer(std::string name, std::string phone, std::string email,
-                   int id)
-    : person(name, phone, email, id) {
+                   int id, bool gender)
+    : person(name, phone, email, id, gender) {
   discount = 0;
 }
 
@@ -185,11 +185,11 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
 }
 
 // View available rooms in the hotel
-void customer::viewAvailableRooms(hotel &h) {
-  std::cout << "=== Available Rooms ===" << std::endl;
+void customer::viewAllRooms(hotel &h) {
+  std::cout << "=== All Rooms ===" << std::endl;
 
   try {
-    h.displayAllAvailableRooms();
+    h.displayAllRooms();
   } catch (const std::exception &e) {
     std::cout << "Error displaying available rooms: " << e.what() << std::endl;
   }

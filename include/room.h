@@ -85,6 +85,9 @@ class room {
   void displayBookingQueue();
   int getRoomTypeNumber();
 
+  void displayFurniture();
+  void displayItem();
+  
   void lockRoom();
   void unlockRoom();
   bool isLocked() const;

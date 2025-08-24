@@ -11,7 +11,7 @@ class manager : public employee {
  public:
   manager();
   manager(const std::string name, const std::string phone,
-          const std::string email, const int id, double salary);
+          const std::string email, const int id, const bool gender, double salary);
   virtual ~manager() = default;
 
   void add(IPerson* person);

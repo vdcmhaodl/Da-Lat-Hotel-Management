@@ -11,29 +11,39 @@ enum class Role {
   Manager = 3    // Explicitly set to 3
 };
 
-class person : public IPerson {
- protected:
-  std::string name = "";
-  std::string phone = "";
-  std::string email = "";
-  int id = 0;  // Initialize to prevent garbage values
- public:
-  person();
-  virtual ~person() = default;
-  person(std::string name, std::string phone, std::string email, int id);
-  person& operator=(const person& other);
+class person: public IPerson
+{
+protected:
+    // basic information
+    std::string name = "";
+    std::string phone= "";
+    std::string email = "";  
+    int id = 0;
+
+public:
+
+    // basic constructors 
+    person(); 
+    virtual ~person() = default;
+    person(std::string name, std::string phone, std::string email, int id);
+    person& operator=(const person &other);
 
   // Getters
   std::string getPhone();
   std::string getEmail();
+    std::string getGender();
+    std::string getPassword();
   int getID() const override;
 
   // Setters with validation
   void setName(std::string name);
   bool setPhone(std::string phone);
   bool setEmail(std::string email);
+    void setGender(bool gender);
+    void setPassword(std::string password); 
   void setID(int ID);  // Prevent negative IDs
 
-  void showInfo() override;
-  std::string getName() override;
+    void showInfo() override;
+
+    std::string getName() override;
 };

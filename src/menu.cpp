@@ -48,35 +48,44 @@ void managerMenu(HotelManagementSystem &system) {
         }
         break;
 
-      case 2:
-        // Room management
-        {
-          int roomChoice;
-          std::cout << "\n=== ROOM MANAGEMENT ===\n";
-          std::cout << "1. Add Room\n";
-          std::cout << "2. Remove Room\n";
-          std::cout << "3. View All Rooms\n";
-          std::cout << "Enter choice: ";
-          std::cin >> roomChoice;
+    case 2:
+      // Room management
+      {
+        int roomChoice;
+        std::cout << "\n=== ROOM MANAGEMENT ===\n";
+        std::cout << "1. Add Room\n";
+        std::cout << "2. Remove Room\n";
+        std::cout << "3. View All Rooms\n";
+        std::cout << "4. View room by ID\n";
+        std::cout << "Enter choice: ";
+        std::cin >> roomChoice;
 
-          switch (roomChoice) {
-            case 1: {
-              int floor, type;
-              std::cout << "Enter floor: ";
-              std::cin >> floor;
-              std::cout << "Enter room type (0-7): ";
-              std::cin >> type;
-              system.addRoom(floor, type);
-            } break;
-            case 2:
-              system.removeRoom();
-              break;
-            case 3:
-              system.showRoom();
-              break;
-          }
+        switch (roomChoice)
+        {
+        case 1:
+        {
+          int floor, type;
+          std::cout << "Enter floor: ";
+          std::cin >> floor;
+          std::cout << "Enter room type (1-8): ";
+          std::cin >> type;
+          system.addRoom(floor, type);
         }
         break;
+        case 2:
+          system.removeRoom();
+          break;
+        case 3:
+          system.showRoom();
+          break;
+        case 4:
+          std::string ID;
+          std::cout << "Enter room ID: ";
+          std::cin >> ID;
+          system.showRoomByID(ID);
+        }
+      }
+      break;
 
       case 3:
         // Customer management
@@ -263,7 +272,7 @@ void customerMenu(HotelManagementSystem &system, customer *cust) {
   do {
     std::cout << "\n=== CUSTOMER MENU ===\n";
     std::cout << "Welcome, " << cust->getName() << "!\n";
-    std::cout << "1. View Available Rooms\n";
+    std::cout << "1. View All Rooms\n";
     std::cout << "2. Book Room\n";
     std::cout << "3. Cancel Room\n";
     std::cout << "4. View My Booking History\n";
@@ -275,11 +284,12 @@ void customerMenu(HotelManagementSystem &system, customer *cust) {
     std::cout << "Enter your choice: ";
     std::cin >> choice;
 
-    switch (choice) {
-      case 1:
-        // View available rooms
-        cust->viewAvailableRooms(system.getHotel());
-        break;
+    switch (choice)
+    {
+    case 1:
+      // View available rooms
+      cust->viewAllRooms(system.getHotel());
+      break;
 
       case 2:
         // Book room
