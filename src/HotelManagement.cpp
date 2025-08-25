@@ -10,12 +10,14 @@ HotelManagementSystem::~HotelManagementSystem()
 }
 void HotelManagementSystem::hireEmployee()
 {
-  std::string name, phone, email;
-
+  std::string name, phone, email, pass;
   std::cin.ignore();
 
   std::cout << "Enter employee's name: ";
   std::getline(std::cin, name);
+
+  std::cout << "Enter employee's password (important): ";
+  std::cin >> pass;
 
   std::cout << "Enter employee's phone: ";
   std::cin >> phone;
@@ -26,8 +28,9 @@ void HotelManagementSystem::hireEmployee()
   bool gender;
   std::cout << "Enter employee's gender (1 for male, 0 for female): ";
   std::cin >> gender;
-
-  m.add(new employee(name, phone, email, ++nextEmployeeId, gender, 0));
+  employee* A = new employee(name, phone, email, ++nextEmployeeId, gender, 0);
+  m.add(A);
+  A->setPassword(pass);
   std::cout << "Hire employee successfully\n";
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }

@@ -166,7 +166,7 @@ void managerMenu(HotelManagementSystem &system) {
   } while (choice != 0);
 }
 void employeeMenu(HotelManagementSystem &system, int empId) {
-  std::cout << "Welcome, Employee " << empId << "!\n";
+  std::cout << "Welcome, Employee with ID: " << empId << "!\n";
   int choice;
   do {
     std::cout << "\n=== EMPLOYEE MENU ===\n";

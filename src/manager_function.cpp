@@ -75,7 +75,7 @@ bool manager::CheckEmployeePass(int id, std::string pass)
   for (auto it : ListOfEmployees)
   {
     employee *emp = dynamic_cast<employee *>(it);
-    if (emp->getID() == id && checkPass(pass) == true)
+    if (emp->getID() == id && emp->checkPass(pass))
       return true;
   }
   return false;
@@ -361,7 +361,7 @@ void manager::saveToFile(std::ofstream &out)
 {
   // Save manager's personal info
   out << name << "," << phone << "," << email << "," << id << "," << salary
-      << "," << position <<"," << password << "\n";
+      << "," << position << "," << password << "\n";
 }
 
 void manager::loadFromFile(std::ifstream &in)
@@ -444,9 +444,9 @@ void manager::loadEmployeesFromFile(std::ifstream &in)
                                            tokens[2],            // email
                                            std::stoi(tokens[3]), // id
                                            std::stoi(tokens[4]), // gender
-                                           std::stod(tokens[5]) // salary
+                                           std::stod(tokens[5])  // salary
       );
-      newEmployee->setPassword(tokens[7]); // password
+      newEmployee->setPassword(tokens[7]);    // password
       newEmployee->updatePosition(tokens[6]); // position
       ListOfEmployees.push_back(newEmployee);
     }
