@@ -59,6 +59,7 @@ void customer::showInfo() {
   std::cout << "=== Customer Information ===" << std::endl;
   std::cout << "ID: " << id << std::endl;
   std::cout << "Name: " << name << std::endl;
+  std::cout << "Gender " << (gender ? "Male\n" : "Female\n");
   std::cout << "Phone: " << phone << std::endl;
   std::cout << "Email: " << email << std::endl;
   std::cout << "Role: Customer" << std::endl;
@@ -66,6 +67,7 @@ void customer::showInfo() {
   std::cout << "Total Outstanding Bill: $" << getTotalBill() << std::endl;
   std::cout << "Current Active Bookings: " << currentBookings.size()
             << std::endl;
+  std::cout << "Pass: (DEBUG)" << password << std::endl;
   std::cout << "==============================" << std::endl;
 }
 
@@ -393,7 +395,7 @@ void customer::saveToFile(std::ofstream &out) {
   }
 
   // Write in original format
-  out << name << "," << phone << "," << email << "," << id << "," << discount
+  out << name << "," << phone << "," << email << "," << id << "," << discount << "," << password
       << "," << totalBill << "," << firstCheckin.day << ","
       << firstCheckin.month << "," << firstCheckin.year << ","
       << firstCheckout.day << "," << firstCheckout.month << ","
@@ -425,7 +427,7 @@ void customer::loadFromFile(std::ifstream &in, hotel &h) {
     tokens.push_back(token);
   }
 
-  if (tokens.size() < 13) {
+  if (tokens.size() < 14) {
     // Invalid format
     return;
   }
@@ -436,6 +438,7 @@ void customer::loadFromFile(std::ifstream &in, hotel &h) {
   email = tokens[2];
   id = std::stoi(tokens[3]);
   discount = std::stoi(tokens[4]);
+  password = tokens[5];
   // tokens[5] is total bill - we'll recalculate this from bookings
 
   // Clear current bookings
@@ -443,11 +446,11 @@ void customer::loadFromFile(std::ifstream &in, hotel &h) {
 
   // Check if this is extended format
   bool isExtendedFormat = false;
-  size_t extendedIndex = 13;
+  size_t extendedIndex = 14;
 
-  if (tokens.size() > 13 && tokens[13] == "EXTENDED") {
+  if (tokens.size() > 14 && tokens[14] == "EXTENDED") {
     isExtendedFormat = true;
-    extendedIndex = 14;
+    extendedIndex = 15;
   }
 
   if (isExtendedFormat && tokens.size() > extendedIndex) {

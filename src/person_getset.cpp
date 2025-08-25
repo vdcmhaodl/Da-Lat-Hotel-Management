@@ -33,3 +33,11 @@ void person::setPassword(std::string password)
 {
     this->password = password;
 }
+
+bool person::checkPass(std::string pass) { 
+    return pass == "" || pass == this->password;
+}
+
+std::string person::getPassword() { 
+    return password;
+}

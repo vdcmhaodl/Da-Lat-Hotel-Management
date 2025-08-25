@@ -3,6 +3,7 @@
 void managerMenu(HotelManagementSystem &system) {
   int choice;
   do {
+    std::cout << "Welcome Manager!";
     std::cout << "\n=== MANAGER MENU ===\n";
     std::cout << "1. Manage Employees\n";
     std::cout << "2. Manage Rooms\n";

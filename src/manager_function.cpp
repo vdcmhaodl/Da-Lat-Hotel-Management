@@ -5,34 +5,48 @@
 #include <iomanip>
 #include <map>
 
-void manager::add(IPerson* person) {
+void manager::add(IPerson *person)
+{
   // If the pointer points to a custormer, no operation
-  if (dynamic_cast<employee*>(person)) {
+  if (dynamic_cast<employee *>(person))
+  {
     ListOfEmployees.push_back(person);
-  } else {
+  }
+  else
+  {
     // Error !
     std::cout << "Only Employees can be managed by Manager.\n";
   }
 }
-void manager::remove(int id) {
+void manager::remove(int id)
+{
   auto it = std::remove_if(ListOfEmployees.begin(), ListOfEmployees.end(),
-                           [id](IPerson* p) { return p->getID() == id; });
-  if (it != ListOfEmployees.end()) {
+                           [id](IPerson *p)
+                           { return p->getID() == id; });
+  if (it != ListOfEmployees.end())
+  {
     std::cout << "Removed employee with ID: " << id << " successfully.\n";
     ListOfEmployees.erase(it, ListOfEmployees.end());
-  } else {
+  }
+  else
+  {
     std::cout << "Employee with ID: " << id << " not found.\n";
   }
 }
-void manager::viewEmployeeList() {
+void manager::viewEmployeeList()
+{
   std::cout << "=====================\n";
   std::cout << "List of Employees:" << std::endl;
-  for (auto person : ListOfEmployees) {
+  for (auto person : ListOfEmployees)
+  {
     std::cout << "------------------\n";
-    employee* emp = dynamic_cast<employee*>(person);
-    if (emp) {
+    employee *emp = dynamic_cast<employee *>(person);
+    if (emp)
+    {
       emp->showInfo();
-    } else {
+    }
+    else
+    {
       // If Error in casting
       std::cout << "Not an employee.\n";
     }
@@ -40,10 +54,13 @@ void manager::viewEmployeeList() {
   std::cout << "=====================\n";
 }
 
-void manager::updateEmployeePosition(int id, const std::string& newPosition) {
-  for (auto it : ListOfEmployees) {
-    employee* emp = dynamic_cast<employee*>(it);
-    if (emp->getID() == id) {
+void manager::updateEmployeePosition(int id, const std::string &newPosition)
+{
+  for (auto it : ListOfEmployees)
+  {
+    employee *emp = dynamic_cast<employee *>(it);
+    if (emp->getID() == id)
+    {
       emp->updatePosition(newPosition);
       std::cout << "Updated position for employee id:" << id << " to "
                 << newPosition << std::endl;
@@ -52,22 +69,36 @@ void manager::updateEmployeePosition(int id, const std::string& newPosition) {
   }
   std::cout << "Employee with ID " << id << " not found." << std::endl;
 }
-void manager::generateReport() {
+
+bool manager::CheckEmployeePass(int id, std::string pass)
+{
+  for (auto it : ListOfEmployees)
+  {
+    employee *emp = dynamic_cast<employee *>(it);
+    if (emp->getID() == id && checkPass(pass) == true)
+      return true;
+  }
+  return false;
+}
+
+bool manager::CheckManagerPass(std::string pass)
+{
+  return this->checkPass(pass);
+}
+
+void manager::generateReport()
+{
   std::cout << "Number of Employees: " << ListOfEmployees.size() << std::endl;
-  for (auto it : ListOfEmployees) {
-    employee* emp = dynamic_cast<employee*>(it);
+  for (auto it : ListOfEmployees)
+  {
+    employee *emp = dynamic_cast<employee *>(it);
     emp->showInfo();
     std::cout << "\n";
   }
-  /* Additional things will be added here:
-  + Average, mininum, maximum salary employees
-  + Total number of rooms available
-  + Total number of rooms booked
-  + Total revenue generated from bookings
-  */
 }
 
-void manager::showInfo() {
+void manager::showInfo()
+{
   std::cout << "Manager " << id << ":\n";
   std::cout << "Name: " << name << "\n";
   std::cout << "Phone: " << phone << "\n";
@@ -80,20 +111,25 @@ std::string manager::getName() { return name; }
 
 int manager::getID() const { return id; }
 
-bool manager::hasEmployee(int id) {
-  for (auto p : ListOfEmployees) {
-    if (p->getID() == id) return true;
+bool manager::hasEmployee(int id)
+{
+  for (auto p : ListOfEmployees)
+  {
+    if (p->getID() == id)
+      return true;
   }
   return false;
 }
 
-std::vector<IPerson*> manager::getEmployeeList() { return ListOfEmployees; }
+std::vector<IPerson *> manager::getEmployeeList() { return ListOfEmployees; }
 
-void manager::viewAllBookingHistory(const std::vector<customer*>& customers) {
+void manager::viewAllBookingHistory(const std::vector<customer *> &customers)
+{
   std::cout << "\n=== COMPLETE HOTEL BOOKING HISTORY (Manager View) ===\n";
   std::cout << std::string(120, '=') << std::endl;
 
-  if (customers.empty()) {
+  if (customers.empty())
+  {
     std::cout << "No customers found.\n";
     return;
   }
@@ -106,10 +142,12 @@ void manager::viewAllBookingHistory(const std::vector<customer*>& customers) {
             << std::endl;
   std::cout << std::string(120, '-') << std::endl;
 
-  for (const auto& customer : customers) {
+  for (const auto &customer : customers)
+  {
     auto history = customer->getBookingHistory();
 
-    for (const auto& record : history) {
+    for (const auto &record : history)
+    {
       std::cout << std::left << std::setw(12) << customer->getID()
                 << std::setw(18) << customer->getName() << std::setw(15)
                 << customer->getPhone() << std::setw(10) << record.roomID
@@ -126,7 +164,8 @@ void manager::viewAllBookingHistory(const std::vector<customer*>& customers) {
                 << std::setw(12) << record.status << std::endl;
     }
 
-    if (!history.empty()) {
+    if (!history.empty())
+    {
       std::cout << std::string(120, '-') << std::endl;
     }
   }
@@ -134,7 +173,8 @@ void manager::viewAllBookingHistory(const std::vector<customer*>& customers) {
 }
 
 // Manager tạo báo cáo booking tổng hợp
-void manager::generateBookingReport(const std::vector<customer*>& customers) {
+void manager::generateBookingReport(const std::vector<customer *> &customers)
+{
   std::cout << "\n=== BOOKING REPORT (Manager) ===\n";
   std::cout << std::string(80, '=') << std::endl;
 
@@ -148,10 +188,12 @@ void manager::generateBookingReport(const std::vector<customer*>& customers) {
   std::map<std::string, int> roomTypeCount;
   std::map<std::string, double> roomTypeRevenue;
 
-  for (const auto& customer : customers) {
+  for (const auto &customer : customers)
+  {
     auto history = customer->getBookingHistory();
 
-    for (const auto& record : history) {
+    for (const auto &record : history)
+    {
       totalBookings++;
 
       if (record.status == "Completed")
@@ -162,7 +204,8 @@ void manager::generateBookingReport(const std::vector<customer*>& customers) {
         currentBookings++;
 
       totalRevenue += record.totalCost;
-      if (record.isPaid) {
+      if (record.isPaid)
+      {
         paidRevenue += record.totalCost;
       }
 
@@ -188,7 +231,8 @@ void manager::generateBookingReport(const std::vector<customer*>& customers) {
             << "Bookings" << std::setw(15) << "Revenue" << std::endl;
   std::cout << std::string(50, '-') << std::endl;
 
-  for (const auto& pair : roomTypeCount) {
+  for (const auto &pair : roomTypeCount)
+  {
     std::cout << std::left << std::setw(20) << pair.first << std::setw(15)
               << pair.second << std::setw(15)
               << ("$" + std::to_string((int)roomTypeRevenue[pair.first]))
@@ -199,18 +243,21 @@ void manager::generateBookingReport(const std::vector<customer*>& customers) {
 }
 
 // Manager xem thống kê booking
-void manager::viewBookingStatistics(const std::vector<customer*>& customers) {
+void manager::viewBookingStatistics(const std::vector<customer *> &customers)
+{
   std::cout << "\n=== DETAILED BOOKING STATISTICS ===\n";
   std::cout << std::string(80, '=') << std::endl;
 
-  std::map<int, int> monthlyBookings;    // month -> count
-  std::map<int, double> monthlyRevenue;  // month -> revenue
+  std::map<int, int> monthlyBookings;   // month -> count
+  std::map<int, double> monthlyRevenue; // month -> revenue
   std::map<std::string, int> statusCount;
 
-  for (const auto& customer : customers) {
+  for (const auto &customer : customers)
+  {
     auto history = customer->getBookingHistory();
 
-    for (const auto& record : history) {
+    for (const auto &record : history)
+    {
       monthlyBookings[record.checkin.month]++;
       monthlyRevenue[record.checkin.month] += record.totalCost;
       statusCount[record.status]++;
@@ -223,7 +270,8 @@ void manager::viewBookingStatistics(const std::vector<customer*>& customers) {
             << "Bookings" << std::setw(15) << "Revenue" << std::endl;
   std::cout << std::string(40, '-') << std::endl;
 
-  for (const auto& pair : monthlyBookings) {
+  for (const auto &pair : monthlyBookings)
+  {
     std::cout << std::left << std::setw(10) << pair.first << std::setw(15)
               << pair.second << std::setw(15)
               << ("$" + std::to_string((int)monthlyRevenue[pair.first]))
@@ -232,7 +280,8 @@ void manager::viewBookingStatistics(const std::vector<customer*>& customers) {
 
   // Thống kê theo trạng thái
   std::cout << "\n=== STATUS STATISTICS ===\n";
-  for (const auto& pair : statusCount) {
+  for (const auto &pair : statusCount)
+  {
     std::cout << pair.first << ": " << pair.second << " bookings\n";
   }
 
@@ -240,7 +289,8 @@ void manager::viewBookingStatistics(const std::vector<customer*>& customers) {
 }
 
 // Manager xem báo cáo doanh thu
-void manager::viewRevenueReport(const std::vector<customer*>& customers) {
+void manager::viewRevenueReport(const std::vector<customer *> &customers)
+{
   std::cout << "\n=== REVENUE REPORT (Manager) ===\n";
   std::cout << std::string(80, '=') << std::endl;
 
@@ -250,22 +300,28 @@ void manager::viewRevenueReport(const std::vector<customer*>& customers) {
 
   std::map<std::string, double> customerRevenue;
 
-  for (const auto& customer : customers) {
+  for (const auto &customer : customers)
+  {
     auto history = customer->getBookingHistory();
     double custRevenue = 0;
 
-    for (const auto& record : history) {
+    for (const auto &record : history)
+    {
       totalRevenue += record.totalCost;
       custRevenue += record.totalCost;
 
-      if (record.isPaid) {
+      if (record.isPaid)
+      {
         paidRevenue += record.totalCost;
-      } else {
+      }
+      else
+      {
         unpaidRevenue += record.totalCost;
       }
     }
 
-    if (custRevenue > 0) {
+    if (custRevenue > 0)
+    {
       customerRevenue[customer->getName() +
                       " (ID:" + std::to_string(customer->getID()) + ")"] =
           custRevenue;
@@ -287,11 +343,13 @@ void manager::viewRevenueReport(const std::vector<customer*>& customers) {
   std::vector<std::pair<std::string, double>> sortedCustomers(
       customerRevenue.begin(), customerRevenue.end());
   std::sort(sortedCustomers.begin(), sortedCustomers.end(),
-            [](const std::pair<std::string, double>& a,
-               const std::pair<std::string, double>& b) {
+            [](const std::pair<std::string, double> &a,
+               const std::pair<std::string, double> &b)
+            {
               return a.second > b.second;
             });
-  for (const auto& pair : sortedCustomers) {
+  for (const auto &pair : sortedCustomers)
+  {
     std::cout << std::left << std::setw(30) << pair.first << std::setw(15)
               << ("$" + std::to_string((int)pair.second)) << std::endl;
   }
@@ -299,13 +357,15 @@ void manager::viewRevenueReport(const std::vector<customer*>& customers) {
   std::cout << std::string(80, '=') << std::endl;
 }
 
-void manager::saveToFile(std::ofstream& out) {
+void manager::saveToFile(std::ofstream &out)
+{
   // Save manager's personal info
   out << name << "," << phone << "," << email << "," << id << "," << salary
-      << "," << position << "\n";
+      << "," << position <<"," << password << "\n";
 }
 
-void manager::loadFromFile(std::ifstream& in) {
+void manager::loadFromFile(std::ifstream &in)
+{
   std::string line;
   std::getline(in, line);
 
@@ -313,39 +373,47 @@ void manager::loadFromFile(std::ifstream& in) {
   std::string token;
   std::vector<std::string> tokens;
 
-  while (std::getline(ss, token, ',')) {
+  while (std::getline(ss, token, ','))
+  {
     tokens.push_back(token);
   }
 
-  if (tokens.size() >= 6) {
+  if (tokens.size() >= 7)
+  {
     name = tokens[0];
     phone = tokens[1];
     email = tokens[2];
     id = std::stoi(tokens[3]);
     salary = std::stod(tokens[4]);
     position = tokens[5];
+    password = tokens[6];
   }
 }
 
-void manager::saveEmployeesToFile(std::ofstream& out) {
+void manager::saveEmployeesToFile(std::ofstream &out)
+{
   // Save number of employees
   out << ListOfEmployees.size() << "\n";
 
   // Save each employee
-  for (const auto& emp : ListOfEmployees) {
-    employee* empPtr = dynamic_cast<employee*>(emp);
-    if (empPtr) {
+  for (const auto &emp : ListOfEmployees)
+  {
+    employee *empPtr = dynamic_cast<employee *>(emp);
+    if (empPtr)
+    {
       // Save employee data: name,phone,email,id,salary,position
       out << empPtr->getName() << "," << empPtr->getPhone() << ","
           << empPtr->getEmail() << "," << empPtr->getID() << "," << empPtr->getGender() << ","
-          << empPtr->salary << "," << empPtr->position << "\n";
+          << empPtr->salary << "," << empPtr->position << "," << empPtr->getPassword() << "\n";
     }
   }
 }
 
-void manager::loadEmployeesFromFile(std::ifstream& in) {
+void manager::loadEmployeesFromFile(std::ifstream &in)
+{
   // Clear existing employees
-  for (auto& emp : ListOfEmployees) {
+  for (auto &emp : ListOfEmployees)
+  {
     delete emp;
   }
   ListOfEmployees.clear();
@@ -353,9 +421,10 @@ void manager::loadEmployeesFromFile(std::ifstream& in) {
   size_t employeeCount;
   in >> employeeCount;
 
-  in.ignore();  // ignore newline
+  in.ignore(); // ignore newline
 
-  for (size_t i = 0; i < employeeCount; ++i) {
+  for (size_t i = 0; i < employeeCount; ++i)
+  {
     std::string line;
     std::getline(in, line);
 
@@ -363,20 +432,22 @@ void manager::loadEmployeesFromFile(std::ifstream& in) {
     std::string token;
     std::vector<std::string> tokens;
 
-    while (std::getline(ss, token, ',')) {
+    while (std::getline(ss, token, ','))
+    {
       tokens.push_back(token);
     }
 
-    if (tokens.size() >= 7) {
-      employee* newEmployee = new employee(tokens[0],             // name
-                                           tokens[1],             // phone
-                                           tokens[2],             // email
+    if (tokens.size() >= 8)
+    {
+      employee *newEmployee = new employee(tokens[0],            // name
+                                           tokens[1],            // phone
+                                           tokens[2],            // email
                                            std::stoi(tokens[3]), // id
-                                           std::stoi(tokens[4]),  // gender
-                                           std::stod(tokens[5])   // salary
+                                           std::stoi(tokens[4]), // gender
+                                           std::stod(tokens[5]) // salary
       );
-      newEmployee->updatePosition(tokens[6]);  // position
-
+      newEmployee->setPassword(tokens[7]); // password
+      newEmployee->updatePosition(tokens[6]); // position
       ListOfEmployees.push_back(newEmployee);
     }
   }

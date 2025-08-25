@@ -4,47 +4,52 @@
 #include <vector>
 #include <sstream>
 
-struct booking_record {
+struct booking_record
+{
   std::string roomID = "";
   std::string roomTypeName = "";
   date checkin;
   date checkout;
-  int totalCost = 0;  // Initialize to prevent garbage values
+  int totalCost = 0; // Initialize to prevent garbage values
   bool isPaid = false;
   date bookingDate;
   std::string status = "Current";
 
   // Constructor with validation
   booking_record()
-      : checkin(1, 1, 2024), checkout(1, 1, 2024), bookingDate(1, 1, 2024) {
+      : checkin(1, 1, 2024), checkout(1, 1, 2024), bookingDate(1, 1, 2024)
+  {
     totalCost = (totalCost < 0) ? 0 : totalCost;
   }
 };
 
-struct current_booking {
+struct current_booking
+{
   std::string roomID = "";
   room *roomPtr = nullptr;
   date checkin;
   date checkout;
-  int bill = 0;  // Initialize to prevent garbage values
+  int bill = 0; // Initialize to prevent garbage values
 
   // Constructor with validation
-  current_booking() : checkin(1, 1, 2024), checkout(1, 1, 2024) {
+  current_booking() : checkin(1, 1, 2024), checkout(1, 1, 2024)
+  {
     bill = (bill < 0) ? 0 : bill;
   }
 };
 
-class customer : public person {
+class customer : public person
+{
   friend class manager;
 
- private:
-  int discount = 0;  // Initialize to prevent garbage values
+private:
+  int discount = 0; // Initialize to prevent garbage values
   std::vector<current_booking> currentBookings;
   std::vector<booking_record> bookingHistory;
 
   int calculateNightStays(date checkin, date checkout);
 
- public:
+public:
   customer();
   virtual ~customer() = default;
   customer(std::string name, std::string phone, std::string email, int id, bool gender);

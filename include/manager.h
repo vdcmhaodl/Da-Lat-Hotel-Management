@@ -25,6 +25,10 @@ class manager : public employee {
   bool hasEmployee(int id);
   std::vector<IPerson*> getEmployeeList();
 
+  // password
+  bool CheckEmployeePass(int id, std::string pass);
+  bool CheckManagerPass(std::string pass);
+  
   // Manager-specific booking history methods
   void viewAllBookingHistory(const std::vector<customer*>& customers);
   void generateBookingReport(const std::vector<customer*>& customers);

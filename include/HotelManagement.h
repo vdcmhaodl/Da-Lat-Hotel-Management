@@ -24,9 +24,13 @@ public:
       h = hotel(1); // At least 1 floor
     nextCustomerId = (nextCustomerId < 24127000) ? 24127000 : nextCustomerId;
     nextEmployeeId = (nextEmployeeId < 1) ? 1 : nextEmployeeId;
+    m.setPassword("31082025");
   };
   ~HotelManagementSystem();
-
+  // Password-check function
+  bool checkPassManager(std::string pass);
+  bool checkPassEmployee(int id, std::string pass);
+  bool checkPassCustomer(int id, std::string pass);
   // Manage people
   void hireEmployee();
   void fireEmployee(int id);
@@ -44,7 +48,7 @@ public:
   void showRoomByID(std::string ID);
   void removeRoom();
 
-  manager &getManager();
+  manager& getManager();
   hotel &getHotel();
   bool isEmployee(int id);
   customer *getCustomerById(int id);
@@ -63,7 +67,4 @@ public:
   // Save/load with validation
   void saveSystemState();
   void loadSystemState();
-
-private:
-  void loadOldFormat(std::ifstream &inFile); // For backward compatibility
 };
