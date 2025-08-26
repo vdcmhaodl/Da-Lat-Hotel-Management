@@ -125,7 +125,7 @@ void customer::updateBookingStatus(std::string roomID, date checkin,
     }
   }
 }
-
+ 
 std::vector<booking_record> customer::getBookingHistory() const {
   return bookingHistory;
 }
@@ -186,7 +186,7 @@ bool customer::bookRoom(hotel &h, std::string roomID, date checkin_date,
   return false;
 }
 
-// View available rooms in the hotel
+// View all rooms in the hotel
 void customer::viewAllRooms(hotel &h) {
   std::cout << "=== All Rooms ===" << std::endl;
 

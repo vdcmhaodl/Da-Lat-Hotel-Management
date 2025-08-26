@@ -62,7 +62,6 @@ public:
   // Booking methods
   bool bookRoom(hotel &h, std::string roomID, date checkin_date,
                 date checkout_date);
-  void viewAvailableRooms(hotel &h);
   void viewAllRooms(hotel &h);
   bool cancelRoom(std::string roomID);
   void showBill();
@@ -82,6 +81,7 @@ public:
   int getTotalBill() const;
   std::vector<current_booking> getCurrentBookings() const;
 
+  // save & load files
   void saveToFile(std::ofstream &out);
   void loadFromFile(std::ifstream &in, hotel &h);
 };
