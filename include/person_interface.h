@@ -12,5 +12,4 @@ public:
     virtual std::string getName() = 0;
     //virtual std::string getPosition() = 0;
     virtual int getID() const = 0;
-    virtual bool checkPass(std::string pass) = 0;
 };
