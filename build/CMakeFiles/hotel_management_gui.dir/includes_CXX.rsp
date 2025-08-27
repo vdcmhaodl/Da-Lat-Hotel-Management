@@ -1,0 +1,1 @@
+-I"D:/hotel4/Da-Lat-Hotel-Management/build/hotel_management_gui_autogen/include" -I"D:/hotel4/Da-Lat-Hotel-Management/include" -isystem C:/Qt/6.9.1/mingw_64/include/QtCore -isystem C:/Qt/6.9.1/mingw_64/include -isystem "C:/Qt/6.9.1/mingw_64/mkspecs/win32-g++" -isystem C:/Qt/6.9.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.9.1/mingw_64/include/QtGui

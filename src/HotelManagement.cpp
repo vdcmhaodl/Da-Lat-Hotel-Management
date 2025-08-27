@@ -31,6 +31,29 @@ void HotelManagementSystem::hireEmployee() {
   std::cout << "Hire employee successfully\n";
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }
+
+bool HotelManagementSystem::addEmployee(const std::string& name, const std::string& phone, 
+                                       const std::string& email, bool gender, double salary, 
+                                       const std::string& position, const std::string& password) {
+  try {
+    // Create new employee with auto-generated ID
+    int newId = 2000 + (int)(rand() % 1000); // Generate ID between 2000-2999
+    employee* newEmployee = new employee(name, phone, email, newId, gender, salary);
+    
+    // Set password
+    newEmployee->setPassword(password);
+    
+    // Add to manager's employee list
+    m.add(newEmployee);
+    
+    // Update position through manager (since updatePosition is protected)
+    m.updateEmployeePosition(newId, position);
+    
+    return true;
+  } catch (const std::exception& e) {
+    return false;
+  }
+}
 void HotelManagementSystem::viewEmployees() { m.viewEmployeeList(); }
 void HotelManagementSystem::addRoom(int flr, int type) { h.addRoom(flr, type); }
 customer *HotelManagementSystem::addCustomer() {
@@ -64,6 +87,20 @@ customer *HotelManagementSystem::addCustomer() {
   std::cout << "Customer " << newCustomer->getName() << " added with ID "
             << newCustomer->getID() << "." << std::endl;
   return newCustomer;
+}
+
+bool HotelManagementSystem::addCustomer(const std::string& name, const std::string& phone, 
+                                       const std::string& email, bool gender, const std::string& password) {
+  try {
+    // Create a new customer object with a unique ID
+    customer *newCustomer = new customer(name, phone, email, ++nextCustomerId, gender);
+    listOfCustormer.push_back(newCustomer);
+    newCustomer->setPassword(password);
+    
+    return true;
+  } catch (const std::exception& e) {
+    return false;
+  }
 }
 void HotelManagementSystem::removeCustomer(int id) {
   for (auto it = listOfCustormer.begin(); it != listOfCustormer.end(); ++it) {
@@ -477,7 +514,7 @@ void HotelManagementSystem::loadSystemState() {
     listOfCustormer.clear();
 
     // Reset to default values
-    nextCustomerId = 24127000;
+    nextCustomerId = 1000;
     nextEmployeeId = 0;
 
     inFile.close();

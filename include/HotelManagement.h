@@ -10,7 +10,7 @@ private:
   hotel h;
   manager m;
   std::vector<customer *> listOfCustormer;
-  int nextCustomerId = 24127000; // Safe default value
+  int nextCustomerId = 1000; // Safe default value
   int nextEmployeeId = 0;        // Start from 0, not 1
 
 public:
@@ -22,7 +22,7 @@ public:
     // Validate constructor parameters
     if (floor < 1)
       h = hotel(1); // At least 1 floor
-    nextCustomerId = (nextCustomerId < 24127000) ? 24127000 : nextCustomerId;
+    nextCustomerId = (nextCustomerId < 1000) ? 1000 : nextCustomerId;
     nextEmployeeId = (nextEmployeeId < 1) ? 1 : nextEmployeeId;
     m.setPassword("31082025");
   };
@@ -33,9 +33,14 @@ public:
   bool checkPassCustomer(int id, std::string pass);
   // Manage people
   void hireEmployee();
+  bool addEmployee(const std::string& name, const std::string& phone, 
+                   const std::string& email, bool gender, double salary, 
+                   const std::string& position, const std::string& password);
   void fireEmployee(int id);
   void viewEmployees();
   customer *addCustomer();
+  bool addCustomer(const std::string& name, const std::string& phone, 
+                   const std::string& email, bool gender, const std::string& password);
   customer *findCustomer(int id);
   void updateBaseCustomerId(int n);
 
