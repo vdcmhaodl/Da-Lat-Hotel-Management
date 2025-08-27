@@ -24,7 +24,7 @@ class manager : public employee {
   int getID() const override;
   bool hasEmployee(int id);
   std::vector<IPerson*> getEmployeeList();
-
+  int getEmployeeSize();
   // password
   bool CheckEmployeePass(int id, std::string pass);
   bool CheckManagerPass(std::string pass);
@@ -34,6 +34,8 @@ class manager : public employee {
   void generateBookingReport(const std::vector<customer*>& customers);
   void viewBookingStatistics(const std::vector<customer*>& customers);
   void viewRevenueReport(const std::vector<customer*>& customers);
+
+  double getTotalRevenue(const std::vector<customer*>& customers);
 
   void saveToFile(std::ofstream& out);
   void loadFromFile(std::ifstream& in);

@@ -32,6 +32,14 @@ void HotelManagementSystem::hireEmployee() {
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }
 
+int HotelManagementSystem::getEmployeeSize() {
+  return m.getEmployeeSize();
+}
+
+double HotelManagementSystem::getRevenue() {
+  return m.getTotalRevenue(listOfCustormer);
+}
+
 bool HotelManagementSystem::addEmployee(const std::string& name, const std::string& phone, 
                                        const std::string& email, bool gender, double salary, 
                                        const std::string& position, const std::string& password) {

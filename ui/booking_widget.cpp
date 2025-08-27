@@ -527,4 +527,3 @@ void BookingWidget::onRoomSelectionChanged()
     }
 }
 
-#include "booking_widget.moc"

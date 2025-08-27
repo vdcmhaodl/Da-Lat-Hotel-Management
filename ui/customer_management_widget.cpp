@@ -633,4 +633,3 @@ void CustomerManagementWidget::onCustomerSelectionChanged()
     m_giveDiscountBtn->setEnabled(hasSelection);
 }
 
-#include "customer_management_widget.moc"

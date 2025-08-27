@@ -939,4 +939,3 @@ void CustomerWindow::onViewPersonalInfo()
     }
 }
 
-#include "customer_window.moc"

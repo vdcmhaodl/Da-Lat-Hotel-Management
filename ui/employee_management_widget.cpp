@@ -664,4 +664,3 @@ void EmployeeManagementWidget::onEmployeeSelectionChanged()
     m_viewDetailsBtn->setEnabled(hasSelection);
 }
 
-#include "employee_management_widget.moc"

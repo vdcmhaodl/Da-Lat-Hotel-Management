@@ -472,10 +472,10 @@ void ManagerWindow::updateDashboard()
         m_totalCustomersLabel->setText(QString("Total Customers: %1").arg(customers.size()));
         
         // Update employee statistics (would need employee count method)
-        m_totalEmployeesLabel->setText(QString("Total Employees: %1").arg("N/A"));
+        m_totalEmployeesLabel->setText(QString("Total Employees: %1").arg(m_hotelSystem->getEmployeeSize()));
         
         // Update revenue statistics (would need revenue calculation method)
-        m_totalRevenueLabel->setText(QString("Total Revenue: $%1").arg("N/A"));
+        m_totalRevenueLabel->setText(QString("Total Revenue: $%1").arg(m_hotelSystem->getRevenue()));
         
     } catch (const std::exception &e) {
         m_statusBar->showMessage(QString("Error updating dashboard: %1").arg(e.what()), 5000);
@@ -611,4 +611,3 @@ void ManagerWindow::refreshAllData()
     m_statusBar->showMessage("All data refreshed", 3000);
 }
 
-#include "manager_window.moc"

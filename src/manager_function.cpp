@@ -18,6 +18,11 @@ void manager::add(IPerson *person)
     std::cout << "Only Employees can be managed by Manager.\n";
   }
 }
+
+int manager::getEmployeeSize() {
+  return ListOfEmployees.size();
+}
+
 void manager::remove(int id)
 {
   auto it = std::remove_if(ListOfEmployees.begin(), ListOfEmployees.end(),
@@ -288,7 +293,21 @@ void manager::viewBookingStatistics(const std::vector<customer *> &customers)
   std::cout << std::string(80, '=') << std::endl;
 }
 
+double manager::getTotalRevenue(const std::vector<customer*>& customers) {
+  double totalRevenue = 0;
+  for (const auto &customer : customers)
+  {
+    auto history = customer->getBookingHistory();
+    for (const auto &record : history)
+    {
+      totalRevenue += record.totalCost;
+    }
+  }
+  return totalRevenue;
+}
+
 // Manager xem báo cáo doanh thu
+
 void manager::viewRevenueReport(const std::vector<customer *> &customers)
 {
   std::cout << "\n=== REVENUE REPORT (Manager) ===\n";

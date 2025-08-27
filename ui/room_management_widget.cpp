@@ -572,4 +572,3 @@ void RoomManagementWidget::onRoomSelectionChanged()
     m_viewDetailsBtn->setEnabled(hasSelection);
 }
 
-#include "room_management_widget.moc"

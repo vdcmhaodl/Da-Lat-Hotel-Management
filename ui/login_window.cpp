@@ -9,6 +9,7 @@ LoginWindow::LoginWindow(QWidget *parent)
     , m_centralWidget(nullptr)
     , m_stackedWidget(nullptr)
 {
+    
     // Initialize hotel system
     m_hotelSystem = std::make_unique<HotelManagementSystem>(
         5, "Huynh Thai Hoang", "0983824401", "manager@hotel.com", 1, 1, 60000, "Manager"
@@ -471,4 +472,3 @@ void LoginWindow::showLoginForm()
     m_stackedWidget->setCurrentWidget(m_loginWidget);
 }
 
-#include "login_window.moc"

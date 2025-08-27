@@ -668,5 +668,3 @@ void EmployeeWindow::onViewRoomHistory()
         }
     }
 }
-
-#include "employee_window.moc"
