@@ -11,7 +11,7 @@ private:
   manager m;
   std::vector<customer *> listOfCustormer;
   int nextCustomerId = 1000; // Safe default value
-  int nextEmployeeId = 0;        // Start from 0, not 1
+  int nextEmployeeId = 1;        // Start from 1 for first employee ID 1001
 
 public:
   HotelManagementSystem(int floor, const std::string name,

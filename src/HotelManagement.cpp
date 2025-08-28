@@ -41,8 +41,8 @@ bool HotelManagementSystem::addEmployee(const std::string &name, const std::stri
 {
   try
   {
-    // Create new employee with auto-generated ID
-    int newId = 2000 + (int)(rand() % 1000); // Generate ID between 2000-2999
+    // Create new employee with sequential ID starting from 1001
+    int newId = 1000 + nextEmployeeId; // Start from 1001
     employee *newEmployee = new employee(name, phone, email, newId, gender, salary);
 
     // Set password
@@ -53,6 +53,9 @@ bool HotelManagementSystem::addEmployee(const std::string &name, const std::stri
 
     // Update position through manager (since updatePosition is protected)
     m.updateEmployeePosition(newId, position);
+
+    // Increment the next employee ID
+    nextEmployeeId++;
 
     return true;
   }

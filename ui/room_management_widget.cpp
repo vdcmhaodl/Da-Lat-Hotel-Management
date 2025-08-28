@@ -404,7 +404,7 @@ void RoomManagementWidget::populateRoomTable()
                 m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
                 m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
                 if (!r.isAvailable()) {
-                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(QString::fromStdString(r.getCurrentGuest())));
+                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("Guest"));  // Temporarily disable getCurrentGuest()
                 } else {
                     m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
                 }   

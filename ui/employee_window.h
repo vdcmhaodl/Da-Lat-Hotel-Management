@@ -40,6 +40,11 @@ private slots:
     void onViewBookingHistory();
     void onViewCustomerHistory();
     void onViewRoomHistory();
+    void onAvailableRoomSelected();
+    void refreshAvailableRooms();
+    void onViewAllCustomers();
+    void onViewRoomDetails();
+    void loadCustomersData();
 
 private:
     void setupUI();
@@ -48,6 +53,7 @@ private:
     void setupDashboard();
     void setupBookingSection();
     void setupRoomView();
+    void setupCustomerManagement();
     void setupReports();
     void setupStyles();
     void connectSignals();
@@ -62,6 +68,8 @@ private:
     QLabel *m_welcomeLabel;
     QLabel *m_availableRoomsLabel;
     QLabel *m_todayBookingsLabel;
+    QLabel *m_totalCustomersLabel;
+    QLabel *m_occupiedRoomsLabel;
     
     // Booking section
     QWidget *m_bookingWidget;
@@ -70,10 +78,15 @@ private:
     QDateEdit *m_checkinDateEdit;
     QDateEdit *m_checkoutDateEdit;
     QPushButton *m_bookRoomBtn;
+    QTableWidget *m_availableRoomsTable;
     
     // Room table
     QTableWidget *m_roomTable;
     QLabel *m_roomCountLabel;
+    
+    // Customer management
+    QWidget *m_customerWidget;
+    QTableWidget *m_customerTable;
     
     // Reports
     QWidget *m_reportsWidget;

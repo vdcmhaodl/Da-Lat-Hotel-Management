@@ -117,7 +117,7 @@ void room::displayFurniture()
     std::cout << "Bathrooms: " << temp->getBathrooms() << '\n';
     if(temp->getBath()) std::cout << "Room has bath\n";
     else std::cout << "Room does not have bath\n";
-    std::cout << "TV: " << temp->getTV();
+    std::cout << "TV: " << temp->getTV() << '\n';
     if(temp->getBalcol()) std::cout << "Room has balcony\n";
     else std::cout << "Room does not have balcony\n";
     if(temp->getLoving_chair()) std::cout << "Room have loving chair\n";

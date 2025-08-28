@@ -171,6 +171,7 @@ void ManagerWindow::setupReports()
     
     m_reportTextEdit = new QTextEdit();
     m_reportTextEdit->setObjectName("reportText");
+    
     m_reportTextEdit->setReadOnly(true);
     m_reportTextEdit->setPlainText("Click 'Generate Report' to view detailed system reports...");
     

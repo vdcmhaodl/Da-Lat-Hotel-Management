@@ -40,6 +40,7 @@ private slots:
     void onShowBill();
     void onPayBill();
     void onViewPersonalInfo();
+    void onViewRoomDetails();
 
 private:
     void setupUI();

@@ -1,6 +1,8 @@
 #include "customer_window.h"
 #include <QDate>
 #include <QDebug>
+#include <sstream>
+#include <iostream>
 
 CustomerWindow::CustomerWindow(HotelManagementSystem *hotelSystem, customer *customer, QWidget *parent)
     : QMainWindow(parent)
@@ -233,10 +235,22 @@ void CustomerWindow::setupBookingSection()
     
     roomsLayout->addWidget(m_roomTable);
     
+    // Action buttons
+    QHBoxLayout *roomActionLayout = new QHBoxLayout();
+    
     QPushButton *refreshRoomsBtn = new QPushButton("Refresh Available Rooms");
     refreshRoomsBtn->setObjectName("secondaryButton");
     connect(refreshRoomsBtn, &QPushButton::clicked, this, &CustomerWindow::onViewAllRooms);
-    roomsLayout->addWidget(refreshRoomsBtn);
+    
+    QPushButton *viewRoomDetailsBtn = new QPushButton("View Room Details");
+    viewRoomDetailsBtn->setObjectName("secondaryButton");
+    connect(viewRoomDetailsBtn, &QPushButton::clicked, this, &CustomerWindow::onViewRoomDetails);
+    
+    roomActionLayout->addWidget(refreshRoomsBtn);
+    roomActionLayout->addWidget(viewRoomDetailsBtn);
+    roomActionLayout->addStretch();
+    
+    roomsLayout->addLayout(roomActionLayout);
     
     bookingLayout->addWidget(roomsGroup);
     
@@ -794,7 +808,7 @@ void CustomerWindow::refreshRoomTable()
                     m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
                     m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                     m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
-                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(QString::fromStdString(r.displayAmenties()))); // Basic amenities
+                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem("Standard amenities"));  // Temporarily disable displayAmenties()
 
                     rowIndex++;
                 }
@@ -1265,6 +1279,64 @@ void CustomerWindow::loadPersonalInfoSafely()
     } catch (const std::exception &e) {
         qDebug() << "loadPersonalInfoSafely: Critical error:" << e.what();
         m_personalInfoText->setPlainText(QString("Error loading personal information: %1\n\nPlease click 'Refresh Information' to try again.").arg(e.what()));
+    }
+}
+
+void CustomerWindow::onViewRoomDetails() {
+    if (!m_roomTable) return;
+    
+    int currentRow = m_roomTable->currentRow();
+    if (currentRow >= 0) {
+        QTableWidgetItem* roomItem = m_roomTable->item(currentRow, 0);
+        if (roomItem) {
+            QString roomId = roomItem->text();
+            
+            try {
+                hotel& h = m_hotelSystem->getHotel();
+                room* r = h.findRoomByNumber(roomId.toStdString());
+                
+                if (r) {
+                    QString details = QString("Room %1\n").arg(roomId);
+                    details += QString("Room Type: %1\n").arg(QString::fromStdString(r->getTypeName()));
+                    
+                    // Capture furniture details
+                
+                    std::ostringstream furnitureStream;
+                    std::streambuf* origCout = std::cout.rdbuf();
+                    std::cout.rdbuf(furnitureStream.rdbuf());
+                    
+                    r->displayFurniture();
+                    
+                    std::cout.rdbuf(origCout);
+                    QString furnitureInfo = QString::fromStdString(furnitureStream.str());
+                    if (!furnitureInfo.isEmpty()) {
+                        details += furnitureInfo;
+                    }
+                    
+                    // Capture items details  
+        
+                    std::ostringstream itemsStream;
+                    std::cout.rdbuf(itemsStream.rdbuf());
+                    
+                    r->displayItem();
+                    
+                    std::cout.rdbuf(origCout);
+                    QString itemsInfo = QString::fromStdString(itemsStream.str());
+                    if (!itemsInfo.isEmpty()) {
+                        details += itemsInfo;
+                    }
+                    
+                    QMessageBox::information(this, QString("Room %1 Details").arg(roomId), details);
+                } else {
+                    QMessageBox::warning(this, "Error", "Room not found.");
+                }
+                
+            } catch (const std::exception &e) {
+                QMessageBox::critical(this, "Error", QString("Failed to get room details: %1").arg(e.what()));
+            }
+        }
+    } else {
+        QMessageBox::information(this, "No Selection", "Please select a room to view details.");
     }
 }
 
