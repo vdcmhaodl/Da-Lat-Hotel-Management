@@ -87,11 +87,13 @@ class room {
 
   void displayFurniture();
   void displayItem();
-  
+  std::string displayAmenties();
+
   void lockRoom();
   void unlockRoom();
   bool isLocked() const;
   void setGuest(std::string id);
+  std::string getCurrentGuest();
   std::string getTypeName();
   ~room();
 

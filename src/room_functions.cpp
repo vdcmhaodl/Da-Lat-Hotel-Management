@@ -1,5 +1,6 @@
 #include "room.h"
 #include "fstream"
+#include <string> 
 #include "init_price_type.h"
 
 int compareDate(const date &a, const date &b) {
@@ -135,6 +136,16 @@ void room::displayItem()
     std::cout << "Hair dryers: " << temp->getHair_dryer() << '\n';
 }
 
+#include <string> 
+
+std::string room::displayAmenties() { 
+  room_item *temp = this->item;
+    return "Towels: " + std::to_string(temp->getTowel()) +
+     ", Sleep dresses: " + std::to_string(temp->getSleep_dress()) + 
+    ", Sandals: " + std::to_string(temp->getSandals()) + '\n' +
+    ", Hair dryers: " + std::to_string(temp->getHair_dryer()) + '\n';
+}
+
 void room::updatePrice(double price) { this->pricePerNight = price; }
 
 std::string room::getID() const { return this->ID; }
@@ -197,6 +208,10 @@ void room::loadFromFile(std::istream &in) {
 int room::getRoomTypeNumber() { return typeNum; }
 
 void room::setGuest(std::string id) { currentGuestId = id; }
+
+std::string room::getCurrentGuest() {
+  return currentGuestId;  
+}
 
 void room::saveToFile(std::ofstream &out) {
   out << ID << "," << typeNum << "," << pricePerNight << ","

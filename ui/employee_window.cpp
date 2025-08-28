@@ -500,22 +500,22 @@ void EmployeeWindow::updateDashboard()
     try {
         // Count available rooms
         hotel& h = m_hotelSystem->getHotel();
-        std::vector<floor_> floors = h.getFloors();
         
         int totalRooms = 0;
         int availableRooms = 0;
         
-        for (size_t i = 0; i < floors.size(); ++i) {
-            std::vector<room> rooms = floors[i].findAllRooms();
-            totalRooms += rooms.size();
-            
-            for (size_t j = 0; j < rooms.size(); ++j) {
-                if (rooms[j].isAvailable()) {
-                    availableRooms++;
-                }
-            }
+        // Count total rooms from all floors
+        std::vector<floor_> floors = h.getFloors();
+        for (const auto& floor : floors) {
+            totalRooms += const_cast<floor_&>(floor).getNumRooms();
         }
         
+        // Count available rooms from all floors
+        std::vector<floor_> availableFloors = h.findAvailableRooms();
+        for (const auto& floor : availableFloors) {
+            availableRooms += const_cast<floor_&>(floor).getNumRooms();
+        }
+
         m_availableRoomsLabel->setText(QString("Available: %1/%2").arg(availableRooms).arg(totalRooms));
         
         // Count today's bookings (count all customers with current bookings)
@@ -584,7 +584,7 @@ void EmployeeWindow::onViewRooms()
                 m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                 m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
                 m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
-                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
+                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(r.getCurrentGuest().empty() ? "N/A" : QString::fromStdString(r.getCurrentGuest())));
                 m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
                 
                 totalRooms++;

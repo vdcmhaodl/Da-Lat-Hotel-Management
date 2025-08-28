@@ -7,3 +7,6 @@
 
 # Ignore build folders 
 bin/
+
+# Ignore build folders 
+build/

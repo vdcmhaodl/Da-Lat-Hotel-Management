@@ -457,8 +457,7 @@ void ManagerWindow::updateDashboard()
         // Count available rooms from all floors
         std::vector<floor_> availableFloors = h.findAvailableRooms();
         for (const auto& floor : availableFloors) {
-            std::vector<room> roomsOnFloor = const_cast<floor_&>(floor).findAvailableRooms();
-            availableRooms += roomsOnFloor.size();
+            availableRooms += const_cast<floor_&>(floor).getNumRooms();
         }
         
         occupiedRooms = totalRooms - availableRooms;

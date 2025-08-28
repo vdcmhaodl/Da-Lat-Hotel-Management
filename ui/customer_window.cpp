@@ -794,8 +794,8 @@ void CustomerWindow::refreshRoomTable()
                     m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
                     m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                     m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
-                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem("WiFi, TV, AC")); // Basic amenities
-                    
+                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(QString::fromStdString(r.displayAmenties()))); // Basic amenities
+
                     rowIndex++;
                 }
             }

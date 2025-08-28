@@ -403,7 +403,11 @@ void RoomManagementWidget::populateRoomTable()
                 m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                 m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
                 m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
-                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
+                if (!r.isAvailable()) {
+                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(QString::fromStdString(r.getCurrentGuest())));
+                } else {
+                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
+                }   
                 m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
                 
                 totalRooms++;
