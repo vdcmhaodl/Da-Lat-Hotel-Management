@@ -298,7 +298,7 @@ double manager::getTotalRevenue(const std::vector<customer*>& customers) {
   for (const auto &customer : customers)
   {
     auto history = customer->getBookingHistory();
-    for (const auto &record : history)
+    for (const auto &record : history) if (record.isPaid)
     {
       totalRevenue += record.totalCost;
     }

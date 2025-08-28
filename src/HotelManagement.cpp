@@ -1,12 +1,15 @@
 #include "HotelManagement.h"
 #include <fstream>
 
-HotelManagementSystem::~HotelManagementSystem() {
-  for (customer *cust : listOfCustormer) {
-    delete cust;  // Free the memory for each customer object
+HotelManagementSystem::~HotelManagementSystem()
+{
+  for (customer *cust : listOfCustormer)
+  {
+    delete cust; // Free the memory for each customer object
   }
 }
-void HotelManagementSystem::hireEmployee() {
+void HotelManagementSystem::hireEmployee()
+{
   std::string name, phone, email, pass;
   std::cin.ignore();
 
@@ -32,32 +35,37 @@ void HotelManagementSystem::hireEmployee() {
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }
 
-bool HotelManagementSystem::addEmployee(const std::string& name, const std::string& phone, 
-                                       const std::string& email, bool gender, double salary, 
-                                       const std::string& position, const std::string& password) {
-  try {
+bool HotelManagementSystem::addEmployee(const std::string &name, const std::string &phone,
+                                        const std::string &email, bool gender, double salary,
+                                        const std::string &position, const std::string &password)
+{
+  try
+  {
     // Create new employee with auto-generated ID
     int newId = 2000 + (int)(rand() % 1000); // Generate ID between 2000-2999
-    employee* newEmployee = new employee(name, phone, email, newId, gender, salary);
-    
+    employee *newEmployee = new employee(name, phone, email, newId, gender, salary);
+
     // Set password
     newEmployee->setPassword(password);
-    
+
     // Add to manager's employee list
     m.add(newEmployee);
-    
+
     // Update position through manager (since updatePosition is protected)
     m.updateEmployeePosition(newId, position);
-    
+
     return true;
-  } catch (const std::exception& e) {
+  }
+  catch (const std::exception &e)
+  {
     return false;
   }
 }
 
 void HotelManagementSystem::viewEmployees() { m.viewEmployeeList(); }
 void HotelManagementSystem::addRoom(int flr, int type) { h.addRoom(flr, type); }
-customer *HotelManagementSystem::addCustomer() {
+customer *HotelManagementSystem::addCustomer()
+{
   std::string name, phone, email, password;
   bool gender;
 
@@ -90,41 +98,52 @@ customer *HotelManagementSystem::addCustomer() {
   return newCustomer;
 }
 
-bool HotelManagementSystem::addCustomer(const std::string& name, const std::string& phone, 
-                                       const std::string& email, bool gender, const std::string& password) {
-  try {
+bool HotelManagementSystem::addCustomer(const std::string &name, const std::string &phone,
+                                        const std::string &email, bool gender, const std::string &password)
+{
+  try
+  {
     // Create a new customer object with a unique ID
     customer *newCustomer = new customer(name, phone, email, ++nextCustomerId, gender);
     listOfCustormer.push_back(newCustomer);
     newCustomer->setPassword(password);
-    
+
     return true;
-  } catch (const std::exception& e) {
+  }
+  catch (const std::exception &e)
+  {
     return false;
   }
 }
 
-void HotelManagementSystem::removeCustomer(int id) {
-  for (auto it = listOfCustormer.begin(); it != listOfCustormer.end(); ++it) {
-    if ((*it)->getID() == id) {
+void HotelManagementSystem::removeCustomer(int id)
+{
+  for (auto it = listOfCustormer.begin(); it != listOfCustormer.end(); ++it)
+  {
+    if ((*it)->getID() == id)
+    {
       std::cout << "Removing customer: " << (*it)->getName()
                 << " (ID: " << (*it)->getID() << ")." << std::endl;
-      delete *it;                 // Free the memory of the customer object
-      listOfCustormer.erase(it);  // Remove the pointer from the vector
-      return;  // Exit the function after finding and removing the customer
+      delete *it;                // Free the memory of the customer object
+      listOfCustormer.erase(it); // Remove the pointer from the vector
+      return;                    // Exit the function after finding and removing the customer
     }
   }
   std::cout << "Error: Customer with ID " << id << " not found." << std::endl;
 }
 
-void HotelManagementSystem::showCustomer() {
-  for (auto it : listOfCustormer) {
+void HotelManagementSystem::showCustomer()
+{
+  for (auto it : listOfCustormer)
+  {
     it->showInfo();
   }
 }
 
-void HotelManagementSystem::bookRoom(customer *cus) {
-  if (!cus) {
+void HotelManagementSystem::bookRoom(customer *cus)
+{
+  if (!cus)
+  {
     std::cout << "Invalid customer!\n";
     return;
   }
@@ -147,38 +166,46 @@ void HotelManagementSystem::bookRoom(customer *cus) {
 
   // Tìm phòng
   room *foundRoom = h.findRoomByNumber(roomId);
-  if (!foundRoom) {
+  if (!foundRoom)
+  {
     std::cout << "Room not found!\n";
     return;
   }
 
-  if (!foundRoom->isAvailable()) {
+  if (!foundRoom->isAvailable())
+  {
     std::cout << "Room is not available!\n";
     return;
   }
 
   // Đặt phòng
-  if (cus->bookRoom(h, roomId, checkin, checkout)) {
+  if (cus->bookRoom(h, roomId, checkin, checkout))
+  {
     std::cout << "Room booked successfully!\n";
 
     // Tạo booking record (đã được thêm vào trong customer::bookRoom)
     std::cout << "Booking record added to customer history.\n";
-  } else {
+  }
+  else
+  {
     std::cout << "Failed to book room!\n";
   }
 }
 
 void HotelManagementSystem::showRoom() { h.displayAllRooms(); }
 
-void HotelManagementSystem::showRoomByID(std::string ID) {
+void HotelManagementSystem::showRoomByID(std::string ID)
+{
   room *temp = h.findRoomByNumber(ID);
-  if (temp == nullptr) return;
+  if (temp == nullptr)
+    return;
   std::cout << "Room Type: " << temp->getTypeName() << '\n';
   temp->displayFurniture();
   temp->displayItem();
 }
 
-void HotelManagementSystem::removeRoom() {
+void HotelManagementSystem::removeRoom()
+{
   int fl;
   std::string id;
   std::cout << "Enter floor: \n";
@@ -191,57 +218,75 @@ void HotelManagementSystem::removeRoom() {
 
 hotel &HotelManagementSystem::getHotel() { return h; }
 
-bool HotelManagementSystem::isEmployee(int id) {
-  return m.hasEmployee(id);  // You need to implement this in `manager`
+bool HotelManagementSystem::isEmployee(int id)
+{
+  return m.hasEmployee(id); // You need to implement this in `manager`
 }
 
-bool HotelManagementSystem::checkPassManager(std::string pass) {
+bool HotelManagementSystem::checkPassManager(std::string pass)
+{
   return m.CheckManagerPass(pass);
 }
-bool HotelManagementSystem::checkPassEmployee(int id, std::string pass) {
+bool HotelManagementSystem::checkPassEmployee(int id, std::string pass)
+{
   return m.CheckEmployeePass(id, pass);
 }
-bool HotelManagementSystem::checkPassCustomer(int id, std::string pass) {
-  for (auto *c : listOfCustormer) {
-    if (c->getID() == id && c->checkPass(pass)) return true;
+bool HotelManagementSystem::checkPassCustomer(int id, std::string pass)
+{
+  for (auto *c : listOfCustormer)
+  {
+    if (c->getID() == id && c->checkPass(pass))
+      return true;
   }
   return false;
 }
 
-customer *HotelManagementSystem::getCustomerById(int id) {
-  for (auto *c : listOfCustormer) {
-    if (c->getID() == id) return c;
+customer *HotelManagementSystem::getCustomerById(int id)
+{
+  for (auto *c : listOfCustormer)
+  {
+    if (c->getID() == id)
+      return c;
   }
   return nullptr;
 }
 
-void HotelManagementSystem::giveDiscountToCustomer(int custId, int percent) {
+void HotelManagementSystem::giveDiscountToCustomer(int custId, int percent)
+{
   customer *c = getCustomerById(custId);
-  if (c != nullptr) {
+  if (c != nullptr)
+  {
     c->setDiscount(percent);
     std::cout << "Discount applied.\n";
-  } else {
+  }
+  else
+  {
     std::cout << "Customer not found.\n";
   }
 }
 manager &HotelManagementSystem::getManager() { return m; }
 
-customer *HotelManagementSystem::findCustomer(int id) {
+customer *HotelManagementSystem::findCustomer(int id)
+{
   for (auto it : listOfCustormer)
-    if (id == it->getID()) {
+    if (id == it->getID())
+    {
       return it;
     }
   return nullptr;
 }
 
-void HotelManagementSystem::saveSystemState() {
+void HotelManagementSystem::saveSystemState()
+{
   std::ofstream outFile("./data/hotel_system.dat");
-  if (!outFile.is_open()) {
+  if (!outFile.is_open())
+  {
     std::cout << "Error: Could not open file for saving!\n";
     return;
   }
 
-  try {
+  try
+  {
     // Save manager info
     m.saveToFile(outFile);
 
@@ -255,7 +300,8 @@ void HotelManagementSystem::saveSystemState() {
     outFile << listOfCustormer.size() << "\n";
 
     // Save each customer (this already includes their booking history)
-    for (const auto &customer : listOfCustormer) {
+    for (const auto &customer : listOfCustormer)
+    {
       customer->saveToFile(outFile);
     }
 
@@ -264,16 +310,19 @@ void HotelManagementSystem::saveSystemState() {
 
     // Count total booking records across all customers
     int totalBookings = 0;
-    for (const auto &customer : listOfCustormer) {
+    for (const auto &customer : listOfCustormer)
+    {
       totalBookings += customer->getBookingHistory().size();
     }
 
     outFile << totalBookings << "\n";
 
     // Save consolidated booking history with customer references
-    for (const auto &customer : listOfCustormer) {
+    for (const auto &customer : listOfCustormer)
+    {
       auto history = customer->getBookingHistory();
-      for (const auto &record : history) {
+      for (const auto &record : history)
+      {
         // Format:
         // customerID,roomID,roomTypeName,checkin_day,checkin_month,checkin_year,
         //         checkout_day,checkout_month,checkout_year,totalCost,isPaid,status,
@@ -296,15 +345,19 @@ void HotelManagementSystem::saveSystemState() {
     outFile.close();
     std::cout << "System state saved successfully!\n";
     std::cout << "Total booking records saved: " << totalBookings << "\n";
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     std::cout << "Error saving system state: " << e.what() << std::endl;
   }
 }
 
-void HotelManagementSystem::viewAllBookingHistory() {
+void HotelManagementSystem::viewAllBookingHistory()
+{
   std::cout << "\n=== HOTEL BOOKING HISTORY ===\n";
 
-  if (listOfCustormer.empty()) {
+  if (listOfCustormer.empty())
+  {
     std::cout << "No customers found.\n";
     return;
   }
@@ -313,9 +366,11 @@ void HotelManagementSystem::viewAllBookingHistory() {
   m.viewAllBookingHistory(listOfCustormer);
 }
 
-void HotelManagementSystem::viewCustomerBookingHistory(int customerId) {
+void HotelManagementSystem::viewCustomerBookingHistory(int customerId)
+{
   customer *cust = findCustomer(customerId);
-  if (!cust) {
+  if (!cust)
+  {
     std::cout << "Customer with ID " << customerId << " not found!\n";
     return;
   }
@@ -329,14 +384,17 @@ void HotelManagementSystem::viewCustomerBookingHistory(int customerId) {
   cust->viewMyBookingHistory();
 }
 
-std::vector<customer *> HotelManagementSystem::getAllCustomers() const {
+std::vector<customer *> HotelManagementSystem::getAllCustomers() const
+{
   return listOfCustormer;
 }
 
 // Thêm booking record cho customer
 void HotelManagementSystem::addBookingRecord(customer *cust,
-                                             const booking_record &record) {
-  if (cust) {
+                                             const booking_record &record)
+{
+  if (cust)
+  {
     cust->addBookingRecord(record);
   }
 }
@@ -345,25 +403,31 @@ void HotelManagementSystem::addBookingRecord(customer *cust,
 void HotelManagementSystem::updateCustomerBookingStatus(int customerId,
                                                         std::string roomID,
                                                         date checkin,
-                                                        std::string status) {
+                                                        std::string status)
+{
   customer *cust = findCustomer(customerId);
-  if (cust) {
+  if (cust)
+  {
     cust->updateBookingStatus(roomID, checkin, status);
   }
 }
 
-void HotelManagementSystem::updateBaseCustomerId(int n) {
+void HotelManagementSystem::updateBaseCustomerId(int n)
+{
   nextCustomerId += n - 1;
 }
 
-void HotelManagementSystem::loadSystemState() {
+void HotelManagementSystem::loadSystemState()
+{
   std::ifstream inFile("./data/hotel_system.dat");
-  if (!inFile.is_open()) {
+  if (!inFile.is_open())
+  {
     std::cout << "No existing data file found. Starting with fresh system.\n";
     return;
   }
 
-  try {
+  try
+  {
     std::cout << "Loading system state...\n";
 
     // Load manager info
@@ -379,7 +443,8 @@ void HotelManagementSystem::loadSystemState() {
     m.loadEmployeesFromFile(inFile);
 
     // Clear existing customers
-    for (auto &customer : listOfCustormer) {
+    for (auto &customer : listOfCustormer)
+    {
       delete customer;
     }
     listOfCustormer.clear();
@@ -392,7 +457,8 @@ void HotelManagementSystem::loadSystemState() {
     std::cout << "Loading " << customerCount << " customers...\n";
 
     // Load each customer (this loads their individual booking history)
-    for (size_t i = 0; i < customerCount; ++i) {
+    for (size_t i = 0; i < customerCount; ++i)
+    {
       customer *newCustomer = new customer();
       newCustomer->loadFromFile(inFile, h);
       listOfCustormer.push_back(newCustomer);
@@ -400,7 +466,8 @@ void HotelManagementSystem::loadSystemState() {
 
     // Check for additional booking history section
     std::string line;
-    if (std::getline(inFile, line) && line == "BOOKING_HISTORY_SECTION") {
+    if (std::getline(inFile, line) && line == "BOOKING_HISTORY_SECTION")
+    {
       std::cout << "Loading consolidated booking history...\n";
 
       int totalBookings;
@@ -410,7 +477,8 @@ void HotelManagementSystem::loadSystemState() {
       std::cout << "Loading " << totalBookings << " booking records...\n";
 
       // Load consolidated booking history for validation/backup
-      for (int i = 0; i < totalBookings; ++i) {
+      for (int i = 0; i < totalBookings; ++i)
+      {
         std::string bookingLine;
         std::getline(inFile, bookingLine);
 
@@ -419,31 +487,39 @@ void HotelManagementSystem::loadSystemState() {
         std::string token;
         std::vector<std::string> tokens;
 
-        while (std::getline(ss, token, ',')) {
+        while (std::getline(ss, token, ','))
+        {
           tokens.push_back(token);
         }
 
-        if (tokens.size() >= 15) {
+        if (tokens.size() >= 15)
+        {
           int customerId = std::stoi(tokens[0]);
 
           // Find customer and verify booking record exists
           customer *cust = findCustomer(customerId);
-          if (cust) {
+          if (cust)
+          {
             // Verify this booking exists in customer's history
             auto history = cust->getBookingHistory();
             bool found = false;
 
-            for (const auto &record : history) {
+            for (const auto &record : history)
+            {
               if (record.roomID == tokens[1] &&
                   record.checkin.day == std::stoi(tokens[3]) &&
                   record.checkin.month == std::stoi(tokens[4]) &&
-                  record.checkin.year == std::stoi(tokens[5])) {
+                  record.checkin.year == std::stoi(tokens[5]) && record.isPaid && record.checkout.day == std::stoi(tokens[6]) &&
+                  record.checkout.month == std::stoi(tokens[7]) &&
+                  record.checkout.year == std::stoi(tokens[8]))
+              {
                 found = true;
                 break;
               }
             }
 
-            if (!found) {
+            if (!found)
+            {
               std::cout << "Warning: Booking record mismatch for customer "
                         << customerId << ", room " << tokens[1] << "\n";
 
@@ -468,28 +544,38 @@ void HotelManagementSystem::loadSystemState() {
               std::cout << "Added missing booking record for customer "
                         << customerId << "\n";
             }
-          } else {
+          }
+          else
+          {
             std::cout << "Warning: Booking record for unknown customer "
                       << customerId << "\n";
           }
         }
       }
-    } else {
+    }
+    else
+    {
       // Old format without consolidated booking history section
       std::cout << "Loading old format without consolidated booking history.\n";
       // Put the line back for next ID reading
-      if (!line.empty()) {
+      if (!line.empty())
+      {
         std::stringstream temp(line);
         temp >> nextCustomerId;
-      } else {
+      }
+      else
+      {
         inFile >> nextCustomerId;
       }
     }
 
     // Load next customer ID and employee ID (if not already loaded above)
-    if (line != "BOOKING_HISTORY_SECTION") {
+    if (line != "BOOKING_HISTORY_SECTION")
+    {
       inFile >> nextEmployeeId;
-    } else {
+    }
+    else
+    {
       inFile >> nextCustomerId;
       inFile >> nextEmployeeId;
     }
@@ -500,17 +586,21 @@ void HotelManagementSystem::loadSystemState() {
 
     // Count and display total bookings
     int totalLoadedBookings = 0;
-    for (const auto &customer : listOfCustormer) {
+    for (const auto &customer : listOfCustormer)
+    {
       totalLoadedBookings += customer->getBookingHistory().size();
     }
     std::cout << "Total booking records: " << totalLoadedBookings << "\n";
     std::cout << "Next Customer ID: " << nextCustomerId << "\n";
     std::cout << "Next Employee ID: " << nextEmployeeId << "\n";
-  } catch (const std::exception &e) {
+  }
+  catch (const std::exception &e)
+  {
     std::cout << "Error loading system state: " << e.what() << std::endl;
 
     // Clean up in case of error
-    for (auto &customer : listOfCustormer) {
+    for (auto &customer : listOfCustormer)
+    {
       delete customer;
     }
     listOfCustormer.clear();

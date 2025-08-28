@@ -348,6 +348,7 @@ bool customer::payBill(std::string roomID)
         {
           record.isPaid = true;
           record.status = "Completed";
+          record.totalCost = billAmount; // Update to final paid amount
           break;
         }
       }
