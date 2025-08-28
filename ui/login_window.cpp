@@ -3,6 +3,7 @@
 #include "employee_window.h"
 #include "customer_window.h"
 #include <QApplication>
+#include <QDebug>
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -387,18 +388,46 @@ void LoginWindow::onLoginClicked()
         case 3: // Customer
         {
             int custId = id.toInt();
-            if (m_hotelSystem->checkPassCustomer(custId, password.toStdString())) {
-                customer *cust = m_hotelSystem->getCustomerById(custId);
-                if (cust) {
-                    hide();
-                    CustomerWindow *customerWindow = new CustomerWindow(m_hotelSystem.get(), cust);
-                    customerWindow->show();
-                    connect(customerWindow, &QMainWindow::destroyed, this, &QWidget::show);
+            qDebug() << "Attempting customer login with ID:" << custId;
+            
+            try {
+                if (m_hotelSystem->checkPassCustomer(custId, password.toStdString())) {
+                    qDebug() << "Password check passed";
+                    customer *cust = m_hotelSystem->getCustomerById(custId);
+                    if (cust) {
+                        qDebug() << "Customer found, attempting to get name...";
+                        try {
+                            QString customerName = QString::fromStdString(cust->getName());
+                            qDebug() << "Customer name:" << customerName;
+                        } catch (const std::exception& e) {
+                            qDebug() << "Error getting customer name:" << e.what();
+                            QMessageBox::critical(this, "Error", QString("Failed to access customer data: %1").arg(e.what()));
+                            return;
+                        }
+                        
+                        hide();
+                        try {
+                            qDebug() << "Creating CustomerWindow...";
+                            CustomerWindow *customerWindow = new CustomerWindow(m_hotelSystem.get(), cust);
+                            qDebug() << "CustomerWindow created successfully";
+                            customerWindow->show();
+                            connect(customerWindow, &QMainWindow::destroyed, this, &QWidget::show);
+                        } catch (const std::exception &e) {
+                            qDebug() << "Exception creating CustomerWindow:" << e.what();
+                            QMessageBox::critical(this, "Error", QString("Failed to open customer window: %1").arg(e.what()));
+                            show();
+                        }
+                    } else {
+                        qDebug() << "Customer not found with ID:" << custId;
+                        QMessageBox::warning(this, "Login Failed", "Error retrieving customer information.");
+                    }
                 } else {
-                    QMessageBox::warning(this, "Login Failed", "Error retrieving customer information.");
+                    qDebug() << "Password check failed for customer ID:" << custId;
+                    QMessageBox::warning(this, "Login Failed", "Customer not found or invalid password.");
                 }
-            } else {
-                QMessageBox::warning(this, "Login Failed", "Customer not found or invalid password.");
+            } catch (const std::exception &e) {
+                qDebug() << "Exception during customer login:" << e.what();
+                QMessageBox::critical(this, "Error", QString("Login error: %1").arg(e.what()));
             }
             break;
         }

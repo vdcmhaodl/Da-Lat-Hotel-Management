@@ -32,14 +32,6 @@ void HotelManagementSystem::hireEmployee() {
 }
 void HotelManagementSystem::fireEmployee(int id) { m.remove(id); }
 
-int HotelManagementSystem::getEmployeeSize() {
-  return m.getEmployeeSize();
-}
-
-double HotelManagementSystem::getRevenue() {
-  return m.getTotalRevenue(listOfCustormer);
-}
-
 bool HotelManagementSystem::addEmployee(const std::string& name, const std::string& phone, 
                                        const std::string& email, bool gender, double salary, 
                                        const std::string& position, const std::string& password) {
@@ -62,6 +54,7 @@ bool HotelManagementSystem::addEmployee(const std::string& name, const std::stri
     return false;
   }
 }
+
 void HotelManagementSystem::viewEmployees() { m.viewEmployeeList(); }
 void HotelManagementSystem::addRoom(int flr, int type) { h.addRoom(flr, type); }
 customer *HotelManagementSystem::addCustomer() {
@@ -110,6 +103,7 @@ bool HotelManagementSystem::addCustomer(const std::string& name, const std::stri
     return false;
   }
 }
+
 void HotelManagementSystem::removeCustomer(int id) {
   for (auto it = listOfCustormer.begin(); it != listOfCustormer.end(); ++it) {
     if ((*it)->getID() == id) {

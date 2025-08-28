@@ -1,19 +1,30 @@
 Huynh Thai Hoang,0983824401,manager@hotel.com,1,1,Unknown,31082025
 5
-0
-0
 1
-02300,3,1200,0,1,
-0
-0
+00100,1,1000,0,0,
+3
+01200,2,1100,1,0,
+01600,6,2100,1,1,
+01800,8,2300,1,0,
+1
+02800,8,2300,1,0,
+1
+03800,8,2300,1,1,
 2
-Hao123,0983,hao@gmail.com,1,1,2000,reporter,hao123!
-Thai Hoang,0983824401,thaih@gmail.com,2,1,5000,coder,hoang123!
+04500,5,2000,0,1,
+04700,7,2200,0,1,
+3
+thinh,0123123,thinhelzan@gmail.com,2051,1,999999,Receptionist,123
+hao hao,01231123,haohao@gmail.com,2884,1,99,Receptionist,123
+thinh dep trai,0123123,akdkasldj@gmail.com,2085,1,999999,Security,123
 2
-Nhan,1,1,24127001,0,123,0,1,1,2024,1,1,2024,None,EXTENDED,0
-Thinh,09282,thaih,24127002,0,hai2,38400,21,1,2006,22,2,2006,02300,EXTENDED,1,02300,21,1,2006,22,2,2006,38400
+hoang huynh,01231233,hoanghuynh,1001,25,123,1575,28,8,2025,29,8,2025,01600,EXTENDED,1,01600,28,8,2025,29,8,2025,2100
+hao vo tu,09876542,hao123@gmail.com,1002,0,123,4500,28,8,2025,29,8,2025,03800,EXTENDED,2,03800,28,8,2025,29,8,2025,2300,04700,28,8,2025,29,8,2025,2200
 BOOKING_HISTORY_SECTION
-1
-24127002,02300,Double normal room with city view,21,1,2006,22,2,2006,38400,0,Current,1,1,2024
-24127003
-2
+4
+1001,01600,Single VIP room with nature view,28,8,2025,29,8,2025,2100,0,Current,1,1,2024
+1002,02800,Double VIP room with nature view,28,8,2025,29,8,2025,2300,0,Cancelled,1,1,2024
+1002,03800,Double VIP room with nature view,28,8,2025,29,8,2025,2300,0,Current,1,1,2024
+1002,04700,Double VIP room with city view,28,8,2025,29,8,2025,2200,0,Current,1,1,2024
+1002
+3

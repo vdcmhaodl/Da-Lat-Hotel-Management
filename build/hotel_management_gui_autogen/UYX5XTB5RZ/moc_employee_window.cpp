@@ -45,6 +45,8 @@ template <> constexpr inline auto EmployeeWindow::qt_create_metaobjectdata<qt_me
         "onRefreshData",
         "onViewRooms",
         "onBookRoomForCustomer",
+        "onLockRoom",
+        "onUnlockRoom",
         "onGiveDiscount",
         "onViewBookingHistory",
         "onViewCustomerHistory",
@@ -60,14 +62,18 @@ template <> constexpr inline auto EmployeeWindow::qt_create_metaobjectdata<qt_me
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onBookRoomForCustomer'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onGiveDiscount'
+        // Slot 'onLockRoom'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onViewBookingHistory'
+        // Slot 'onUnlockRoom'
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onViewCustomerHistory'
+        // Slot 'onGiveDiscount'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onViewRoomHistory'
+        // Slot 'onViewBookingHistory'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onViewCustomerHistory'
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onViewRoomHistory'
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -95,10 +101,12 @@ void EmployeeWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 1: _t->onRefreshData(); break;
         case 2: _t->onViewRooms(); break;
         case 3: _t->onBookRoomForCustomer(); break;
-        case 4: _t->onGiveDiscount(); break;
-        case 5: _t->onViewBookingHistory(); break;
-        case 6: _t->onViewCustomerHistory(); break;
-        case 7: _t->onViewRoomHistory(); break;
+        case 4: _t->onLockRoom(); break;
+        case 5: _t->onUnlockRoom(); break;
+        case 6: _t->onGiveDiscount(); break;
+        case 7: _t->onViewBookingHistory(); break;
+        case 8: _t->onViewCustomerHistory(); break;
+        case 9: _t->onViewRoomHistory(); break;
         default: ;
         }
     }
@@ -124,14 +132,14 @@ int EmployeeWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 10;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 10)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 8;
+        _id -= 10;
     }
     return _id;
 }

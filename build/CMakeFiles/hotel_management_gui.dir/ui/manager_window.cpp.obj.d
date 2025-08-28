@@ -503,5 +503,4 @@ CMakeFiles/hotel_management_gui.dir/ui/manager_window.cpp.obj: \
  D:\hotel4\Da-Lat-Hotel-Management\ui\add_employee_dialog.h \
  C:/Qt/6.9.1/mingw_64/include/QtCore/QTime \
  C:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.9.1/mingw_64/include/QtCore/qcalendar.h \
- D:/hotel4/Da-Lat-Hotel-Management/build/hotel_management_gui_autogen/include/manager_window.moc
+ C:/Qt/6.9.1/mingw_64/include/QtCore/qcalendar.h

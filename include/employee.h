@@ -27,6 +27,10 @@ class employee : public person {
 
   // Setter with validation
   void setSalary(double sal);
+  
+  // Getter methods
+  double getSalary() const;
+  std::string getPosition() const;
 
   void giveDiscount(customer &c, int percent);
   void lockRoom(hotel &h, std::string id);

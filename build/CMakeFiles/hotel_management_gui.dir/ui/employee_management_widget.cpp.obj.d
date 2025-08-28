@@ -488,5 +488,4 @@ CMakeFiles/hotel_management_gui.dir/ui/employee_management_widget.cpp.obj: \
  C:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h \
  C:/Qt/6.9.1/mingw_64/include/QtCore/qcalendar.h \
  C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug \
- C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h \
- D:/hotel4/Da-Lat-Hotel-Management/build/hotel_management_gui_autogen/include/employee_management_widget.moc
+ C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h

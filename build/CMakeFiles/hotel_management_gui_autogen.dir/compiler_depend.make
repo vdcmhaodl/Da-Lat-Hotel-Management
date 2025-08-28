@@ -42,7 +42,6 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Program\ Files/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake \
   C:/Program\ Files/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
   C:/Qt/6.9.1/mingw_64/include/QtCore/QDate \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug \
   C:/Qt/6.9.1/mingw_64/include/QtCore/QTime \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h \
@@ -51,7 +50,6 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20type_traits.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20utility.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q23utility.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qabstracteventdispatcher.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qabstractitemmodel.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qalgorithms.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qanystringview.h \
@@ -62,7 +60,6 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qatomic.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qatomic_cxx11.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qbasicatomic.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qbasictimer.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qbindingstorage.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearray.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -80,17 +77,11 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qcontainerinfo.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qcontainertools_impl.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qcontiguouscache.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qcoreapplication.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qcoreapplication_platform.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qcoreevent.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qdarwinhelpers.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qdatastream.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qdeadlinetimer.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qelapsedtimer.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qendian.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qeventloop.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qexceptionhandling.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qflags.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qfloat16.h \
@@ -120,7 +111,6 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qmetatype.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qminmax.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qnamespace.h \
-  C:/Qt/6.9.1/mingw_64/include/QtCore/qnativeinterface.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qnumeric.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qobject.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/qobject_impl.h \
@@ -198,11 +188,8 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qfontinfo.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qfontmetrics.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qfontvariableaxis.h \
-  C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication.h \
-  C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication_platform.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qicon.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qimage.h \
-  C:/Qt/6.9.1/mingw_64/include/QtGui/qinputmethod.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qkeysequence.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpaintdevice.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qpalette.h \
@@ -225,7 +212,6 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qvalidator.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt/6.9.1/mingw_64/include/QtGui/qwindowdefs_win.h \
-  C:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/QComboBox \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/QDateEdit \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/QDialog \
@@ -260,7 +246,6 @@ hotel_management_gui_autogen/timestamp: C:/Program\ Files/CMake/bin/cmake.exe \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractslider.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractspinbox.h \
-  C:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qboxlayout.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qcombobox.h \
   C:/Qt/6.9.1/mingw_64/include/QtWidgets/qdatetimeedit.h \
@@ -861,6 +846,8 @@ C:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h:
 
 C:/Program\ Files/CMake/share/cmake-4.1/Modules/CheckCXXCompilerFlag.cmake:
 
+C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearrayview.h:
+
 C:/Qt/6.9.1/mingw_64/include/QtCore/q20utility.h:
 
 C:/Program\ Files/CMake/share/cmake-4.1/Modules/CheckIncludeFileCXX.cmake:
@@ -943,9 +930,9 @@ C:/Program\ Files/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU-CXX-ABI.cma
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_raw_storage_iter.h:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/allocator.h:
-
 C:/Qt/6.9.1/mingw_64/include/QtCore/qline.h:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/allocator.h:
 
 C:/Program\ Files/CMake/share/cmake-4.1/Modules/Internal/CheckFlagCommonConfig.cmake:
 
@@ -969,13 +956,7 @@ C:/Program\ Files/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-GNU-CXX.
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qfunctionaltools_impl.h:
 
-C:/Qt/6.9.1/mingw_64/include/QtCore/qelapsedtimer.h:
-
 C:/Program\ Files/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU-CXX.cmake:
-
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cstdlib:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qabstracteventdispatcher.h:
 
 C:/Program\ Files/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU.cmake:
 
@@ -990,16 +971,6 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
 C:/Qt/6.9.1/mingw_64/include/QtCore/QDate:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/Qt6ConfigExtras.cmake:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug:
-
-C:/Qt/6.9.1/mingw_64/include/QtWidgets/QComboBox:
-
-C:/Qt/6.9.1/mingw_64/include/QtWidgets/qstatusbar.h:
-
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/tr1/legendre_function.tcc:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qbasictimer.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h:
 
@@ -1035,13 +1006,11 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginTargets-relwit
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qassert.h:
 
+C:/Qt/6.9.1/mingw_64/include/QtCore/qatomic.h:
+
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/exception_defines.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearraylist.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qcoreapplication.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qatomic.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qbasicatomic.h:
 
@@ -1050,8 +1019,6 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/array:
 C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearray.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearrayalgorithms.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qbytearrayview.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qcalendar.h:
 
@@ -1095,22 +1062,6 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/erase_if.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qcontainertools_impl.h:
 
-C:/Qt/6.9.1/mingw_64/include/QtCore/qcoreapplication_platform.h:
-
-C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/Qt6Targets.cmake:
-
-C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfigVersionImpl.cmake:
-
-C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginConfig.cmake:
-
-D:/hotel4/Da-Lat-Hotel-Management/include/room.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qcoreevent.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qttypetraits.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtGui/qinputmethod.h:
-
 C:/Qt/6.9.1/mingw_64/include/QtCore/qdarwinhelpers.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qdatastream.h:
@@ -1121,17 +1072,11 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets-relwithdebinfo.cmake:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/string_conversions.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qdeadlinetimer.h:
+C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_ios.tcc:
 
-C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h:
-
 C:/Qt/6.9.1/mingw_64/include/QtCore/qendian.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qeventloop.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/string_view.tcc:
 
@@ -1147,11 +1092,11 @@ C:/Qt/6.9.1/mingw_64/include/QtCore/qfloat16.h:
 
 C:/w64devkit/include/corecrt_stdio_config.h:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_base.h:
-
 C:/Qt/6.9.1/mingw_64/include/QtCore/qforeach.h:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_base.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qfunctionpointer.h:
 
@@ -1240,12 +1185,6 @@ C:/Qt/6.9.1/mingw_64/include/QtCore/qminmax.h:
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets.cmake:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qnamespace.h:
-
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cctype:
-
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_relops.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtCore/qnativeinterface.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qnumeric.h:
 
@@ -1423,6 +1362,10 @@ C:/Qt/6.9.1/mingw_64/include/QtCore/qtresource.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qttranslation.h:
 
+D:/hotel4/Da-Lat-Hotel-Management/include/room.h:
+
+C:/Qt/6.9.1/mingw_64/include/QtCore/qttypetraits.h:
+
 C:/Qt/6.9.1/mingw_64/include/QtCore/qtversion.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtGui/qfontvariableaxis.h:
@@ -1451,9 +1394,9 @@ C:/Qt/6.9.1/mingw_64/include/QtWidgets/QHBoxLayout:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ratio:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/backward/binders.h:
-
 C:/Qt/6.9.1/mingw_64/include/QtCore/qvariant.h:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/backward/binders.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qdatetimeedit.h:
 
@@ -1505,14 +1448,6 @@ C:/Qt/6.9.1/mingw_64/include/QtWidgets/QStatusBar:
 
 C:/Qt/6.9.1/mingw_64/include/QtGui/qfontinfo.h:
 
-C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication.h:
-
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_function.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtWidgets/qmenu.h:
-
-C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication_platform.h:
-
 C:/Qt/6.9.1/mingw_64/include/QtGui/qicon.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtGui/qkeysequence.h:
@@ -1524,6 +1459,8 @@ C:/Qt/6.9.1/mingw_64/include/QtGui/qpen.h:
 C:/Qt/6.9.1/mingw_64/include/QtGui/qpicture.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtGui/qregion.h:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_string.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtGui/qpixelformat.h:
 
@@ -1573,9 +1510,9 @@ C:/Qt/6.9.1/mingw_64/include/QtGui/qwindowdefs_win.h:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfigVersionImpl.cmake:
 
-C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateVersionlessAliasTargets.cmake:
+C:/Qt/6.9.1/mingw_64/include/QtWidgets/QComboBox:
 
-C:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication:
+C:/Qt/6.9.1/mingw_64/include/QtWidgets/qstatusbar.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/QDateEdit:
 
@@ -1645,10 +1582,6 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/compare:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qabstractspinbox.h:
 
-C:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h:
-
-C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6GuiPrivate/Qt6GuiPrivateVersionlessAliasTargets.cmake:
-
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfig.cmake:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qboxlayout.h:
@@ -1678,6 +1611,10 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicSbomLicenseHelpers.cmake:
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qmainwindow.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qrubberband.h:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_function.h:
+
+C:/Qt/6.9.1/mingw_64/include/QtWidgets/qmenu.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qpushbutton.h:
 
@@ -1722,6 +1659,12 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6WidgetsPrivate/Qt6WidgetsPrivateAdditionalTargetInfo.cmake:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake:
+
+C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/Qt6Targets.cmake:
+
+C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfigVersionImpl.cmake:
+
+C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginConfig.cmake:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/Qt6VersionlessAliasTargets.cmake:
 
@@ -1793,9 +1736,9 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6/QtPublicWindowsHelpers.cmake:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginTargets.cmake:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_string.tcc:
-
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigVersion.cmake:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_string.tcc:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/concurrence.h:
 
@@ -1842,6 +1785,8 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfigVe
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateTargets-relwithdebinfo.cmake:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateTargets.cmake:
+
+C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateVersionlessAliasTargets.cmake:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/numeric_traits.h:
 
@@ -1919,9 +1864,13 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6GuiPrivate/Qt6GuiPrivateTargets.cmake:
 
 C:/w64devkit/include/stdio.h:
 
+C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6GuiPrivate/Qt6GuiPrivateVersionlessAliasTargets.cmake:
+
 D:/hotel4/Da-Lat-Hotel-Management/src/room_concrete.cpp:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsDependencies.cmake:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/allocated_ptr.h:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake:
 
@@ -1940,6 +1889,8 @@ C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/algorithmfwd.h:
 
 C:/Qt/6.9.1/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake:
 
@@ -2009,25 +1960,19 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/backward/auto_ptr.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bit:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/algorithmfwd.h:
-
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/locale_facets.tcc:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/align.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/alloc_traits.h:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/allocated_ptr.h:
-
 D:/hotel4/Da-Lat-Hotel-Management/src/hotel.cpp:
-
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/char_traits.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_lockfree_defines.h:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_ios.h:
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/char_traits.h:
 
-C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_string.h:
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_ios.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/charconv.h:
 
@@ -2133,6 +2078,10 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_multiset.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_queue.h:
 
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cctype:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_relops.h:
+
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_set.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_tempbuf.h:
@@ -2175,6 +2124,8 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cmath:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/concepts:
 
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cstdlib:
+
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cstring:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ctime:
@@ -2192,6 +2143,8 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/alloc_traits.h:
 D:/hotel4/Da-Lat-Hotel-Management/include/person.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/atomicity.h:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/string_conversions.h:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/type_traits.h:
 
@@ -2248,6 +2201,8 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/tr1/ell_integral.tcc:
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/utility:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/tr1/exp_integral.tcc:
+
+C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/tr1/legendre_function.tcc:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/tr1/modified_bessel_func.tcc:
 

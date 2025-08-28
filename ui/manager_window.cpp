@@ -471,11 +471,23 @@ void ManagerWindow::updateDashboard()
         std::vector<customer*> customers = m_hotelSystem->getAllCustomers();
         m_totalCustomersLabel->setText(QString("Total Customers: %1").arg(customers.size()));
         
-        // Update employee statistics (would need employee count method)
-        m_totalEmployeesLabel->setText(QString("Total Employees: %1").arg(m_hotelSystem->getEmployeeSize()));
+        // Update employee statistics
+        manager& mgr = m_hotelSystem->getManager();
+        std::vector<IPerson*> employees = mgr.getEmployeeList();
+        m_totalEmployeesLabel->setText(QString("Total Employees: %1").arg(employees.size()));
         
-        // Update revenue statistics (would need revenue calculation method)
-        m_totalRevenueLabel->setText(QString("Total Revenue: $%1").arg(m_hotelSystem->getRevenue()));
+        // Update revenue statistics (calculate from customer bookings)
+        double totalRevenue = 0.0;
+        for (customer* cust : customers) {
+            if (cust) {
+                // Get customer's booking history and sum up costs
+                std::vector<current_booking> bookings = cust->getCurrentBookings();
+                for (const current_booking& booking : bookings) {
+                    totalRevenue += booking.bill;
+                }
+            }
+        }
+        m_totalRevenueLabel->setText(QString("Total Revenue: $%1").arg(QString::number(totalRevenue, 'f', 2)));
         
     } catch (const std::exception &e) {
         m_statusBar->showMessage(QString("Error updating dashboard: %1").arg(e.what()), 5000);

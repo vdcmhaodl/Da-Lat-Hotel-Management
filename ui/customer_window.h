@@ -55,6 +55,7 @@ private:
     void updateDashboard();
     void refreshRoomTable();
     void refreshBookingsTable();
+    void loadPersonalInfoSafely();
     
     // UI Components
     QWidget *m_centralWidget;

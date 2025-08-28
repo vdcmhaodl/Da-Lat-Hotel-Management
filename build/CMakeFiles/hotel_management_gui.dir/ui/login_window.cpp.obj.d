@@ -517,4 +517,5 @@ CMakeFiles/hotel_management_gui.dir/ui/login_window.cpp.obj: \
  C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication.h \
  C:/Qt/6.9.1/mingw_64/include/QtGui/qinputmethod.h \
  C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication_platform.h \
- D:/hotel4/Da-Lat-Hotel-Management/build/hotel_management_gui_autogen/include/login_window.moc
+ C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug \
+ C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h

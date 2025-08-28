@@ -5659,7 +5659,6 @@ CMakeFiles/hotel_management_gui.dir/ui/booking_widget.cpp.obj: D:/hotel4/Da-Lat-
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/booking_widget.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -6159,7 +6158,6 @@ CMakeFiles/hotel_management_gui.dir/ui/customer_management_widget.cpp.obj: D:/ho
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/customer_management_widget.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -6178,6 +6176,7 @@ CMakeFiles/hotel_management_gui.dir/ui/customer_management_widget.cpp.obj: D:/ho
 
 CMakeFiles/hotel_management_gui.dir/ui/customer_window.cpp.obj: D:/hotel4/Da-Lat-Hotel-Management/ui/customer_window.cpp \
   C:/Qt/6.9.1/mingw_64/include/QtCore/QDate \
+  C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20iterator.h \
@@ -6669,7 +6668,6 @@ CMakeFiles/hotel_management_gui.dir/ui/customer_window.cpp.obj: D:/hotel4/Da-Lat
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/customer_window.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -7172,7 +7170,6 @@ CMakeFiles/hotel_management_gui.dir/ui/employee_management_widget.cpp.obj: D:/ho
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/employee_management_widget.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -7682,7 +7679,6 @@ CMakeFiles/hotel_management_gui.dir/ui/employee_window.cpp.obj: D:/hotel4/Da-Lat
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/employee_window.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -7699,6 +7695,7 @@ CMakeFiles/hotel_management_gui.dir/ui/employee_window.cpp.obj: D:/hotel4/Da-Lat
   D:/hotel4/Da-Lat-Hotel-Management/ui/employee_window.h
 
 CMakeFiles/hotel_management_gui.dir/ui/login_window.cpp.obj: D:/hotel4/Da-Lat-Hotel-Management/ui/login_window.cpp \
+  C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q17memory.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.9.1/mingw_64/include/QtCore/q20iterator.h \
@@ -8211,7 +8208,6 @@ CMakeFiles/hotel_management_gui.dir/ui/login_window.cpp.obj: D:/hotel4/Da-Lat-Ho
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/login_window.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -9243,7 +9239,6 @@ CMakeFiles/hotel_management_gui.dir/ui/manager_window.cpp.obj: D:/hotel4/Da-Lat-
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stddef.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdint.h \
   C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/syslimits.h \
-  hotel_management_gui_autogen/include/manager_window.moc \
   D:/hotel4/Da-Lat-Hotel-Management/include/HotelManagement.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/customer.h \
   D:/hotel4/Da-Lat-Hotel-Management/include/employee.h \
@@ -10562,8 +10557,6 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/locale_facets_no
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/deque:
 
-hotel_management_gui_autogen/include/manager_window.moc:
-
 D:/hotel4/Da-Lat-Hotel-Management/include/room_concrete.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/qstdlibdetection.h:
@@ -10795,8 +10788,6 @@ C:/Qt/6.9.1/mingw_64/include/QtGui/qtextoption.h:
 C:/Qt/6.9.1/mingw_64/include/QtGui/qtgui-config.h:
 
 C:/Qt/6.9.1/mingw_64/include/QtGui/qtguiglobal.h:
-
-hotel_management_gui_autogen/include/customer_window.moc:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/time_members.h:
 
@@ -11258,8 +11249,6 @@ C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/fstream:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/variant:
 
-hotel_management_gui_autogen/include/booking_widget.moc:
-
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/iomanip:
 
 C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/iosfwd:
@@ -11410,19 +11399,13 @@ D:/hotel4/Da-Lat-Hotel-Management/include/Room_item.h:
 
 D:/hotel4/Da-Lat-Hotel-Management/ui/add_customer_dialog.cpp:
 
-hotel_management_gui_autogen/include/customer_management_widget.moc:
-
 D:/hotel4/Da-Lat-Hotel-Management/ui/customer_window.cpp:
-
-D:/hotel4/Da-Lat-Hotel-Management/ui/employee_management_widget.cpp:
 
 C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug:
 
-hotel_management_gui_autogen/include/employee_management_widget.moc:
+D:/hotel4/Da-Lat-Hotel-Management/ui/employee_management_widget.cpp:
 
 D:/hotel4/Da-Lat-Hotel-Management/ui/employee_window.cpp:
-
-hotel_management_gui_autogen/include/employee_window.moc:
 
 D:/hotel4/Da-Lat-Hotel-Management/ui/login_window.cpp:
 
@@ -11441,8 +11424,6 @@ C:/Qt/6.9.1/mingw_64/include/QtGui/qguiapplication_platform.h:
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/QApplication:
 
 C:/Qt/6.9.1/mingw_64/include/QtWidgets/qapplication.h:
-
-hotel_management_gui_autogen/include/login_window.moc:
 
 D:/hotel4/Da-Lat-Hotel-Management/ui/main_gui.cpp:
 

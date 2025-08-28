@@ -12,6 +12,7 @@ EmployeeWindow::EmployeeWindow(HotelManagementSystem *hotelSystem, int employeeI
     setupStyles();
     connectSignals();
     updateDashboard();
+    onViewRooms(); // Load rooms by default
     
     setWindowTitle(QString("Hotel Management System - Employee Dashboard (ID: %1)").arg(employeeId));
     setMinimumSize(1000, 700);
@@ -190,10 +191,15 @@ void EmployeeWindow::setupRoomView()
     QWidget *roomWidget = new QWidget();
     QVBoxLayout *roomLayout = new QVBoxLayout(roomWidget);
     
-    QLabel *roomTitle = new QLabel("Available Rooms");
+    QLabel *roomTitle = new QLabel("Rooms Overview");
     roomTitle->setObjectName("sectionTitle");
     roomTitle->setAlignment(Qt::AlignCenter);
     roomLayout->addWidget(roomTitle);
+    
+    // Room count label
+    m_roomCountLabel = new QLabel("Total Rooms: 0");
+    m_roomCountLabel->setObjectName("countLabel");
+    roomLayout->addWidget(m_roomCountLabel);
     
     // Room table
     m_roomTable = new QTableWidget();
@@ -202,7 +208,7 @@ void EmployeeWindow::setupRoomView()
     m_roomTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     
     QStringList headers;
-    headers << "Room ID" << "Floor" << "Type" << "Price/Night" << "Status" << "Current Guest";
+    headers << "Room ID" << "Floor" << "Type" << "Price/Night" << "Status" << "Current Guest" << "Available";
     m_roomTable->setColumnCount(headers.size());
     m_roomTable->setHorizontalHeaderLabels(headers);
     
@@ -210,12 +216,30 @@ void EmployeeWindow::setupRoomView()
     
     roomLayout->addWidget(m_roomTable);
     
+    // Room control buttons
+    QHBoxLayout *roomControlLayout = new QHBoxLayout();
+    
     // Refresh button
     QPushButton *refreshRoomsBtn = new QPushButton("Refresh Rooms");
     refreshRoomsBtn->setObjectName("actionButton");
     connect(refreshRoomsBtn, &QPushButton::clicked, this, &EmployeeWindow::onViewRooms);
     
-    roomLayout->addWidget(refreshRoomsBtn);
+    // Lock room button
+    QPushButton *lockRoomBtn = new QPushButton("Lock Room");
+    lockRoomBtn->setObjectName("actionButton");
+    connect(lockRoomBtn, &QPushButton::clicked, this, &EmployeeWindow::onLockRoom);
+    
+    // Unlock room button
+    QPushButton *unlockRoomBtn = new QPushButton("Unlock Room");
+    unlockRoomBtn->setObjectName("actionButton");
+    connect(unlockRoomBtn, &QPushButton::clicked, this, &EmployeeWindow::onUnlockRoom);
+    
+    roomControlLayout->addWidget(refreshRoomsBtn);
+    roomControlLayout->addWidget(lockRoomBtn);
+    roomControlLayout->addWidget(unlockRoomBtn);
+    roomControlLayout->addStretch();
+    
+    roomLayout->addLayout(roomControlLayout);
     
     m_tabWidget->addTab(roomWidget, "View Rooms");
 }
@@ -387,6 +411,13 @@ void EmployeeWindow::setupStyles()
             padding: 5px;
         }
         
+        #countLabel {
+            font-size: 16px;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 5px 0;
+        }
+        
         #actionButton {
             background-color: #3498db;
             color: white;
@@ -423,6 +454,7 @@ void EmployeeWindow::setupStyles()
             border-radius: 5px;
             font-size: 14px;
             background-color: white;
+            color: black;
         }
         
         #lineEdit:focus, #dateEdit:focus {
@@ -436,11 +468,13 @@ void EmployeeWindow::setupStyles()
             selection-background-color: #3498db;
             border: 1px solid #bdc3c7;
             border-radius: 5px;
+            color: black;
         }
         
         #dataTable::item {
             padding: 8px;
             border: none;
+            color: black;
         }
         
         #reportText {
@@ -448,7 +482,8 @@ void EmployeeWindow::setupStyles()
             border-radius: 5px;
             font-family: 'Courier New', monospace;
             font-size: 12px;
-            background-color: #ecf0f1;
+            background-color: white;
+            color: black;
         }
     )");
 }
@@ -463,14 +498,43 @@ void EmployeeWindow::updateDashboard()
     if (!m_hotelSystem) return;
     
     try {
-        // Update available rooms count (placeholder)
-        m_availableRoomsLabel->setText("Available: N/A");
+        // Count available rooms
+        hotel& h = m_hotelSystem->getHotel();
+        std::vector<floor_> floors = h.getFloors();
         
-        // Update today's bookings count (placeholder)
-        m_todayBookingsLabel->setText("Bookings: N/A");
+        int totalRooms = 0;
+        int availableRooms = 0;
+        
+        for (size_t i = 0; i < floors.size(); ++i) {
+            std::vector<room> rooms = floors[i].findAllRooms();
+            totalRooms += rooms.size();
+            
+            for (size_t j = 0; j < rooms.size(); ++j) {
+                if (rooms[j].isAvailable()) {
+                    availableRooms++;
+                }
+            }
+        }
+        
+        m_availableRoomsLabel->setText(QString("Available: %1/%2").arg(availableRooms).arg(totalRooms));
+        
+        // Count today's bookings (count all customers with current bookings)
+        std::vector<customer*> customers = m_hotelSystem->getAllCustomers();
+        int todayBookings = 0;
+        
+        for (customer* cust : customers) {
+            if (cust && cust->getCurrentBookings().size() > 0) {
+                todayBookings++;
+            }
+        }
+        
+        m_todayBookingsLabel->setText(QString("Active Bookings: %1").arg(todayBookings));
         
     } catch (const std::exception &e) {
         m_statusBar->showMessage(QString("Error updating dashboard: %1").arg(e.what()), 5000);
+        // Fallback to N/A on error
+        m_availableRoomsLabel->setText("Available: N/A");
+        m_todayBookingsLabel->setText("Bookings: N/A");
     }
 }
 
@@ -496,18 +560,52 @@ void EmployeeWindow::onRefreshData()
 void EmployeeWindow::onViewRooms()
 {
     try {
-        // Capture room list output
-        std::ostringstream roomStream;
-        std::streambuf* orig = std::cout.rdbuf();
-        std::cout.rdbuf(roomStream.rdbuf());
-        
-        m_hotelSystem->showRoom();
-        
-        std::cout.rdbuf(orig);
-        
-        // For now, clear the table and show placeholder
+        // Clear existing data
         m_roomTable->setRowCount(0);
-        m_statusBar->showMessage("Room list updated", 3000);
+        
+        // Get hotel and populate room table
+        hotel& h = m_hotelSystem->getHotel();
+        std::vector<floor_> floors = h.getFloors();
+        
+        int totalRooms = 0;
+        int rowIndex = 0;
+        
+        // Iterate through all floors and rooms
+        for (size_t floorIndex = 0; floorIndex < floors.size(); ++floorIndex) {
+            floor_ currentFloor = floors[floorIndex];  // Make a copy to call non-const methods
+            std::vector<room> roomsOnFloor = currentFloor.findAllRooms();
+            
+            for (auto& r : roomsOnFloor) {  // Remove const to allow non-const method calls
+                m_roomTable->insertRow(rowIndex);
+                
+                // Set room data in table
+                m_roomTable->setItem(rowIndex, 0, new QTableWidgetItem(QString::fromStdString(r.getID())));
+                m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
+                m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
+                m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
+                m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
+                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
+                m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
+                
+                totalRooms++;
+                rowIndex++;
+            }
+        }
+        
+        // If no rooms found, show message
+        if (totalRooms == 0) {
+            m_roomTable->insertRow(0);
+            m_roomTable->setItem(0, 0, new QTableWidgetItem("No rooms found"));
+            m_roomTable->setItem(0, 1, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 2, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 3, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 4, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 5, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 6, new QTableWidgetItem(""));
+        }
+        
+        m_roomCountLabel->setText(QString("Total Rooms: %1").arg(totalRooms));
+        m_statusBar->showMessage(QString("Loaded %1 rooms").arg(totalRooms), 3000);
         
     } catch (const std::exception &e) {
         QMessageBox::critical(this, "Error", QString("Failed to load rooms: %1").arg(e.what()));
@@ -532,21 +630,54 @@ void EmployeeWindow::onBookRoomForCustomer()
     }
     
     try {
+        // Find customer
         customer *cust = m_hotelSystem->findCustomer(customerId);
-        if (cust) {
-            m_hotelSystem->bookRoom(cust);
-            QMessageBox::information(this, "Success", "Room booked successfully!");
-            
-            // Clear form
-            m_customerIdEdit->clear();
-            m_roomIdEdit->clear();
-            m_checkinDateEdit->setDate(QDate::currentDate());
-            m_checkoutDateEdit->setDate(QDate::currentDate().addDays(1));
-            
-            updateDashboard();
-        } else {
+        if (!cust) {
             QMessageBox::warning(this, "Error", "Customer not found!");
+            return;
         }
+        
+        // Find room
+        room *roomPtr = m_hotelSystem->getHotel().findRoomByNumber(roomId.toStdString());
+        if (!roomPtr) {
+            QMessageBox::warning(this, "Error", "Room not found!");
+            return;
+        }
+        
+        // Check if room is available
+        if (!roomPtr->isAvailable()) {
+            QMessageBox::warning(this, "Error", "Room is not available!");
+            return;
+        }
+        
+        // Create booking record (simplified - using room price and dates)
+        date checkin(checkinDate.day(), checkinDate.month(), checkinDate.year());
+        date checkout(checkoutDate.day(), checkoutDate.month(), checkoutDate.year());
+        
+        // Book the room for customer
+        hotel& h = m_hotelSystem->getHotel();
+        bool success = cust->bookRoom(h, roomId.toStdString(), checkin, checkout);
+        
+        if (success) {
+            QMessageBox::information(this, "Success", 
+                                    QString("Room %1 booked successfully for customer %2!\nCheck-in: %3\nCheck-out: %4")
+                                    .arg(roomId)
+                                    .arg(cust->getName().c_str())
+                                    .arg(checkinDate.toString())
+                                    .arg(checkoutDate.toString()));
+        } else {
+            QMessageBox::warning(this, "Booking Failed", "Failed to book the room. It may be unavailable or there was an error.");
+        }
+        
+        // Clear form
+        m_customerIdEdit->clear();
+        m_roomIdEdit->clear();
+        m_checkinDateEdit->setDate(QDate::currentDate());
+        m_checkoutDateEdit->setDate(QDate::currentDate().addDays(1));
+        
+        updateDashboard();
+        onViewRooms(); // Refresh room table
+        
     } catch (const std::exception &e) {
         QMessageBox::critical(this, "Error", QString("Failed to book room: %1").arg(e.what()));
     }
@@ -665,6 +796,96 @@ void EmployeeWindow::onViewRoomHistory()
             }
         } catch (const std::exception &e) {
             QMessageBox::critical(this, "Error", QString("Failed to load room history: %1").arg(e.what()));
+        }
+    }
+}
+
+void EmployeeWindow::onLockRoom()
+{
+    int currentRow = m_roomTable->currentRow();
+    if (currentRow < 0) {
+        QMessageBox::warning(this, "No Selection", "Please select a room to lock.");
+        return;
+    }
+    
+    QString roomId = m_roomTable->item(currentRow, 0)->text();
+    
+    int reply = QMessageBox::question(this, "Confirm Lock", 
+                                      QString("Are you sure you want to lock room %1?").arg(roomId),
+                                      QMessageBox::Yes | QMessageBox::No);
+    
+    if (reply == QMessageBox::Yes) {
+        try {
+            // Get employee object from manager
+            manager& mgr = m_hotelSystem->getManager();
+            std::vector<IPerson*> employees = mgr.getEmployeeList();
+            
+            employee* emp = nullptr;
+            for (IPerson* person : employees) {
+                if (person->getID() == m_employeeId) {
+                    emp = dynamic_cast<employee*>(person);
+                    break;
+                }
+            }
+            
+            if (emp) {
+                hotel& h = m_hotelSystem->getHotel();
+                emp->lockRoom(h, roomId.toStdString());
+                
+                QMessageBox::information(this, "Success", QString("Room %1 has been locked.").arg(roomId));
+                onViewRooms(); // Refresh the table
+                updateDashboard(); // Update dashboard
+            } else {
+                QMessageBox::warning(this, "Error", "Employee not found in system.");
+            }
+            
+        } catch (const std::exception &e) {
+            QMessageBox::critical(this, "Error", QString("Failed to lock room: %1").arg(e.what()));
+        }
+    }
+}
+
+void EmployeeWindow::onUnlockRoom()
+{
+    int currentRow = m_roomTable->currentRow();
+    if (currentRow < 0) {
+        QMessageBox::warning(this, "No Selection", "Please select a room to unlock.");
+        return;
+    }
+    
+    QString roomId = m_roomTable->item(currentRow, 0)->text();
+    
+    int reply = QMessageBox::question(this, "Confirm Unlock", 
+                                      QString("Are you sure you want to unlock room %1?").arg(roomId),
+                                      QMessageBox::Yes | QMessageBox::No);
+    
+    if (reply == QMessageBox::Yes) {
+        try {
+            // Get employee object from manager
+            manager& mgr = m_hotelSystem->getManager();
+            std::vector<IPerson*> employees = mgr.getEmployeeList();
+            
+            employee* emp = nullptr;
+            for (IPerson* person : employees) {
+                if (person->getID() == m_employeeId) {
+                    emp = dynamic_cast<employee*>(person);
+                    break;
+                }
+            }
+            
+            if (emp) {
+                hotel& h = m_hotelSystem->getHotel();
+                emp->unlockRoom(h, roomId.toStdString());
+                
+                QMessageBox::information(this, "Success", QString("Room %1 has been unlocked.").arg(roomId));
+                onViewRooms(); // Refresh the table
+                updateDashboard(); // Update dashboard
+            } else {
+                QMessageBox::warning(this, "Error", "Employee not found in system.");
+            }
+            
+        } catch (const std::exception &e) {
+            QMessageBox::critical(this, "Error", QString("Failed to unlock room: %1").arg(e.what()));
         }
     }
 }

@@ -1,22 +1,71 @@
 #include "customer_window.h"
 #include <QDate>
+#include <QDebug>
 
 CustomerWindow::CustomerWindow(HotelManagementSystem *hotelSystem, customer *customer, QWidget *parent)
     : QMainWindow(parent)
     , m_hotelSystem(hotelSystem)
     , m_customer(customer)
 {
-    setupUI();
-    setupMenuBar();
-    setupStatusBar();
-    setupStyles();
-    connectSignals();
-    updateDashboard();
+    qDebug() << "CustomerWindow constructor started";
     
-    setWindowTitle(QString("Hotel Management System - Customer Dashboard (%1)")
-                   .arg(QString::fromStdString(customer->getName())));
-    setMinimumSize(1000, 700);
-    resize(1200, 800);
+    if (!customer) {
+        qDebug() << "ERROR: Customer pointer is null";
+        throw std::runtime_error("Customer pointer is null");
+    }
+    
+    if (!hotelSystem) {
+        qDebug() << "ERROR: Hotel system pointer is null";
+        throw std::runtime_error("Hotel system pointer is null");
+    }
+    
+    qDebug() << "Customer found, attempting to get name...";
+    try {
+        QString customerName = QString::fromStdString(customer->getName());
+        qDebug() << "Customer name:" << customerName;
+        qDebug() << "Customer ID:" << customer->getID();
+    } catch (const std::exception& e) {
+        qDebug() << "Error getting customer info:" << e.what();
+        throw std::runtime_error(QString("Failed to access customer data: %1").arg(e.what()).toStdString());
+    }
+    
+    try {
+        qDebug() << "Setting up UI...";
+        setupUI();
+        qDebug() << "UI setup completed";
+        
+        qDebug() << "Setting up menu bar...";
+        setupMenuBar();
+        qDebug() << "Menu bar setup completed";
+        
+        qDebug() << "Setting up status bar...";
+        setupStatusBar();
+        qDebug() << "Status bar setup completed";
+        
+        qDebug() << "Setting up styles...";
+        setupStyles();
+        qDebug() << "Styles setup completed";
+        
+        qDebug() << "Connecting signals...";
+        connectSignals();
+        qDebug() << "Signals connected";
+        
+        qDebug() << "Updating dashboard...";
+        updateDashboard();
+        qDebug() << "Dashboard updated";
+        
+        qDebug() << "Setting window properties...";
+        setWindowTitle(QString("Hotel Management System - Customer Dashboard (%1)")
+                       .arg(QString::fromStdString(customer->getName())));
+        setMinimumSize(1000, 700);
+        resize(1200, 800);
+        qDebug() << "Window properties set";
+        
+        qDebug() << "CustomerWindow constructor completed successfully";
+    } catch (const std::exception& e) {
+        qDebug() << "Exception during CustomerWindow initialization:" << e.what();
+        throw std::runtime_error(QString("Failed to initialize customer window: %1").arg(e.what()).toStdString());
+    }
 }
 
 CustomerWindow::~CustomerWindow()
@@ -29,38 +78,50 @@ CustomerWindow::~CustomerWindow()
 
 void CustomerWindow::setupUI()
 {
+    qDebug() << "setupUI: Creating central widget...";
     m_centralWidget = new QWidget(this);
     setCentralWidget(m_centralWidget);
     
+    qDebug() << "setupUI: Creating main layout...";
     QVBoxLayout *mainLayout = new QVBoxLayout(m_centralWidget);
     mainLayout->setContentsMargins(10, 10, 10, 10);
     
+    qDebug() << "setupUI: Creating welcome label...";
     // Welcome header
-    m_welcomeLabel = new QLabel(QString("Welcome, %1!").arg(QString::fromStdString(m_customer->getName())));
+    QString customerName = m_customer ? QString::fromStdString(m_customer->getName()) : "Guest";
+    m_welcomeLabel = new QLabel(QString("Welcome, %1!").arg(customerName));
     m_welcomeLabel->setObjectName("welcomeLabel");
     m_welcomeLabel->setAlignment(Qt::AlignCenter);
     mainLayout->addWidget(m_welcomeLabel);
     
+    qDebug() << "setupUI: Creating tab widget...";
     // Tab widget
     m_tabWidget = new QTabWidget();
     m_tabWidget->setObjectName("mainTabWidget");
     
+    qDebug() << "setupUI: Setting up dashboard...";
     // Dashboard tab
     setupDashboard();
     
+    qDebug() << "setupUI: Setting up booking section...";
     // Booking section
     setupBookingSection();
     
+    qDebug() << "setupUI: Setting up my bookings section...";
     // My bookings section
     setupMyBookingsSection();
     
+    qDebug() << "setupUI: Setting up billing section...";
     // Billing section
     setupBillingSection();
     
+    qDebug() << "setupUI: Setting up personal info section...";
     // Personal info section
     setupPersonalInfoSection();
     
+    qDebug() << "setupUI: Adding tab widget to main layout...";
     mainLayout->addWidget(m_tabWidget);
+    qDebug() << "setupUI: Completed successfully";
 }
 
 void CustomerWindow::setupDashboard()
@@ -227,6 +288,9 @@ void CustomerWindow::setupBookingSection()
         }
     });
     
+    // Load room data initially
+    refreshRoomTable();
+    
     m_tabWidget->addTab(m_bookingWidget, "Book Room");
 }
 
@@ -286,6 +350,9 @@ void CustomerWindow::setupMyBookingsSection()
     connect(m_bookingsTable, &QTableWidget::itemSelectionChanged, [this]() {
         m_cancelBookingBtn->setEnabled(m_bookingsTable->currentRow() >= 0);
     });
+    
+    // Load booking data initially
+    refreshBookingsTable();
     
     m_tabWidget->addTab(m_myBookingsWidget, "My Bookings");
 }
@@ -380,8 +447,8 @@ void CustomerWindow::setupPersonalInfoSection()
     
     m_tabWidget->addTab(m_personalInfoWidget, "Personal Info");
     
-    // Load personal info initially
-    onViewPersonalInfo();
+    // Auto-load personal information when section is set up
+    loadPersonalInfoSafely();
 }
 
 void CustomerWindow::setupMenuBar()
@@ -613,6 +680,7 @@ void CustomerWindow::setupStyles()
             border-radius: 5px;
             font-size: 14px;
             background-color: white;
+            color: black;
         }
         
         #lineEdit:focus, #dateEdit:focus {
@@ -626,19 +694,44 @@ void CustomerWindow::setupStyles()
             selection-background-color: #3498db;
             border: 1px solid #bdc3c7;
             border-radius: 5px;
+            color: black;
         }
         
         #dataTable::item {
             padding: 8px;
             border: none;
+            color: black;
+        }
+        
+        #dataTable::item:selected {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        QTextEdit {
+            background-color: white;
+            color: black;
+            border: 2px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+            padding: 8px;
+        }
+        
+        QTextEdit:focus {
+            border-color: #3498db;
+        }
         }
         
         #billText, #infoText {
-            border: 1px solid #bdc3c7;
+            border: 2px solid #bdc3c7;
             border-radius: 5px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            background-color: #ecf0f1;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            background-color: white;
+            color: black;
+            padding: 12px;
+            line-height: 1.4;
+        }
         }
     )");
 }
@@ -676,9 +769,51 @@ void CustomerWindow::updateDashboard()
 
 void CustomerWindow::refreshRoomTable()
 {
-    // This would populate the room table with available rooms
-    // Implementation depends on hotel class methods
-    m_roomTable->setRowCount(0);
+    if (!m_hotelSystem) return;
+    
+    try {
+        // Clear existing data
+        m_roomTable->setRowCount(0);
+        
+        // Get hotel and populate room table with available rooms only
+        hotel& h = m_hotelSystem->getHotel();
+        std::vector<floor_> floors = h.getFloors();
+        
+        int rowIndex = 0;
+        for (size_t floorIndex = 0; floorIndex < floors.size(); ++floorIndex) {
+            floor_ currentFloor = floors[floorIndex];  // Make a copy to call non-const methods
+            std::vector<room> roomsOnFloor = currentFloor.findAllRooms();
+            
+            for (auto& r : roomsOnFloor) {
+                // Only show available rooms
+                if (r.isAvailable()) {
+                    m_roomTable->insertRow(rowIndex);
+                    
+                    // Set room data in table
+                    m_roomTable->setItem(rowIndex, 0, new QTableWidgetItem(QString::fromStdString(r.getID())));
+                    m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
+                    m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
+                    m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
+                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem("WiFi, TV, AC")); // Basic amenities
+                    
+                    rowIndex++;
+                }
+            }
+        }
+        
+        // If no available rooms found, show message
+        if (rowIndex == 0) {
+            m_roomTable->insertRow(0);
+            m_roomTable->setItem(0, 0, new QTableWidgetItem("No available rooms"));
+            m_roomTable->setItem(0, 1, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 2, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 3, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 4, new QTableWidgetItem(""));
+        }
+        
+    } catch (const std::exception &e) {
+        QMessageBox::critical(this, "Error", QString("Failed to load available rooms: %1").arg(e.what()));
+    }
 }
 
 void CustomerWindow::refreshBookingsTable()
@@ -736,15 +871,7 @@ void CustomerWindow::onViewAllRooms()
         // Switch to booking tab
         m_tabWidget->setCurrentIndex(1);
         
-        // Capture room output and populate table
-        std::ostringstream roomStream;
-        std::streambuf* orig = std::cout.rdbuf();
-        std::cout.rdbuf(roomStream.rdbuf());
-        
-        m_customer->viewAllRooms(m_hotelSystem->getHotel());
-        
-        std::cout.rdbuf(orig);
-        
+        // Refresh room table with available rooms
         refreshRoomTable();
         m_statusBar->showMessage("Available rooms loaded", 3000);
         
@@ -881,54 +1008,177 @@ void CustomerWindow::onShowBill()
 
 void CustomerWindow::onPayBill()
 {
-    QString roomId = m_payRoomIdEdit->text().trimmed();
+    qDebug() << "onPayBill: Starting payment process...";
     
-    if (roomId.isEmpty()) {
-        QMessageBox::warning(this, "Input Error", "Please enter a room ID for payment.");
-        return;
-    }
-    
-    int reply = QMessageBox::question(this, "Confirm Payment", 
-                                      QString("Are you sure you want to pay the bill for room %1?").arg(roomId),
-                                      QMessageBox::Yes | QMessageBox::No);
-    
-    if (reply == QMessageBox::Yes) {
-        try {
-            if (m_customer->payBill(roomId.toStdString())) {
-                QMessageBox::information(this, "Success", "Payment processed successfully!");
-                m_payRoomIdEdit->clear();
-                updateDashboard();
-                onShowBill(); // Refresh bill display
-            } else {
-                QMessageBox::warning(this, "Payment Failed", "Failed to process payment. Please check the room ID.");
-            }
-        } catch (const std::exception &e) {
-            QMessageBox::critical(this, "Error", QString("Failed to process payment: %1").arg(e.what()));
+    try {
+        // Check if customer object is valid
+        if (!m_customer) {
+            qDebug() << "onPayBill: Customer object is null";
+            QMessageBox::critical(this, "Error", "Customer information not available. Please try logging in again.");
+            return;
         }
+        
+        // Check if hotel system is available
+        if (!m_hotelSystem) {
+            qDebug() << "onPayBill: Hotel system is null";
+            QMessageBox::critical(this, "Error", "Hotel system not available. Please try logging in again.");
+            return;
+        }
+        
+        QString roomId = m_payRoomIdEdit->text().trimmed();
+        
+        if (roomId.isEmpty()) {
+            QMessageBox::warning(this, "Input Error", "Please enter a room ID for payment.");
+            return;
+        }
+        
+        // Validate room ID format (should be numeric)
+        bool ok;
+        int roomIdInt = roomId.toInt(&ok);
+        if (!ok) {
+            QMessageBox::warning(this, "Input Error", "Please enter a valid numeric room ID.");
+            return;
+        }
+        
+        qDebug() << "onPayBill: Processing payment for room ID:" << roomId;
+        
+        int reply = QMessageBox::question(this, "Confirm Payment", 
+                                          QString("Are you sure you want to pay the bill for room %1?").arg(roomId),
+                                          QMessageBox::Yes | QMessageBox::No);
+        
+        if (reply == QMessageBox::Yes) {
+            try {
+                qDebug() << "onPayBill: User confirmed payment, calling customer payBill...";
+                
+                // Check if customer has any outstanding bills first
+                double totalBill = 0.0;
+                try {
+                    totalBill = m_customer->getTotalBill();
+                    qDebug() << "onPayBill: Customer total bill:" << totalBill;
+                } catch (const std::exception &e) {
+                    qDebug() << "onPayBill: Error getting total bill:" << e.what();
+                    QMessageBox::warning(this, "Warning", "Unable to verify current bill amount. Payment may not be processed correctly.");
+                }
+                
+                // Try to process payment
+                bool paymentResult = false;
+                try {
+                    paymentResult = m_customer->payBill(roomId.toStdString());
+                    qDebug() << "onPayBill: Payment result:" << paymentResult;
+                } catch (const std::exception &e) {
+                    qDebug() << "onPayBill: Exception during payment:" << e.what();
+                    QMessageBox::critical(this, "Payment Error", 
+                        QString("Failed to process payment: %1\n\nThis may be due to:\n- Invalid room ID\n- No outstanding bill for this room\n- System error").arg(e.what()));
+                    return;
+                }
+                
+                if (paymentResult) {
+                    QMessageBox::information(this, "Payment Successful", 
+                        QString("Payment for room %1 has been processed successfully!\n\nYour bill has been updated.").arg(roomId));
+                    
+                    // Clear the input field
+                    m_payRoomIdEdit->clear();
+                    
+                    // Try to refresh displays
+                    try {
+                        updateDashboard();
+                        qDebug() << "onPayBill: Dashboard updated successfully";
+                    } catch (const std::exception &e) {
+                        qDebug() << "onPayBill: Error updating dashboard:" << e.what();
+                    }
+                    
+                    try {
+                        onShowBill(); // Refresh bill display
+                        qDebug() << "onPayBill: Bill display refreshed successfully";
+                    } catch (const std::exception &e) {
+                        qDebug() << "onPayBill: Error refreshing bill display:" << e.what();
+                    }
+                    
+                    // Try to refresh bookings table
+                    try {
+                        refreshBookingsTable();
+                        qDebug() << "onPayBill: Bookings table refreshed successfully";
+                    } catch (const std::exception &e) {
+                        qDebug() << "onPayBill: Error refreshing bookings:" << e.what();
+                    }
+                    
+                } else {
+                    QMessageBox::warning(this, "Payment Failed", 
+                        QString("Failed to process payment for room %1.\n\nPossible reasons:\n- No outstanding bill for this room\n- Room ID not found\n- Payment already processed\n\nPlease verify the room ID and try again.").arg(roomId));
+                }
+                
+            } catch (const std::exception &e) {
+                qDebug() << "onPayBill: Unexpected error during payment processing:" << e.what();
+                QMessageBox::critical(this, "Payment Error", 
+                    QString("An unexpected error occurred during payment processing:\n%1\n\nPlease contact support if this problem persists.").arg(e.what()));
+            }
+        } else {
+            qDebug() << "onPayBill: User cancelled payment";
+        }
+        
+    } catch (const std::exception &e) {
+        qDebug() << "onPayBill: Critical error in payment function:" << e.what();
+        QMessageBox::critical(this, "Critical Error", 
+            QString("A critical error occurred: %1\n\nPlease restart the application and try again.").arg(e.what()));
+    } catch (...) {
+        qDebug() << "onPayBill: Unknown critical error occurred";
+        QMessageBox::critical(this, "Critical Error", 
+            "An unknown error occurred during payment processing.\n\nPlease restart the application and try again.");
     }
 }
 
 void CustomerWindow::onViewPersonalInfo()
 {
     try {
-        std::ostringstream infoStream;
-        std::streambuf* orig = std::cout.rdbuf();
-        std::cout.rdbuf(infoStream.rdbuf());
+        if (!m_customer) {
+            QMessageBox::warning(this, "Error", "Customer information not available");
+            return;
+        }
         
-        m_customer->showInfo();
+        QString info;
         
-        std::cout.rdbuf(orig);
-        
-        QString info = QString::fromStdString(infoStream.str());
-        if (info.isEmpty()) {
-            info = QString("Customer ID: %1\nName: %2\nPhone: %3\nEmail: %4\nGender: %5\nDiscount: %6%\nTotal Bill: $%7")
+        // Basic info that should be safe
+        try {
+            info = QString("Customer ID: %1\nName: %2\n")
                 .arg(m_customer->getID())
-                .arg(QString::fromStdString(m_customer->getName()))
-                .arg(QString::fromStdString(m_customer->getPhone()))
-                .arg(QString::fromStdString(m_customer->getEmail()))
-                .arg(m_customer->getGender() ? "Male" : "Female")
-                .arg(m_customer->getDiscount())
-                .arg(m_customer->getTotalBill());
+                .arg(QString::fromStdString(m_customer->getName()));
+        } catch (const std::exception &e) {
+            info = QString("Customer ID: %1\nName: Unable to retrieve\n").arg(m_customer->getID());
+        }
+        
+        // Try to get phone safely
+        try {
+            info += QString("Phone: %1\n").arg(QString::fromStdString(m_customer->getPhone()));
+        } catch (const std::exception &e) {
+            info += "Phone: Unable to retrieve\n";
+        }
+        
+        // Try to get email safely
+        try {
+            info += QString("Email: %1\n").arg(QString::fromStdString(m_customer->getEmail()));
+        } catch (const std::exception &e) {
+            info += "Email: Unable to retrieve\n";
+        }
+        
+        // Try to get gender safely
+        try {
+            info += QString("Gender: %1\n").arg(m_customer->getGender() ? "Male" : "Female");
+        } catch (const std::exception &e) {
+            info += "Gender: Unable to retrieve\n";
+        }
+        
+        // Try to get discount safely
+        try {
+            info += QString("Discount: %1%\n").arg(m_customer->getDiscount());
+        } catch (const std::exception &e) {
+            info += "Discount: Unable to retrieve\n";
+        }
+        
+        // Try to get total bill safely
+        try {
+            info += QString("Total Bill: $%1\n").arg(m_customer->getTotalBill());
+        } catch (const std::exception &e) {
+            info += "Total Bill: Unable to retrieve\n";
         }
         
         m_personalInfoText->setPlainText(info);
@@ -936,6 +1186,85 @@ void CustomerWindow::onViewPersonalInfo()
         
     } catch (const std::exception &e) {
         QMessageBox::critical(this, "Error", QString("Failed to load personal information: %1").arg(e.what()));
+    }
+}
+
+void CustomerWindow::loadPersonalInfoSafely()
+{
+    qDebug() << "loadPersonalInfoSafely: Starting to load personal info...";
+    
+    try {
+        if (!m_customer) {
+            qDebug() << "loadPersonalInfoSafely: Customer object is null, setting default message";
+            m_personalInfoText->setPlainText("Customer information not available.\nPlease click 'Refresh Information' to try again.");
+            return;
+        }
+
+        QString info;
+        
+        // Basic info that should be safe
+        try {
+            info = QString("=== Personal Information ===\n\n");
+            info += QString("Customer ID: %1\n").arg(m_customer->getID());
+            info += QString("Name: %1\n").arg(QString::fromStdString(m_customer->getName()));
+        } catch (const std::exception &e) {
+            qDebug() << "loadPersonalInfoSafely: Error getting basic info:" << e.what();
+            info = QString("=== Personal Information ===\n\n");
+            info += QString("Customer ID: %1\n").arg(m_customer->getID());
+            info += "Name: Unable to retrieve\n";
+        }
+        
+        // Try to get phone safely
+        try {
+            info += QString("Phone: %1\n").arg(QString::fromStdString(m_customer->getPhone()));
+        } catch (const std::exception &e) {
+            qDebug() << "loadPersonalInfoSafely: Error getting phone:" << e.what();
+            info += "Phone: Unable to retrieve\n";
+        }
+        
+        // Try to get email safely
+        try {
+            info += QString("Email: %1\n").arg(QString::fromStdString(m_customer->getEmail()));
+        } catch (const std::exception &e) {
+            qDebug() << "loadPersonalInfoSafely: Error getting email:" << e.what();
+            info += "Email: Unable to retrieve\n";
+        }
+        
+        // Try to get gender safely
+        try {
+            info += QString("Gender: %1\n").arg(m_customer->getGender() ? "Male" : "Female");
+        } catch (const std::exception &e) {
+            qDebug() << "loadPersonalInfoSafely: Error getting gender:" << e.what();
+            info += "Gender: Unable to retrieve\n";
+        }
+        
+        // Try to get discount safely
+        try {
+            info += QString("Discount Rate: %1%\n").arg(m_customer->getDiscount());
+        } catch (const std::exception &e) {
+            qDebug() << "loadPersonalInfoSafely: Error getting discount:" << e.what();
+            info += "Discount Rate: Unable to retrieve\n";
+        }
+        
+        // Try to get total bill safely
+        try {
+            info += QString("Total Outstanding Bill: $%1\n").arg(m_customer->getTotalBill());
+        } catch (const std::exception &e) {
+            qDebug() << "loadPersonalInfoSafely: Error getting total bill:" << e.what();
+            info += "Total Outstanding Bill: Unable to retrieve\n";
+        }
+        
+        // Add some additional info
+        info += QString("\n=== Account Status ===\n");
+        info += QString("Account Active: Yes\n");
+        info += QString("Last Updated: %1\n").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+        
+        m_personalInfoText->setPlainText(info);
+        qDebug() << "loadPersonalInfoSafely: Personal information loaded successfully";
+        
+    } catch (const std::exception &e) {
+        qDebug() << "loadPersonalInfoSafely: Critical error:" << e.what();
+        m_personalInfoText->setPlainText(QString("Error loading personal information: %1\n\nPlease click 'Refresh Information' to try again.").arg(e.what()));
     }
 }
 

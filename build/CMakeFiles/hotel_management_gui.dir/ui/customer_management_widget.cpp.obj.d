@@ -484,5 +484,4 @@ CMakeFiles/hotel_management_gui.dir/ui/customer_management_widget.cpp.obj: \
  C:/Qt/6.9.1/mingw_64/include/QtWidgets/QFormLayout \
  C:/Qt/6.9.1/mingw_64/include/QtWidgets/qformlayout.h \
  C:/Qt/6.9.1/mingw_64/include/QtWidgets/QLayout \
- C:/Qt/6.9.1/mingw_64/include/QtWidgets/qlayout.h \
- D:/hotel4/Da-Lat-Hotel-Management/build/hotel_management_gui_autogen/include/customer_management_widget.moc
+ C:/Qt/6.9.1/mingw_64/include/QtWidgets/qlayout.h

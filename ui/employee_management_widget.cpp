@@ -502,8 +502,8 @@ void EmployeeManagementWidget::populateEmployeeTable()
                 m_employeeTable->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(emp->getPhone())));
                 m_employeeTable->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(emp->getEmail())));
                 m_employeeTable->setItem(i, 4, new QTableWidgetItem(emp->getGender() ? "Male" : "Female"));
-                m_employeeTable->setItem(i, 5, new QTableWidgetItem("Employee")); // Default since position is private
-                m_employeeTable->setItem(i, 6, new QTableWidgetItem("Confidential")); // Salary is protected
+                m_employeeTable->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(emp->getPosition())));
+                m_employeeTable->setItem(i, 6, new QTableWidgetItem(QString::number(emp->getSalary(), 'f', 0) + " VND"));
                 m_employeeTable->setItem(i, 7, new QTableWidgetItem("Employee"));
             }
             

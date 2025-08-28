@@ -492,4 +492,5 @@ CMakeFiles/hotel_management_gui.dir/ui/customer_window.cpp.obj: \
  C:/w64devkit/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/quoted_string.h \
  C:/Qt/6.9.1/mingw_64/include/QtCore/QDate \
  C:/Qt/6.9.1/mingw_64/include/QtCore/qdatetime.h \
- D:/hotel4/Da-Lat-Hotel-Management/build/hotel_management_gui_autogen/include/customer_window.moc
+ C:/Qt/6.9.1/mingw_64/include/QtCore/QDebug \
+ C:/Qt/6.9.1/mingw_64/include/QtCore/qdebug.h

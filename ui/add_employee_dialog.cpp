@@ -5,7 +5,7 @@ AddEmployeeDialog::AddEmployeeDialog(HotelManagementSystem *hotelSystem, QWidget
 {
     setWindowTitle("Add New Employee");
     setModal(true);
-    setFixedSize(400, 400);
+    setFixedSize(450, 550); // Increased size for better text visibility
     
     setupUI();
     connectSignals();
@@ -14,6 +14,8 @@ AddEmployeeDialog::AddEmployeeDialog(HotelManagementSystem *hotelSystem, QWidget
 void AddEmployeeDialog::setupUI()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    mainLayout->setSpacing(15); // Add spacing between sections
+    mainLayout->setContentsMargins(20, 20, 20, 20); // Add margins
     
     // Title
     QLabel *titleLabel = new QLabel("Add New Employee");
@@ -23,6 +25,7 @@ void AddEmployeeDialog::setupUI()
     
     // Form layout
     QFormLayout *formLayout = new QFormLayout();
+    formLayout->setSpacing(12); // Add spacing between form rows
     
     // Employee information fields
     m_nameEdit = new QLineEdit();
@@ -126,14 +129,16 @@ void AddEmployeeDialog::setupUI()
     setStyleSheet(
         "QDialog {"
         "    background-color: #ecf0f1;"
+        "    padding: 10px;"
         "}"
         "QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {"
-        "    padding: 8px;"
+        "    padding: 10px;"
         "    border: 2px solid #bdc3c7;"
         "    border-radius: 4px;"
         "    background-color: white;"
         "    color: black;"
         "    font-size: 14px;"
+        "    min-height: 20px;"
         "}"
         "QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {"
         "    border-color: #3498db;"
@@ -141,6 +146,11 @@ void AddEmployeeDialog::setupUI()
         "QLabel {"
         "    color: #2c3e50;"
         "    font-weight: bold;"
+        "    font-size: 14px;"
+        "    margin-bottom: 5px;"
+        "}"
+        "QFormLayout {"
+        "    spacing: 10px;"
         "}"
     );
 }

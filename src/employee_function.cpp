@@ -18,7 +18,9 @@ void employee::showInfo() {
 
 std::string employee::getName() { return name; }
 
-// std::string employee::getPosition() { return position; }
+std::string employee::getPosition() const { return position; }
+
+double employee::getSalary() const { return salary; }
 
 int employee::getID() const { return id; }
 

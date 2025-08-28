@@ -38,15 +38,11 @@ public:
                    const std::string& position, const std::string& password);
   void fireEmployee(int id);
   void viewEmployees();
-  int getEmployeeSize();
   customer *addCustomer();
   bool addCustomer(const std::string& name, const std::string& phone, 
                    const std::string& email, bool gender, const std::string& password);
   customer *findCustomer(int id);
   void updateBaseCustomerId(int n);
-    
-  // hotel functions for UI
-  double getRevenue();
 
   // Manage Room
   void addRoom(int flr, int type);

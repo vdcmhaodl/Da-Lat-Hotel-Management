@@ -34,6 +34,8 @@ private slots:
     void onRefreshData();
     void onViewRooms();
     void onBookRoomForCustomer();
+    void onLockRoom();
+    void onUnlockRoom();
     void onGiveDiscount();
     void onViewBookingHistory();
     void onViewCustomerHistory();
@@ -71,6 +73,7 @@ private:
     
     // Room table
     QTableWidget *m_roomTable;
+    QLabel *m_roomCountLabel;
     
     // Reports
     QWidget *m_reportsWidget;

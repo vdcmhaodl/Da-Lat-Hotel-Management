@@ -57,7 +57,7 @@ void RoomManagementWidget::setupRoomTable()
     // Set table headers
     QStringList headers;
     headers << "Room ID" << "Floor" << "Type" << "Price/Night" << "Status" 
-            << "Current Guest";
+            << "Current Guest" << "Available";
     m_roomTable->setColumnCount(headers.size());
     m_roomTable->setHorizontalHeaderLabels(headers);
     
@@ -148,9 +148,9 @@ void RoomManagementWidget::setupAddRoomSection()
     // Floor selection
     QLabel *floorLabel = new QLabel("Floor:");
     m_floorSpinBox = new QSpinBox();
-    m_floorSpinBox->setMinimum(0);
+    m_floorSpinBox->setMinimum(1);
     m_floorSpinBox->setMaximum(20);
-    m_floorSpinBox->setValue(0);
+    m_floorSpinBox->setValue(1);
     m_floorSpinBox->setObjectName("spinBox");
     
     // Room type selection
@@ -399,11 +399,12 @@ void RoomManagementWidget::populateRoomTable()
                 
                 // Set room data in table
                 m_roomTable->setItem(rowIndex, 0, new QTableWidgetItem(QString::fromStdString(r.getID())));
-                m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex)));
+                m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
                 m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                 m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
                 m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
                 m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
+                m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
                 
                 totalRooms++;
                 rowIndex++;
@@ -421,6 +422,7 @@ void RoomManagementWidget::populateRoomTable()
             m_roomTable->setItem(0, 3, new QTableWidgetItem(""));
             m_roomTable->setItem(0, 4, new QTableWidgetItem(""));
             m_roomTable->setItem(0, 5, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 6, new QTableWidgetItem(""));
         }
         
     } catch (const std::exception &e) {
@@ -572,3 +574,4 @@ void RoomManagementWidget::onRoomSelectionChanged()
     m_viewDetailsBtn->setEnabled(hasSelection);
 }
 
+#include "room_management_widget.moc"
