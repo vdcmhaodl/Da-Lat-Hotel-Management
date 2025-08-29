@@ -404,28 +404,11 @@ void RoomManagementWidget::populateRoomTable()
                 m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                 m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
                 m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
-                
-                // Find current guest name
-                QString guestName = "N/A";
                 if (!r.isAvailable()) {
-                    // Find customer who booked this room
-                    std::vector<customer*> customers = m_hotelSystem->getAllCustomers();
-                    for (customer* cust : customers) {
-                        if (cust) {
-                            std::vector<current_booking> bookings = cust->getCurrentBookings();
-                            for (const current_booking& booking : bookings) {
-                                if (booking.roomID == r.getID()) {
-                                    guestName = QString::fromStdString(cust->getName());
-                                    break;
-                                }
-                            }
-                            if (guestName != "N/A") break;
-                        }
-                    }
-                    if (guestName == "N/A") guestName = "Unknown Guest";
-                }
-                
-                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(guestName));
+                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("Guest"));  // Temporarily disable getCurrentGuest()
+                } else {
+                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
+                }   
                 m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
                 
                 totalRooms++;

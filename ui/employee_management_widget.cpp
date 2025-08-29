@@ -629,19 +629,24 @@ void EmployeeManagementWidget::onFilterEmployees()
         for (int row = 0; row < m_employeeTable->rowCount(); ++row) {
             bool show = false;
             
-            if (filter == "active") {
-                QTableWidgetItem *statusItem = m_employeeTable->item(row, 7); // Status column
-                if (statusItem && statusItem->text().toLower().contains("active")) {
+            if (filter == "receptionist") {
+                QTableWidgetItem *positionItem = m_employeeTable->item(row, 5); // Position column
+                if (positionItem && positionItem->text().toLower().contains("receptionist")) {
                     show = true;
                 }
-            } else if (filter == "inactive") {
-                QTableWidgetItem *statusItem = m_employeeTable->item(row, 7); // Status column
-                if (statusItem && statusItem->text().toLower().contains("inactive")) {
+            } else if (filter == "security") {
+                QTableWidgetItem *positionItem = m_employeeTable->item(row, 5); // Position column
+                if (positionItem && positionItem->text().toLower().contains("security")) {
                     show = true;
                 }
-            } else if (filter == "high_salary") {
-                QTableWidgetItem *salaryItem = m_employeeTable->item(row, 6); // Salary column
-                if (salaryItem && salaryItem->text().toDouble() > 50000) {
+            } else if (filter == "housekeeping") {
+                QTableWidgetItem *positionItem = m_employeeTable->item(row, 5); // Position column
+                if (positionItem && positionItem->text().toLower().contains("housekeeping")) {
+                    show = true;
+                }
+            } else if (filter == "manager") {
+                QTableWidgetItem *positionItem = m_employeeTable->item(row, 5); // Position column
+                if (positionItem && positionItem->text().toLower().contains("manager")) {
                     show = true;
                 }
             }

@@ -434,9 +434,9 @@ void customer::saveToFile(std::ofstream &out)
     firstRoomID = currentBookings[0].roomID;
   }
 
-  // Write in original format with gender added
+  // Write in original format
   out << name << "," << phone << "," << email << "," << id << "," << discount << "," << password
-      << "," << gender << "," << totalBill << "," << firstCheckin.day << ","
+      << "," << totalBill << "," << firstCheckin.day << ","
       << firstCheckin.month << "," << firstCheckin.year << ","
       << firstCheckout.day << "," << firstCheckout.month << ","
       << firstCheckout.year << "," << firstRoomID;
@@ -470,45 +470,32 @@ void customer::loadFromFile(std::ifstream &in, hotel &h)
     tokens.push_back(token);
   }
 
-  if (tokens.size() < 15)  // Updated minimum size to include gender
+  if (tokens.size() < 14)
   {
-    // Invalid format or old format without gender
-    if (tokens.size() >= 14) {
-      // Try to load old format without gender
-      name = tokens[0];
-      phone = tokens[1];
-      email = tokens[2];
-      id = std::stoi(tokens[3]);
-      discount = std::stoi(tokens[4]);
-      password = tokens[5];
-      gender = false; // Default to female for old format
-      // Continue with old format processing...
-      return;
-    }
+    // Invalid format
     return;
   }
 
-  // Load basic info (new format with gender)
+  // Load basic info (same as original format)
   name = tokens[0];
   phone = tokens[1];
   email = tokens[2];
   id = std::stoi(tokens[3]);
   discount = std::stoi(tokens[4]);
   password = tokens[5];
-  gender = (tokens[6] == "1"); // Load gender
-  // tokens[7] is total bill - we'll recalculate this from bookings
+  // tokens[5] is total bill - we'll recalculate this from bookings
 
   // Clear current bookings
   currentBookings.clear();
 
   // Check if this is extended format
   bool isExtendedFormat = false;
-  size_t extendedIndex = 15;  // Updated index due to gender addition
+  size_t extendedIndex = 14;
 
-  if (tokens.size() > 15 && tokens[15] == "EXTENDED")  // Updated index
+  if (tokens.size() > 14 && tokens[14] == "EXTENDED")
   {
     isExtendedFormat = true;
-    extendedIndex = 16;  // Updated index
+    extendedIndex = 15;
   }
 
   if (isExtendedFormat && tokens.size() > extendedIndex)
