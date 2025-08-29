@@ -1,6 +1,8 @@
 #include "employee_window.h"
 #include "../include/customer.h"
 #include <QDate>
+#include <sstream>
+#include <iostream>
 
 EmployeeWindow::EmployeeWindow(HotelManagementSystem *hotelSystem, int employeeId, QWidget *parent)
     : QMainWindow(parent)
@@ -193,10 +195,19 @@ void EmployeeWindow::setupBookingSection()
     m_availableRoomsTable->setSelectionMode(QAbstractItemView::SingleSelection);
     
     QStringList roomHeaders;
-    roomHeaders << "Room ID" << "Floor" << "Type" << "Price/Night" << "Status";
+    roomHeaders << "Room ID" << "Floor" << "Type" << "Beds" << "Capacity" << "Amenities" << "Price/Night" << "Status";
     m_availableRoomsTable->setColumnCount(roomHeaders.size());
     m_availableRoomsTable->setHorizontalHeaderLabels(roomHeaders);
-    m_availableRoomsTable->horizontalHeader()->setStretchLastSection(true);
+    
+    // Set column widths - make Type column wider for full names
+    m_availableRoomsTable->setColumnWidth(0, 80);  // Room ID
+    m_availableRoomsTable->setColumnWidth(1, 60);  // Floor
+    m_availableRoomsTable->setColumnWidth(2, 250); // Type
+    m_availableRoomsTable->setColumnWidth(3, 80);  // Beds
+    m_availableRoomsTable->setColumnWidth(4, 80);  // Capacity
+    m_availableRoomsTable->setColumnWidth(5, 200); // Amenities
+    m_availableRoomsTable->setColumnWidth(6, 100); // Price/Night
+    m_availableRoomsTable->horizontalHeader()->setStretchLastSection(true); // Status stretches
     
     // Connect room selection
     connect(m_availableRoomsTable, &QTableWidget::itemSelectionChanged, this, &EmployeeWindow::onAvailableRoomSelected);
@@ -296,11 +307,21 @@ void EmployeeWindow::setupRoomView()
     m_roomTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     
     QStringList headers;
-    headers << "Room ID" << "Floor" << "Type" << "Price/Night" << "Status" << "Current Guest" << "Available";
+    headers << "Room ID" << "Floor" << "Type" << "Beds" << "Capacity" << "Amenities" << "Price/Night" << "Status" << "Current Guest" << "Available";
     m_roomTable->setColumnCount(headers.size());
     m_roomTable->setHorizontalHeaderLabels(headers);
     
-    m_roomTable->horizontalHeader()->setStretchLastSection(true);
+    // Set column widths - make Type column wider for full names
+    m_roomTable->setColumnWidth(0, 80);  // Room ID
+    m_roomTable->setColumnWidth(1, 60);  // Floor
+    m_roomTable->setColumnWidth(2, 250); // Type
+    m_roomTable->setColumnWidth(3, 80);  // Beds
+    m_roomTable->setColumnWidth(4, 80);  // Capacity
+    m_roomTable->setColumnWidth(5, 200); // Amenities
+    m_roomTable->setColumnWidth(6, 100); // Price/Night
+    m_roomTable->setColumnWidth(7, 80);  // Status
+    m_roomTable->setColumnWidth(8, 120); // Current Guest
+    m_roomTable->horizontalHeader()->setStretchLastSection(true); // Available stretches
     
     roomLayout->addWidget(m_roomTable);
     
@@ -359,9 +380,19 @@ void EmployeeWindow::setupCustomerManagement()
     customerHeaders << "Customer ID" << "Name" << "Email" << "Phone" << "Gender" << "Total Bookings";
     m_customerTable->setColumnCount(customerHeaders.size());
     m_customerTable->setHorizontalHeaderLabels(customerHeaders);
-    m_customerTable->horizontalHeader()->setStretchLastSection(true);
+    
+    // Set column widths - make Name and Email columns wider for full information
+    m_customerTable->setColumnWidth(0, 100); // Customer ID
+    m_customerTable->setColumnWidth(1, 200); // Name - wider for full names
+    m_customerTable->setColumnWidth(2, 200); // Email - wider for full email addresses
+    m_customerTable->setColumnWidth(3, 120); // Phone
+    m_customerTable->setColumnWidth(4, 80);  // Gender
+    m_customerTable->horizontalHeader()->setStretchLastSection(true); // Total Bookings stretches
     
     customerLayout->addWidget(m_customerTable);
+    
+    // Connect customer selection to auto-fill customer ID
+    connect(m_customerTable, &QTableWidget::itemSelectionChanged, this, &EmployeeWindow::onCustomerSelected);
     
     // Control buttons
     QHBoxLayout *customerControlLayout = new QHBoxLayout();
@@ -729,14 +760,70 @@ void EmployeeWindow::onViewRooms()
             for (auto& r : roomsOnFloor) {  // Remove const to allow non-const method calls
                 m_roomTable->insertRow(rowIndex);
                 
+                // Get type name for bed info and amenities
+                std::string typeName = r.getTypeName();
+                
+                // Create bed info and capacity based on room type
+                QString bedInfo;
+                QString capacity;
+                QString amenities;
+                
+                if (typeName.find("Single") != std::string::npos) {
+                    bedInfo = "1 Single";
+                    capacity = "1-2";
+                    amenities = "TV, Bath";
+                    if (typeName.find("VIP") != std::string::npos) {
+                        amenities = "TV, Bath, Balcony, Fridge";
+                    }
+                } else if (typeName.find("Double") != std::string::npos) {
+                    bedInfo = "1 Double";
+                    capacity = "2-3";
+                    amenities = "TV, Bath, Balcony";
+                    if (typeName.find("luxury") != std::string::npos) {
+                        amenities = "TV, Bath, Balcony, Fridge, Chair";
+                    }
+                } else if (typeName.find("Family") != std::string::npos) {
+                    bedInfo = "2 Double";
+                    capacity = "4-6";
+                    amenities = "TV, Bath, Balcony, Fridge, Chair";
+                } else {
+                    bedInfo = "1 Single";
+                    capacity = "1-2";
+                    amenities = "TV, Bath";
+                }
+                
                 // Set room data in table
                 m_roomTable->setItem(rowIndex, 0, new QTableWidgetItem(QString::fromStdString(r.getID())));
                 m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
                 m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
-                m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
-                m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
-                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A"));  // Temporarily disable getCurrentGuest()
-                m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
+                m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(bedInfo));
+                m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(capacity));
+                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(amenities));
+                m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
+                m_roomTable->setItem(rowIndex, 7, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
+                
+                // Find current guest name
+                QString guestName = "N/A";
+                if (!r.isAvailable()) {
+                    // Find customer who booked this room
+                    std::vector<customer*> customers = m_hotelSystem->getAllCustomers();
+                    for (customer* cust : customers) {
+                        if (cust) {
+                            std::vector<current_booking> bookings = cust->getCurrentBookings();
+                            for (const current_booking& booking : bookings) {
+                                if (booking.roomID == r.getID()) {
+                                    guestName = QString::fromStdString(cust->getName());
+                                    break;
+                                }
+                            }
+                            if (guestName != "N/A") break;
+                        }
+                    }
+                    if (guestName == "N/A") guestName = "Unknown Guest";
+                }
+                
+                m_roomTable->setItem(rowIndex, 8, new QTableWidgetItem(guestName));
+                m_roomTable->setItem(rowIndex, 9, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
                 
                 totalRooms++;
                 rowIndex++;
@@ -753,6 +840,9 @@ void EmployeeWindow::onViewRooms()
             m_roomTable->setItem(0, 4, new QTableWidgetItem(""));
             m_roomTable->setItem(0, 5, new QTableWidgetItem(""));
             m_roomTable->setItem(0, 6, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 7, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 8, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 9, new QTableWidgetItem(""));
         }
         
         m_roomCountLabel->setText(QString("Total Rooms: %1").arg(totalRooms));
@@ -884,33 +974,40 @@ void EmployeeWindow::onViewBookingHistory()
 
 void EmployeeWindow::onViewCustomerHistory()
 {
-    bool ok;
-    int customerId = QInputDialog::getInt(this, "Customer History", 
-                                         "Enter customer ID:", 0, 0, 999999, 1, &ok);
+    // Check if a customer is selected in the table
+    if (!m_customerTable) return;
     
-    if (ok) {
-        try {
-            // Switch to reports tab
-            m_tabWidget->setCurrentWidget(m_reportsWidget);
+    int currentRow = m_customerTable->currentRow();
+    if (currentRow >= 0) {
+        QTableWidgetItem* customerIdItem = m_customerTable->item(currentRow, 0);
+        if (customerIdItem) {
+            int customerId = customerIdItem->text().toInt();
             
-            std::ostringstream historyStream;
-            std::streambuf* orig = std::cout.rdbuf();
-            std::cout.rdbuf(historyStream.rdbuf());
-            
-            m_hotelSystem->viewCustomerBookingHistory(customerId);
-            
-            std::cout.rdbuf(orig);
-            
-            QString history = QString::fromStdString(historyStream.str());
-            if (history.isEmpty()) {
-                history = QString("No booking history found for customer %1.").arg(customerId);
+            try {
+                // Switch to reports tab
+                m_tabWidget->setCurrentWidget(m_reportsWidget);
+                
+                std::ostringstream historyStream;
+                std::streambuf* orig = std::cout.rdbuf();
+                std::cout.rdbuf(historyStream.rdbuf());
+                
+                m_hotelSystem->viewCustomerBookingHistory(customerId);
+                
+                std::cout.rdbuf(orig);
+                
+                QString history = QString::fromStdString(historyStream.str());
+                if (history.isEmpty()) {
+                    history = QString("No booking history found for customer %1.").arg(customerId);
+                }
+                
+                m_reportTextEdit->setPlainText(history);
+                m_statusBar->showMessage("Customer history loaded", 3000);
+            } catch (const std::exception &e) {
+                QMessageBox::critical(this, "Error", QString("Failed to load customer history: %1").arg(e.what()));
             }
-            
-            m_reportTextEdit->setPlainText(history);
-            m_statusBar->showMessage("Customer history loaded", 3000);
-        } catch (const std::exception &e) {
-            QMessageBox::critical(this, "Error", QString("Failed to load customer history: %1").arg(e.what()));
         }
+    } else {
+        QMessageBox::information(this, "No Selection", "Please select a customer from the table to view their history.");
     }
 }
 
@@ -1055,12 +1152,17 @@ void EmployeeWindow::onViewAllCustomers() {
             if (cust) {
                 m_customerTable->insertRow(row);
                 
+                // Calculate total bookings (current + history)
+                int currentBookings = cust->getCurrentBookings().size();
+                int pastBookings = cust->getBookingHistory().size();
+                int totalBookings = currentBookings + pastBookings;
+                
                 m_customerTable->setItem(row, 0, new QTableWidgetItem(QString::number(cust->getID())));
                 m_customerTable->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cust->getName())));
                 m_customerTable->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cust->getEmail())));
                 m_customerTable->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(cust->getPhone())));
                 m_customerTable->setItem(row, 4, new QTableWidgetItem(cust->getGender() ? "Male" : "Female"));
-                m_customerTable->setItem(row, 5, new QTableWidgetItem("0")); // Total bookings placeholder
+                m_customerTable->setItem(row, 5, new QTableWidgetItem(QString::number(totalBookings)));
                 
                 row++;
             }
@@ -1093,10 +1195,50 @@ void EmployeeWindow::refreshAvailableRooms() {
             for (auto& r : availableRooms) {  // Remove const to allow non-const method calls
                 m_availableRoomsTable->insertRow(row);
                 
+                // Extract floor number from room ID (first 2 digits)
+                std::string roomId = r.getID();
+                int floorNumber = std::stoi(roomId.substr(0, 2)) + 1; // Convert to 1-based indexing
+                
+                // Get type name
+                std::string typeName = r.getTypeName();
+                
+                // Create bed info and capacity based on room type
+                QString bedInfo;
+                QString capacity;
+                QString amenities;
+                
+                if (typeName.find("Single") != std::string::npos) {
+                    bedInfo = "1 Single";
+                    capacity = "1-2";
+                    amenities = "TV, Bath";
+                    if (typeName.find("VIP") != std::string::npos) {
+                        amenities = "TV, Bath, Balcony, Fridge";
+                    }
+                } else if (typeName.find("Double") != std::string::npos) {
+                    bedInfo = "1 Double";
+                    capacity = "2-3";
+                    amenities = "TV, Bath, Balcony";
+                    if (typeName.find("luxury") != std::string::npos) {
+                        amenities = "TV, Bath, Balcony, Fridge, Chair";
+                    }
+                } else if (typeName.find("Family") != std::string::npos) {
+                    bedInfo = "2 Double";
+                    capacity = "4-6";
+                    amenities = "TV, Bath, Balcony, Fridge, Chair";
+                } else {
+                    bedInfo = "1 Single";
+                    capacity = "1-2";
+                    amenities = "TV, Bath";
+                }
+                
                 m_availableRoomsTable->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(r.getID())));
-                m_availableRoomsTable->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
-                m_availableRoomsTable->setItem(row, 2, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 2)));
-                m_availableRoomsTable->setItem(row, 3, new QTableWidgetItem("Available"));
+                m_availableRoomsTable->setItem(row, 1, new QTableWidgetItem(QString::number(floorNumber)));
+                m_availableRoomsTable->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
+                m_availableRoomsTable->setItem(row, 3, new QTableWidgetItem(bedInfo));
+                m_availableRoomsTable->setItem(row, 4, new QTableWidgetItem(capacity));
+                m_availableRoomsTable->setItem(row, 5, new QTableWidgetItem(amenities));
+                m_availableRoomsTable->setItem(row, 6, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 2)));
+                m_availableRoomsTable->setItem(row, 7, new QTableWidgetItem("Available"));
                 
                 row++;
             }
@@ -1104,6 +1246,22 @@ void EmployeeWindow::refreshAvailableRooms() {
         
     } catch (const std::exception &e) {
         QMessageBox::critical(this, "Error", QString("Failed to refresh available rooms: %1").arg(e.what()));
+    }
+}
+
+void EmployeeWindow::onCustomerSelected() {
+    if (!m_customerTable) return;
+    
+    int currentRow = m_customerTable->currentRow();
+    if (currentRow >= 0) {
+        QTableWidgetItem* customerIdItem = m_customerTable->item(currentRow, 0);
+        if (customerIdItem) {
+            QString customerId = customerIdItem->text();
+            // Automatically fill the customer ID in the booking form
+            if (m_customerIdEdit) {
+                m_customerIdEdit->setText(customerId);
+            }
+        }
     }
 }
 
@@ -1115,8 +1273,10 @@ void EmployeeWindow::onAvailableRoomSelected() {
         QTableWidgetItem* roomItem = m_availableRoomsTable->item(currentRow, 0);
         if (roomItem) {
             QString roomId = roomItem->text();
-            QMessageBox::information(this, "Room Selected", 
-                QString("Selected room: %1\nUse this room for booking.").arg(roomId));
+            // Automatically fill the room ID in the booking form
+            if (m_roomIdEdit) {
+                m_roomIdEdit->setText(roomId);
+            }
         }
     }
 }
@@ -1139,7 +1299,30 @@ void EmployeeWindow::onViewRoomDetails() {
                     details += QString("Room ID: %1\n").arg(QString::fromStdString(r->getID()));
                     details += QString("Room Type: %1\n").arg(QString::fromStdString(r->getTypeName()));
                     details += QString("Price: $%1\n").arg(r->checkPrice(), 0, 'f', 2);
-                    details += QString("Status: %1\n").arg(r->isAvailable() ? "Available" : "Occupied");
+                    details += QString("Status: %1\n\n").arg(r->isAvailable() ? "Available" : "Occupied");
+                    
+                    // Capture furniture information
+                    std::ostringstream furnitureStream;
+                    std::streambuf* oldCoutStreamBuf = std::cout.rdbuf();
+                    std::cout.rdbuf(furnitureStream.rdbuf());
+                    r->displayFurniture();
+                    std::cout.rdbuf(oldCoutStreamBuf);
+                    
+                    QString furnitureInfo = QString::fromStdString(furnitureStream.str()).trimmed();
+                    if (!furnitureInfo.isEmpty()) {
+                        details += QString("Furniture:\n%1\n\n").arg(furnitureInfo);
+                    }
+                    
+                    // Capture items information
+                    std::ostringstream itemsStream;
+                    std::cout.rdbuf(itemsStream.rdbuf());
+                    r->displayItem();
+                    std::cout.rdbuf(oldCoutStreamBuf);
+                    
+                    QString itemsInfo = QString::fromStdString(itemsStream.str()).trimmed();
+                    if (!itemsInfo.isEmpty()) {
+                        details += QString("Items:\n%1").arg(itemsInfo);
+                    }
                     
                     QMessageBox::information(this, "Room Details", details);
                 } else {
@@ -1169,12 +1352,17 @@ void EmployeeWindow::loadCustomersData() {
             if (cust) {
                 m_customerTable->insertRow(row);
                 
+                // Calculate total bookings (current + history)
+                int currentBookings = cust->getCurrentBookings().size();
+                int pastBookings = cust->getBookingHistory().size();
+                int totalBookings = currentBookings + pastBookings;
+                
                 m_customerTable->setItem(row, 0, new QTableWidgetItem(QString::number(cust->getID())));
                 m_customerTable->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(cust->getName())));
                 m_customerTable->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(cust->getEmail())));
                 m_customerTable->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(cust->getPhone())));
                 m_customerTable->setItem(row, 4, new QTableWidgetItem(cust->getGender() ? "Male" : "Female"));
-                m_customerTable->setItem(row, 5, new QTableWidgetItem("0")); // Total bookings placeholder
+                m_customerTable->setItem(row, 5, new QTableWidgetItem(QString::number(totalBookings)));
                 
                 row++;
             }

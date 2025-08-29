@@ -228,10 +228,18 @@ void CustomerWindow::setupBookingSection()
     m_roomTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     
     QStringList headers;
-    headers << "Room ID" << "Floor" << "Type" << "Price/Night" << "Amenities";
+    headers << "Room ID" << "Floor" << "Type" << "Beds" << "Capacity" << "Price/Night" << "Amenities";
     m_roomTable->setColumnCount(headers.size());
     m_roomTable->setHorizontalHeaderLabels(headers);
-    m_roomTable->horizontalHeader()->setStretchLastSection(true);
+    
+    // Set column widths - make Type and Amenities columns wider for full information
+    m_roomTable->setColumnWidth(0, 80);  // Room ID
+    m_roomTable->setColumnWidth(1, 60);  // Floor
+    m_roomTable->setColumnWidth(2, 270); // Type - wider for full names
+    m_roomTable->setColumnWidth(3, 100); // Beds
+    m_roomTable->setColumnWidth(4, 80);  // Capacity
+    m_roomTable->setColumnWidth(5, 100); // Price/Night
+    m_roomTable->horizontalHeader()->setStretchLastSection(true); // Amenities stretches
     
     roomsLayout->addWidget(m_roomTable);
     
@@ -333,7 +341,14 @@ void CustomerWindow::setupMyBookingsSection()
     bookingHeaders << "Room ID" << "Room Type" << "Check-in" << "Check-out" << "Total Cost" << "Status";
     m_bookingsTable->setColumnCount(bookingHeaders.size());
     m_bookingsTable->setHorizontalHeaderLabels(bookingHeaders);
-    m_bookingsTable->horizontalHeader()->setStretchLastSection(true);
+    
+    // Set column widths - make Room Type column wider
+    m_bookingsTable->setColumnWidth(0, 80);  // Room ID
+    m_bookingsTable->setColumnWidth(1, 270); // Room Type - wider for full names
+    m_bookingsTable->setColumnWidth(2, 100); // Check-in
+    m_bookingsTable->setColumnWidth(3, 100); // Check-out
+    m_bookingsTable->setColumnWidth(4, 100); // Total Cost
+    m_bookingsTable->horizontalHeader()->setStretchLastSection(true); // Status stretches
     
     currentLayout->addWidget(m_bookingsTable);
     
@@ -803,12 +818,40 @@ void CustomerWindow::refreshRoomTable()
                 if (r.isAvailable()) {
                     m_roomTable->insertRow(rowIndex);
                     
+                    // Get bed and capacity info based on room type
+                    QString bedsInfo, capacityInfo, amenitiesInfo;
+                    QString typeName = QString::fromStdString(r.getTypeName());
+                    
+                    if (typeName.contains("Single normal")) {
+                        bedsInfo = "1 Single";
+                        capacityInfo = "1-2";
+                        amenitiesInfo = "TV, Bath, Basic";
+                    } else if (typeName.contains("Single VIP")) {
+                        bedsInfo = "1 Large";
+                        capacityInfo = "1-2";
+                        amenitiesInfo = "TV, Bath, Balcony, Fridge";
+                    } else if (typeName.contains("Double")) {
+                        bedsInfo = "1 Large";
+                        capacityInfo = "2-3";
+                        amenitiesInfo = "TV, Bath, Balcony, Loving chair";
+                    } else if (typeName.contains("Family")) {
+                        bedsInfo = "2 Large";
+                        capacityInfo = "4-6";
+                        amenitiesInfo = "TV, Bath, Balcony, Fridge, Living area";
+                    } else {
+                        bedsInfo = "1 Single";
+                        capacityInfo = "1-2";
+                        amenitiesInfo = "Standard amenities";
+                    }
+                    
                     // Set room data in table
                     m_roomTable->setItem(rowIndex, 0, new QTableWidgetItem(QString::fromStdString(r.getID())));
                     m_roomTable->setItem(rowIndex, 1, new QTableWidgetItem(QString::number(floorIndex + 1)));
                     m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
-                    m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
-                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem("Standard amenities"));  // Temporarily disable displayAmenties()
+                    m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(bedsInfo));
+                    m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(capacityInfo));
+                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
+                    m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(amenitiesInfo));
 
                     rowIndex++;
                 }
@@ -823,6 +866,8 @@ void CustomerWindow::refreshRoomTable()
             m_roomTable->setItem(0, 2, new QTableWidgetItem(""));
             m_roomTable->setItem(0, 3, new QTableWidgetItem(""));
             m_roomTable->setItem(0, 4, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 5, new QTableWidgetItem(""));
+            m_roomTable->setItem(0, 6, new QTableWidgetItem(""));
         }
         
     } catch (const std::exception &e) {
@@ -844,8 +889,12 @@ void CustomerWindow::refreshBookingsTable()
             
             m_bookingsTable->insertRow(i);
             
+            // Get room type from hotel system
+            room* bookedRoom = m_hotelSystem->getHotel().findRoomByNumber(booking.roomID);
+            QString roomType = bookedRoom ? QString::fromStdString(bookedRoom->getTypeName()) : "Unknown";
+            
             m_bookingsTable->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(booking.roomID)));
-            m_bookingsTable->setItem(i, 1, new QTableWidgetItem("Room Type")); // Would need room type from roomPtr
+            m_bookingsTable->setItem(i, 1, new QTableWidgetItem(roomType));
             m_bookingsTable->setItem(i, 2, new QTableWidgetItem(QString("%1/%2/%3")
                 .arg(booking.checkin.day).arg(booking.checkin.month).arg(booking.checkin.year)));
             m_bookingsTable->setItem(i, 3, new QTableWidgetItem(QString("%1/%2/%3")
@@ -978,8 +1027,33 @@ void CustomerWindow::onViewBookingHistory()
             history = "No booking history available.";
         }
         
-        // Show in a message box for now
-        QMessageBox::information(this, "My Booking History", history);
+        // Create a dialog to show booking history
+        QDialog *historyDialog = new QDialog(this);
+        historyDialog->setWindowTitle("My Booking History");
+        historyDialog->resize(900, 500);
+        
+        QVBoxLayout *layout = new QVBoxLayout(historyDialog);
+        QTextEdit *textEdit = new QTextEdit();
+        textEdit->setPlainText(history);
+        textEdit->setReadOnly(true);
+        textEdit->setFont(QFont("Courier New", 10)); // Set font size to 10
+        textEdit->setWordWrapMode(QTextOption::NoWrap);
+        textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        
+        QPushButton *closeBtn = new QPushButton("Close");
+        closeBtn->setFixedWidth(100);
+        connect(closeBtn, &QPushButton::clicked, historyDialog, &QDialog::accept);
+        
+        QHBoxLayout *buttonLayout = new QHBoxLayout();
+        buttonLayout->addStretch();
+        buttonLayout->addWidget(closeBtn);
+        buttonLayout->addStretch();
+        
+        layout->addWidget(textEdit);
+        layout->addLayout(buttonLayout);
+        
+        historyDialog->exec();
+        delete historyDialog;
         
     } catch (const std::exception &e) {
         QMessageBox::critical(this, "Error", QString("Failed to load booking history: %1").arg(e.what()));

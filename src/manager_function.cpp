@@ -131,7 +131,7 @@ std::vector<IPerson *> manager::getEmployeeList() { return ListOfEmployees; }
 void manager::viewAllBookingHistory(const std::vector<customer *> &customers)
 {
   std::cout << "\n=== COMPLETE HOTEL BOOKING HISTORY (Manager View) ===\n";
-  std::cout << std::string(120, '=') << std::endl;
+  std::cout << std::string(150, '=') << std::endl;
 
   if (customers.empty())
   {
@@ -139,42 +139,53 @@ void manager::viewAllBookingHistory(const std::vector<customer *> &customers)
     return;
   }
 
-  std::cout << std::left << std::setw(12) << "Customer ID" << std::setw(18)
-            << "Customer Name" << std::setw(15) << "Phone" << std::setw(10)
-            << "Room ID" << std::setw(15) << "Room Type" << std::setw(12)
-            << "Check-in" << std::setw(12) << "Check-out" << std::setw(10)
-            << "Cost" << std::setw(8) << "Paid" << std::setw(12) << "Status"
-            << std::endl;
-  std::cout << std::string(120, '-') << std::endl;
+ std::cout << std::left 
+          << std::setw(12) << "Customer ID"
+          << std::setw(25) << "Customer Name"
+          << std::setw(15) << "Phone"
+          << std::setw(10) << "Room ID"
+          << std::setw(40) << "Room Type"
+          << std::setw(12) << "Check-in"
+          << std::setw(12) << "Check-out"
+          << std::setw(12) << "Cost"
+          << std::setw(8)  << "Paid"
+          << std::setw(12) << "Status"
+          << std::endl;
 
-  for (const auto &customer : customers)
-  {
+std::cout << std::string(150, '-') << std::endl;
+
+for (const auto &customer : customers)
+{
     auto history = customer->getBookingHistory();
 
     for (const auto &record : history)
     {
-      std::cout << std::left << std::setw(12) << customer->getID()
-                << std::setw(18) << customer->getName() << std::setw(15)
-                << customer->getPhone() << std::setw(10) << record.roomID
-                << std::setw(15) << record.roomTypeName << std::setw(12)
-                << (std::to_string(record.checkin.day) + "/" +
-                    std::to_string(record.checkin.month) + "/" +
-                    std::to_string(record.checkin.year))
-                << std::setw(12)
-                << (std::to_string(record.checkout.day) + "/" +
-                    std::to_string(record.checkout.month) + "/" +
-                    std::to_string(record.checkout.year))
-                << std::setw(10) << ("$" + std::to_string(record.totalCost))
-                << std::setw(8) << (record.isPaid ? "Yes" : "No")
-                << std::setw(12) << record.status << std::endl;
+        std::cout << std::left 
+                  << std::setw(12) << customer->getID()
+                  << std::setw(25) << customer->getName()
+                  << std::setw(15) << customer->getPhone()
+                  << std::setw(10) << record.roomID
+                  << std::setw(40) << record.roomTypeName
+                  << std::setw(12) << (std::to_string(record.checkin.day) + "/" +
+                                       std::to_string(record.checkin.month) + "/" +
+                                       std::to_string(record.checkin.year))
+                  << std::setw(12) << (std::to_string(record.checkout.day) + "/" +
+                                       std::to_string(record.checkout.month) + "/" +
+                                       std::to_string(record.checkout.year))
+                  << std::setw(12) << ("$" + std::to_string(record.totalCost))
+                  << std::setw(8)  << (record.isPaid ? "Yes" : "No")
+                  << std::setw(12) << record.status 
+                  << std::endl;
     }
 
     if (!history.empty())
     {
-      std::cout << std::string(120, '-') << std::endl;
+        std::cout << std::string(150, '-') << std::endl;
     }
-  }
-  std::cout << std::string(120, '=') << std::endl;
+}
+
+std::cout << std::string(150, '=') << std::endl;
+
 }
 
 // Manager tạo báo cáo booking tổng hợp

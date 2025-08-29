@@ -98,7 +98,7 @@ void customer::viewMyBookingHistory()
 {
   std::cout << "\n=== BOOKING HISTORY FOR " << name << " (ID: " << id
             << ") ===\n";
-  std::cout << std::string(80, '=') << std::endl;
+  std::cout << std::string(110, '=') << std::endl;
 
   if (bookingHistory.empty())
   {
@@ -106,28 +106,35 @@ void customer::viewMyBookingHistory()
     return;
   }
 
-  std::cout << std::left << std::setw(10) << "Room ID" << std::setw(15)
-            << "Room Type" << std::setw(12) << "Check-in" << std::setw(12)
-            << "Check-out" << std::setw(10) << "Cost" << std::setw(8) << "Paid"
-            << std::setw(12) << "Status" << std::endl;
-  std::cout << std::string(80, '-') << std::endl;
+  std::cout << std::left 
+          << std::setw(12) << "Room ID" 
+          << std::setw(35) << "Room Type"   // tăng từ 20 → 35
+          << std::setw(15) << "Check-in" 
+          << std::setw(15) << "Check-out" 
+          << std::setw(12) << "Cost" 
+          << std::setw(10) << "Paid"
+          << std::setw(12) << "Status"      // giảm 15 → 12 vừa đủ
+          << std::endl;
 
-  for (const auto &record : bookingHistory)
-  {
-    std::cout << std::left << std::setw(10) << record.roomID << std::setw(15)
-              << record.roomTypeName << std::setw(12)
-              << (std::to_string(record.checkin.day) + "/" +
-                  std::to_string(record.checkin.month) + "/" +
-                  std::to_string(record.checkin.year))
-              << std::setw(12)
-              << (std::to_string(record.checkout.day) + "/" +
-                  std::to_string(record.checkout.month) + "/" +
-                  std::to_string(record.checkout.year))
-              << std::setw(10) << ("$" + std::to_string(record.totalCost))
-              << std::setw(8) << (record.isPaid ? "Yes" : "No") << std::setw(12)
-              << record.status << std::endl;
-  }
-  std::cout << std::string(80, '=') << std::endl;
+std::cout << std::string(110, '-') << std::endl;
+
+for (const auto &record : bookingHistory)
+{
+    std::cout << std::left 
+              << std::setw(12) << record.roomID 
+              << std::setw(35) << record.roomTypeName 
+              << std::setw(15) << (std::to_string(record.checkin.day) + "/" +
+                                  std::to_string(record.checkin.month) + "/" +
+                                  std::to_string(record.checkin.year))
+              << std::setw(15) << (std::to_string(record.checkout.day) + "/" +
+                                  std::to_string(record.checkout.month) + "/" +
+                                  std::to_string(record.checkout.year))
+              << std::setw(12) << ("$" + std::to_string(record.totalCost)) 
+              << std::setw(10) << (record.isPaid ? "Yes" : "No") 
+              << std::setw(12) << record.status 
+              << std::endl;
+}
+  std::cout << std::string(110, '=') << std::endl;
 }
 
 void customer::updateBookingStatus(std::string roomID, date checkin,
@@ -258,7 +265,7 @@ bool customer::cancelRoom(std::string roomID)
 void customer::showCurrentBookings()
 {
   std::cout << "\n=== CURRENT BOOKINGS FOR " << name << " ===\n";
-  std::cout << std::string(70, '=') << std::endl;
+  std::cout << std::string(85, '=') << std::endl;
 
   if (currentBookings.empty())
   {
@@ -266,25 +273,25 @@ void customer::showCurrentBookings()
     return;
   }
 
-  std::cout << std::left << std::setw(10) << "Room ID" << std::setw(12)
-            << "Check-in" << std::setw(12) << "Check-out" << std::setw(10)
+  std::cout << std::left << std::setw(12) << "Room ID" << std::setw(15)
+            << "Check-in" << std::setw(15) << "Check-out" << std::setw(12)
             << "Bill" << std::endl;
-  std::cout << std::string(70, '-') << std::endl;
+  std::cout << std::string(85, '-') << std::endl;
 
   for (const auto &booking : currentBookings)
   {
-    std::cout << std::left << std::setw(10) << booking.roomID << std::setw(12)
+    std::cout << std::left << std::setw(12) << booking.roomID << std::setw(15)
               << (std::to_string(booking.checkin.day) + "/" +
                   std::to_string(booking.checkin.month) + "/" +
                   std::to_string(booking.checkin.year))
-              << std::setw(12)
+              << std::setw(15)
               << (std::to_string(booking.checkout.day) + "/" +
                   std::to_string(booking.checkout.month) + "/" +
                   std::to_string(booking.checkout.year))
-              << std::setw(10) << ("$" + std::to_string(booking.bill))
+              << std::setw(12) << ("$" + std::to_string(booking.bill))
               << std::endl;
   }
-  std::cout << std::string(70, '=') << std::endl;
+  std::cout << std::string(85, '=') << std::endl;
   std::cout << "Total Bill: $" << getTotalBill() << std::endl;
 }
 
@@ -427,9 +434,9 @@ void customer::saveToFile(std::ofstream &out)
     firstRoomID = currentBookings[0].roomID;
   }
 
-  // Write in original format
+  // Write in original format with gender added
   out << name << "," << phone << "," << email << "," << id << "," << discount << "," << password
-      << "," << totalBill << "," << firstCheckin.day << ","
+      << "," << gender << "," << totalBill << "," << firstCheckin.day << ","
       << firstCheckin.month << "," << firstCheckin.year << ","
       << firstCheckout.day << "," << firstCheckout.month << ","
       << firstCheckout.year << "," << firstRoomID;
@@ -463,32 +470,45 @@ void customer::loadFromFile(std::ifstream &in, hotel &h)
     tokens.push_back(token);
   }
 
-  if (tokens.size() < 14)
+  if (tokens.size() < 15)  // Updated minimum size to include gender
   {
-    // Invalid format
+    // Invalid format or old format without gender
+    if (tokens.size() >= 14) {
+      // Try to load old format without gender
+      name = tokens[0];
+      phone = tokens[1];
+      email = tokens[2];
+      id = std::stoi(tokens[3]);
+      discount = std::stoi(tokens[4]);
+      password = tokens[5];
+      gender = false; // Default to female for old format
+      // Continue with old format processing...
+      return;
+    }
     return;
   }
 
-  // Load basic info (same as original format)
+  // Load basic info (new format with gender)
   name = tokens[0];
   phone = tokens[1];
   email = tokens[2];
   id = std::stoi(tokens[3]);
   discount = std::stoi(tokens[4]);
   password = tokens[5];
-  // tokens[5] is total bill - we'll recalculate this from bookings
+  gender = (tokens[6] == "1"); // Load gender
+  // tokens[7] is total bill - we'll recalculate this from bookings
 
   // Clear current bookings
   currentBookings.clear();
 
   // Check if this is extended format
   bool isExtendedFormat = false;
-  size_t extendedIndex = 14;
+  size_t extendedIndex = 15;  // Updated index due to gender addition
 
-  if (tokens.size() > 14 && tokens[14] == "EXTENDED")
+  if (tokens.size() > 15 && tokens[15] == "EXTENDED")  // Updated index
   {
     isExtendedFormat = true;
-    extendedIndex = 15;
+    extendedIndex = 16;  // Updated index
   }
 
   if (isExtendedFormat && tokens.size() > extendedIndex)

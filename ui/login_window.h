@@ -54,6 +54,7 @@ private:
     QLineEdit *m_nameLineEdit;
     QLineEdit *m_phoneLineEdit;
     QLineEdit *m_emailLineEdit;
+    QLineEdit *m_registerPasswordLineEdit;
     QComboBox *m_genderCombo;
     QPushButton *m_registerButton;
     QPushButton *m_showLoginButton;

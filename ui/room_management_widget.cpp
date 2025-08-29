@@ -149,7 +149,7 @@ void RoomManagementWidget::setupAddRoomSection()
     QLabel *floorLabel = new QLabel("Floor:");
     m_floorSpinBox = new QSpinBox();
     m_floorSpinBox->setMinimum(1);
-    m_floorSpinBox->setMaximum(20);
+    m_floorSpinBox->setMaximum(5);
     m_floorSpinBox->setValue(1);
     m_floorSpinBox->setObjectName("spinBox");
     
@@ -361,8 +361,9 @@ void RoomManagementWidget::connectSignals()
         int type = m_roomTypeCombo->currentData().toInt();
         
         try {
-            m_hotelSystem->addRoom(floor, type);
-            QMessageBox::information(this, "Success", "Room added successfully!");
+            // Convert from 1-based to 0-based floor indexing
+            m_hotelSystem->addRoom(floor - 1, type);
+            QMessageBox::information(this, "Success", QString("Room added successfully to Floor %1!").arg(floor));
             m_addRoomGroup->setVisible(false);
             refreshData();
         } catch (const std::exception &e) {
@@ -403,11 +404,28 @@ void RoomManagementWidget::populateRoomTable()
                 m_roomTable->setItem(rowIndex, 2, new QTableWidgetItem(QString::fromStdString(r.getTypeName())));
                 m_roomTable->setItem(rowIndex, 3, new QTableWidgetItem(QString::number(r.checkPrice(), 'f', 0) + " VND"));
                 m_roomTable->setItem(rowIndex, 4, new QTableWidgetItem(r.isAvailable() ? "Available" : "Occupied"));
+                
+                // Find current guest name
+                QString guestName = "N/A";
                 if (!r.isAvailable()) {
-                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("Guest"));  // Temporarily disable getCurrentGuest()
-                } else {
-                    m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem("N/A")); // getCurrentGuest() is not available
-                }   
+                    // Find customer who booked this room
+                    std::vector<customer*> customers = m_hotelSystem->getAllCustomers();
+                    for (customer* cust : customers) {
+                        if (cust) {
+                            std::vector<current_booking> bookings = cust->getCurrentBookings();
+                            for (const current_booking& booking : bookings) {
+                                if (booking.roomID == r.getID()) {
+                                    guestName = QString::fromStdString(cust->getName());
+                                    break;
+                                }
+                            }
+                            if (guestName != "N/A") break;
+                        }
+                    }
+                    if (guestName == "N/A") guestName = "Unknown Guest";
+                }
+                
+                m_roomTable->setItem(rowIndex, 5, new QTableWidgetItem(guestName));
                 m_roomTable->setItem(rowIndex, 6, new QTableWidgetItem(r.isAvailable() ? "Yes" : "No"));
                 
                 totalRooms++;

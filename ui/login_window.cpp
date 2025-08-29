@@ -148,60 +148,74 @@ void LoginWindow::setupRegisterForm()
     m_registerWidget = new QWidget();
     QVBoxLayout *registerLayout = new QVBoxLayout(m_registerWidget);
     registerLayout->setAlignment(Qt::AlignCenter);
-    registerLayout->setSpacing(20);
+    registerLayout->setSpacing(15);
+    registerLayout->setContentsMargins(20, 20, 20, 20);
     
     // Register form frame
     QFrame *registerFrame = new QFrame();
     registerFrame->setObjectName("loginFrame");
-    registerFrame->setMaximumWidth(400);
-    registerFrame->setMinimumWidth(350);
+    registerFrame->setMaximumWidth(480);
+    registerFrame->setMinimumWidth(450);
     
     QVBoxLayout *frameLayout = new QVBoxLayout(registerFrame);
-    frameLayout->setSpacing(15);
-    frameLayout->setContentsMargins(30, 30, 30, 30);
+    frameLayout->setSpacing(8);
+    frameLayout->setContentsMargins(40, 25, 40, 25);
     
     // Form title
     QLabel *formTitle = new QLabel("Create New Customer Account");
     formTitle->setAlignment(Qt::AlignCenter);
     formTitle->setObjectName("formTitle");
+    formTitle->setWordWrap(true);
+    formTitle->setMinimumHeight(40);
     frameLayout->addWidget(formTitle);
     
-    // Name input
-    QLabel *nameLabel = new QLabel("Full Name:");
+    // Add some space after title
+    frameLayout->addSpacing(20);
+    
+    // Name input (no label, just placeholder)
     m_nameLineEdit = new QLineEdit();
-    m_nameLineEdit->setPlaceholderText("Enter your full name");
+    m_nameLineEdit->setPlaceholderText("Full Name");
     m_nameLineEdit->setObjectName("lineEdit");
     
-    frameLayout->addWidget(nameLabel);
     frameLayout->addWidget(m_nameLineEdit);
+    frameLayout->addSpacing(10);
     
-    // Phone input
-    QLabel *phoneLabel = new QLabel("Phone Number:");
+    // Phone input (no label, just placeholder)
     m_phoneLineEdit = new QLineEdit();
-    m_phoneLineEdit->setPlaceholderText("Enter your phone number");
+    m_phoneLineEdit->setPlaceholderText("Phone Number");
     m_phoneLineEdit->setObjectName("lineEdit");
     
-    frameLayout->addWidget(phoneLabel);
     frameLayout->addWidget(m_phoneLineEdit);
+    frameLayout->addSpacing(10);
     
-    // Email input
-    QLabel *emailLabel = new QLabel("Email:");
+    // Email input (no label, just placeholder)
     m_emailLineEdit = new QLineEdit();
-    m_emailLineEdit->setPlaceholderText("Enter your email address");
+    m_emailLineEdit->setPlaceholderText("Email Address");
     m_emailLineEdit->setObjectName("lineEdit");
     
-    frameLayout->addWidget(emailLabel);
     frameLayout->addWidget(m_emailLineEdit);
+    frameLayout->addSpacing(10);
     
-    // Gender selection
-    QLabel *genderLabel = new QLabel("Gender:");
+    // Password input (no label, just placeholder)
+    m_registerPasswordLineEdit = new QLineEdit();
+    m_registerPasswordLineEdit->setPlaceholderText("Password");
+    m_registerPasswordLineEdit->setEchoMode(QLineEdit::Password);
+    m_registerPasswordLineEdit->setObjectName("lineEdit");
+    
+    frameLayout->addWidget(m_registerPasswordLineEdit);
+    frameLayout->addSpacing(10);
+    
+    // Gender selection (no label, just placeholder in combobox)
     m_genderCombo = new QComboBox();
+    m_genderCombo->addItem("Select Gender", QVariant());
     m_genderCombo->addItem("Male", true);
     m_genderCombo->addItem("Female", false);
     m_genderCombo->setObjectName("comboBox");
     
-    frameLayout->addWidget(genderLabel);
     frameLayout->addWidget(m_genderCombo);
+    
+    // Add space before button
+    frameLayout->addSpacing(20);
     
     // Register button
     m_registerButton = new QPushButton("Register");
@@ -245,16 +259,27 @@ void LoginWindow::setupStyles()
         }
         
         #formTitle {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin: 8px 0px;
+            padding: 8px 10px;
+            line-height: 1.3;
         }
         
         QLabel {
             color: #2c3e50;
             font-weight: bold;
             font-size: 12px;
+        }
+        
+        #fieldLabel {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 3px;
+            margin-top: 1px;
+            padding-bottom: 1px;
         }
         
         #lineEdit {
@@ -264,6 +289,13 @@ void LoginWindow::setupStyles()
             font-size: 14px;
             background-color: white;
             color: black;
+            margin-bottom: 2px;
+            min-height: 18px;
+        }
+        
+        #lineEdit::placeholder {
+            color: #7f8c8d;
+            font-style: italic;
         }
         
         #lineEdit:focus {
@@ -280,6 +312,8 @@ void LoginWindow::setupStyles()
             font-size: 14px;
             background-color: white;
             color: black;
+            margin-bottom: 2px;
+            min-height: 18px;
         }
         
         #comboBox:focus {
@@ -299,11 +333,12 @@ void LoginWindow::setupStyles()
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 8px;
+            min-height: 20px;
         }
         
         #primaryButton:hover {
@@ -325,6 +360,34 @@ void LoginWindow::setupStyles()
         
         #linkButton:hover {
             color: #2980b9;
+        }
+        
+        QMessageBox {
+            background-color: white;
+            color: black;
+        }
+        
+        QMessageBox QLabel {
+            color: black;
+            background-color: white;
+        }
+        
+        QMessageBox QPushButton {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 60px;
+        }
+        
+        QMessageBox QPushButton:hover {
+            background-color: #2980b9;
+        }
+        
+        QMessageBox QPushButton:pressed {
+            background-color: #21618c;
         }
     )");
 }
@@ -445,26 +508,43 @@ void LoginWindow::onRegisterClicked()
     QString name = m_nameLineEdit->text().trimmed();
     QString phone = m_phoneLineEdit->text().trimmed();
     QString email = m_emailLineEdit->text().trimmed();
+    QString password = m_registerPasswordLineEdit->text().trimmed();
     bool gender = m_genderCombo->currentData().toBool();
     
-    if (name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+    if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "Input Error", "Please fill in all fields.");
         return;
     }
     
     try {
-        customer *newCustomer = m_hotelSystem->addCustomer();
-        if (newCustomer) {
-            // Update customer information (this would need modification to the customer class)
-            // For now, we'll show success message with generated ID
-            QMessageBox::information(this, "Registration Successful", 
-                QString("Account created successfully!\nYour Customer ID is: %1\nDefault password: 12345\n\nPlease remember your ID for login.")
-                .arg(newCustomer->getID()));
+        // Use the version with parameters to avoid console input
+        bool success = m_hotelSystem->addCustomer(
+            name.toStdString(), 
+            phone.toStdString(), 
+            email.toStdString(), 
+            gender, 
+            password.toStdString()
+        );
+        
+        if (success) {
+            // Get the newly created customer ID (assuming it's the last one added)
+            auto customers = m_hotelSystem->getAllCustomers();
+            if (!customers.empty()) {
+                int newCustomerID = customers.back()->getID();
+                QMessageBox::information(this, "Registration Successful", 
+                    QString("Account created successfully!\nYour Customer ID is: %1\nPassword: %2\n\nPlease remember your ID and password for login.")
+                    .arg(newCustomerID).arg(password));
+            } else {
+                QMessageBox::information(this, "Registration Successful", 
+                    QString("Account created successfully!\nPassword: %1\n\nPlease remember your password for login.")
+                    .arg(password));
+            }
             
             // Clear form and switch to login
             m_nameLineEdit->clear();
             m_phoneLineEdit->clear();
             m_emailLineEdit->clear();
+            m_registerPasswordLineEdit->clear();
             showLoginForm();
         } else {
             QMessageBox::warning(this, "Registration Failed", "Failed to create customer account.");

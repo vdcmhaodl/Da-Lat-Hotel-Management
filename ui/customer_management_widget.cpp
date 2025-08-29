@@ -511,19 +511,27 @@ void CustomerManagementWidget::onViewBookingHistory()
         // Create a dialog to show booking history
         QDialog *historyDialog = new QDialog(this);
         historyDialog->setWindowTitle(QString("Booking History - Customer %1").arg(customerId));
-        historyDialog->resize(600, 400);
+        historyDialog->resize(900, 500);
         
         QVBoxLayout *layout = new QVBoxLayout(historyDialog);
         QTextEdit *textEdit = new QTextEdit();
         textEdit->setPlainText(history);
         textEdit->setReadOnly(true);
         textEdit->setFont(QFont("Courier New", 10));
+        textEdit->setWordWrapMode(QTextOption::NoWrap);
+        textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         
         QPushButton *closeBtn = new QPushButton("Close");
+        closeBtn->setFixedWidth(100);
         connect(closeBtn, &QPushButton::clicked, historyDialog, &QDialog::accept);
         
+        QHBoxLayout *buttonLayout = new QHBoxLayout();
+        buttonLayout->addStretch();
+        buttonLayout->addWidget(closeBtn);
+        buttonLayout->addStretch();
+        
         layout->addWidget(textEdit);
-        layout->addWidget(closeBtn);
+        layout->addLayout(buttonLayout);
         
         historyDialog->exec();
         delete historyDialog;

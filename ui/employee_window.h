@@ -41,6 +41,7 @@ private slots:
     void onViewCustomerHistory();
     void onViewRoomHistory();
     void onAvailableRoomSelected();
+    void onCustomerSelected();
     void refreshAvailableRooms();
     void onViewAllCustomers();
     void onViewRoomDetails();

@@ -59,7 +59,7 @@ void EmployeeManagementWidget::setupEmployeeTable()
     // Set table headers
     QStringList headers;
     headers << "Employee ID" << "Name" << "Phone" << "Email" << "Gender" 
-            << "Position" << "Salary" << "Status";
+            << "Position" << "Salary";
     m_employeeTable->setColumnCount(headers.size());
     m_employeeTable->setHorizontalHeaderLabels(headers);
     
@@ -91,9 +91,10 @@ void EmployeeManagementWidget::setupSearchAndFilter()
     QLabel *filterLabel = new QLabel("Filter:");
     m_filterCombo = new QComboBox();
     m_filterCombo->addItem("All Employees", "all");
-    m_filterCombo->addItem("Active", "active");
-    m_filterCombo->addItem("Inactive", "inactive");
-    m_filterCombo->addItem("High Salary (>50k)", "high_salary");
+    m_filterCombo->addItem("Receptionist", "receptionist");
+    m_filterCombo->addItem("Security", "security");
+    m_filterCombo->addItem("Housekeeping", "housekeeping");
+    m_filterCombo->addItem("Manager", "manager");
     m_filterCombo->setObjectName("filterCombo");
     
     m_clearFilterBtn = new QPushButton("Clear Filter");
@@ -485,7 +486,6 @@ void EmployeeManagementWidget::populateEmployeeTable()
                 m_employeeTable->setItem(i, 4, new QTableWidgetItem(std::get<4>(emp) ? "Male" : "Female"));
                 m_employeeTable->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(std::get<5>(emp))));
                 m_employeeTable->setItem(i, 6, new QTableWidgetItem(QString::number(std::get<6>(emp), 'f', 0) + " VND"));
-                m_employeeTable->setItem(i, 7, new QTableWidgetItem("Employee"));
             }
             
             m_employeeCountLabel->setText(QString("Total Employees: %1 (Sample Data - No employees in system)").arg(sampleEmployees.size()));
@@ -504,7 +504,6 @@ void EmployeeManagementWidget::populateEmployeeTable()
                 m_employeeTable->setItem(i, 4, new QTableWidgetItem(emp->getGender() ? "Male" : "Female"));
                 m_employeeTable->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(emp->getPosition())));
                 m_employeeTable->setItem(i, 6, new QTableWidgetItem(QString::number(emp->getSalary(), 'f', 0) + " VND"));
-                m_employeeTable->setItem(i, 7, new QTableWidgetItem("Employee"));
             }
             
             m_employeeCountLabel->setText(QString("Total Employees: %1").arg(employees.size()));

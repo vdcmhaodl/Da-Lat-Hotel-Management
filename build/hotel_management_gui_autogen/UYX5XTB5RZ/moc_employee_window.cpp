@@ -52,6 +52,7 @@ template <> constexpr inline auto EmployeeWindow::qt_create_metaobjectdata<qt_me
         "onViewCustomerHistory",
         "onViewRoomHistory",
         "onAvailableRoomSelected",
+        "onCustomerSelected",
         "refreshAvailableRooms",
         "onViewAllCustomers",
         "onViewRoomDetails",
@@ -81,14 +82,16 @@ template <> constexpr inline auto EmployeeWindow::qt_create_metaobjectdata<qt_me
         QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onAvailableRoomSelected'
         QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'refreshAvailableRooms'
+        // Slot 'onCustomerSelected'
         QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onViewAllCustomers'
+        // Slot 'refreshAvailableRooms'
         QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onViewRoomDetails'
+        // Slot 'onViewAllCustomers'
         QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'loadCustomersData'
+        // Slot 'onViewRoomDetails'
         QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'loadCustomersData'
+        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -123,10 +126,11 @@ void EmployeeWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 8: _t->onViewCustomerHistory(); break;
         case 9: _t->onViewRoomHistory(); break;
         case 10: _t->onAvailableRoomSelected(); break;
-        case 11: _t->refreshAvailableRooms(); break;
-        case 12: _t->onViewAllCustomers(); break;
-        case 13: _t->onViewRoomDetails(); break;
-        case 14: _t->loadCustomersData(); break;
+        case 11: _t->onCustomerSelected(); break;
+        case 12: _t->refreshAvailableRooms(); break;
+        case 13: _t->onViewAllCustomers(); break;
+        case 14: _t->onViewRoomDetails(); break;
+        case 15: _t->loadCustomersData(); break;
         default: ;
         }
     }
@@ -152,14 +156,14 @@ int EmployeeWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 16;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 16)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 15;
+        _id -= 16;
     }
     return _id;
 }
