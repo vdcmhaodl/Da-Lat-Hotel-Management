@@ -1,8 +1,0 @@
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/hotel_management_console.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/hotel_management_gui.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/edit_cache.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/rebuild_cache.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/hotel_management_console_autogen_timestamp_deps.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/hotel_management_console_autogen.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/hotel_management_gui_autogen_timestamp_deps.dir
-D:/hotel4/Da-Lat-Hotel-Management/build/CMakeFiles/hotel_management_gui_autogen.dir

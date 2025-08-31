@@ -126,43 +126,6 @@ cmake --build . --config Release
 
 The system automatically saves and loads data from `data/hotel_system.dat`. All bookings, customer information, and hotel state are preserved between sessions.
 
-## Customization
 
-The GUI uses modern styling with:
-- Dark theme support
-- Responsive layouts
-- Professional color scheme
-- Intuitive navigation
 
-You can modify the styles in each window's `setupStyles()` method to customize the appearance.
 
-## Troubleshooting
-
-### Build Issues
-1. Ensure Qt6 is properly installed and in PATH
-2. Check CMake version (requires 3.22+)
-3. Verify C++17 compiler support
-
-### Runtime Issues
-1. Ensure Qt6 DLLs are available
-2. Check data folder permissions
-3. Verify hotel_system.dat file accessibility
-
-### GUI Issues
-1. Check display DPI settings
-2. Ensure graphics drivers are updated
-3. Try different Qt styles if needed
-
-## Future Enhancements
-
-- Database integration
-- Network support for multiple clients
-- Advanced reporting with charts
-- Mobile app integration
-- Web interface
-- Advanced room features (IoT integration)
-- Payment gateway integration
-
-## License
-
-This project is developed for educational purposes as part of a hotel management system assignment.

@@ -5,6 +5,11 @@ project(HotelManagement LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Set your Qt path
+set(CMAKE_PREFIX_PATH "C:/Qt/6.9.1/mingw_64")
+
+include(CMakePrintSystemInformation)
+
 # Find Qt6 components
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
