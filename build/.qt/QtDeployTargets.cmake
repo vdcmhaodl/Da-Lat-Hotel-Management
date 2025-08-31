@@ -1,6 +1,0 @@
-set(__QT_DEPLOY_TARGET_hotel_management_console_FILE D:/hotel4/Da-Lat-Hotel-Management/build/bin/hotel_management_console.exe)
-set(__QT_DEPLOY_TARGET_hotel_management_console_TYPE EXECUTABLE)
-set(__QT_DEPLOY_TARGET_hotel_management_console_RUNTIME_DLLS )
-set(__QT_DEPLOY_TARGET_hotel_management_gui_FILE D:/hotel4/Da-Lat-Hotel-Management/build/bin/hotel_management_gui.exe)
-set(__QT_DEPLOY_TARGET_hotel_management_gui_TYPE EXECUTABLE)
-set(__QT_DEPLOY_TARGET_hotel_management_gui_RUNTIME_DLLS C:/Qt/6.9.1/mingw_64/bin/Qt6Widgets.dll;C:/Qt/6.9.1/mingw_64/bin/Qt6Gui.dll;C:/Qt/6.9.1/mingw_64/bin/Qt6Core.dll)
