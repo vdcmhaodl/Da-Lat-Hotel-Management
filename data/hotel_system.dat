@@ -1,0 +1,30 @@
+Huynh Thai Hoang,0983824401,manager@hotel.com,1,1,Unknown,31082025
+5
+2
+00100,1,1000,0,0,
+00101,1,1000,0,1,tien minh
+2
+01200,2,1100,1,1,
+01600,6,2100,1,1,tien minh
+2
+02300,3,1200,0,1,hao vo
+02700,7,2200,0,0,
+0
+0
+3
+diep than,07832646,diepthan@gmail.com,1001,1,9999,Receptionist,123
+thanh phuc,0289347,phuc@gmail.com,1002,1,9999,Receptionist,123
+thanh thao,03819273,thao@gmail.com,1002,1,99999,Unknown,123
+3
+hao vo,09723482,haovo@gmail.com,1002,0,123,1200,30,8,2025,31,8,2025,02300,EXTENDED,1,02300,30,8,2025,31,8,2025,1200
+tien minh,028934782,tien@gmail.com,1003,0,123,3100,31,8,2025,1,9,2025,00101,EXTENDED,2,00101,31,8,2025,1,9,2025,1000,01600,31,8,2025,1,9,2025,2100
+duy nhan,01872468,nhan@gmail.com,1004,0,123,0,1,1,2024,1,1,2024,None,EXTENDED,0
+BOOKING_HISTORY_SECTION
+5
+1002,00100,Single normal room with city view,30,7,2025,31,8,2025,24000,1,Completed,1,1,2024
+1002,02300,Double normal room with city view,30,8,2025,31,8,2025,1200,0,Current,1,1,2024
+1003,02300,Double normal room with city view,30,8,2025,31,8,2025,1200,1,Completed,1,1,2024
+1003,00101,Single normal room with city view,31,8,2025,1,9,2025,1000,0,Current,1,1,2024
+1003,01600,Single VIP room with nature view,31,8,2025,1,9,2025,2100,0,Current,1,1,2024
+1004
+3
