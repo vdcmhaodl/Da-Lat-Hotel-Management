@@ -26,9 +26,9 @@ pacman -S mingw-w64-x86_64-qt6
 .\build\bin\hotel_management_gui.exe
 ```
 ### 3. (Optional) Deploy Qt runtime  
-In case you get **missing DLL errors**, run:  
+In case you get **missing DLL errors**, open command prompt at \bin of the \mingw_64 where you installed Qt6 (for example: "C:\Qt\6.9.1\mingw_64\bin") and run:
 ```bash
-windeployqt6 build/bin/hotel_management_gui.exe
+windeployqt6 <Path_To_(Da-Lat-Hotel-Management)>/build/bin/hotel_management_gui.exe
 ```
 
 ## III. Slides: 
